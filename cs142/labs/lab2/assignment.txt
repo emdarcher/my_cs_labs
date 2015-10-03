@@ -1,0 +1,70 @@
+Lab 2 - Pizza
+September
+18
+Friday, September 18 at 11:59pm MT
+Purpose
+
+This lab introduces some basic concepts and techniques of the C++ programming language. Master these concepts and techniques because they will be used time and time again in future lab assignments. This lab also introduces the C++ reference website with its predefined functions.
+Key Reading
+
+    1.7
+    2.1-2.4
+
+Background
+
+After an exhausting campaign, you've been elected as President of the Pizza Council of BYUSA. Your primary responsibility is determining how many pizzas should be ordered for each BYUSA event. To make things easier, you decided to write a C++ program to help you do the calculations.
+Requirements
+Part 1 - Count Your Many Pizzas (4 points)
+
+    Prompt the user for the number of guests attending the event.
+    Determine and report the number of large, medium, and small pizzas you need to order.
+        For every 7 guests, order one large pizza
+        For every 3 guests left over, order one medium pizza
+        For every 1 guest left over, order one small pizza
+
+Part 2 - Serving Size (4 points)
+
+    Compute and report the total area of pizza (in square inches) you need to purchase. Do not round these values. See table below for examples.
+    Compute and report the total area of pizza (in square inches) each guest can eat. Do not round these values.
+
+Part 3 - Supplementing the Budget (4 points)
+
+    Prompt the user for the percent of the total price to be paid as a tip.
+        You can assume the tip percentage will be input as an integer from 0 to 100
+    Compute and report the total cost (including tip) of all the pizzas, rounding to the nearest dollar. Note: Changing the value type into an int alone will not round to the nearest dollar.
+     
+
+Good Coding Style (3 points)
+
+    Does your code exemplify the good coding habits taught in class?
+
+Requirement Notes
+Requirements Before Pass Off
+
+    Use const double PI = 3.14159 as π (pi) as C++ does not have a predefined value for π. The examples below were computed using these values.
+    You must use constants for what otherwise might look like magic numbers (radius, pi, costs, 7, 3, 1, etc).
+    Create your own 3 test cases by computing the output manually with a calculator and then comparing it with the output of your program. Make sure to include these test cases in a comment block at the top of your code.
+
+Requirements For Program
+
+The following information is drawn from the menu of Jenga's Pizza:
+
+ 
+
+ 
+Pizza   Price   Diameter
+Large   $14.68  20 inches
+Medium  $11.48  16 inches
+Small   $7.28   12 inches
+
+
+The following table shows some example input and output (input is bolded):
+People  Tip     Larges  Mediums     Smalls  Area (in2)  Area/Person (in2)   Cost ($)
+2   15%     0   0   2   226.194     113.097     $17
+4   10%     0   1   1   314.159     78.5397     $21
+12  8%      1   1   2   741.415     61.7846     $44
+48  17%     6   2   0   2287.08     47.6474     $130
+120 25%     17  0   1   5453.8      45.4483     $321
+305 20%     43  1   1   13823       45.3213     $780
+
+ 

@@ -1,0 +1,82 @@
+Purpose
+
+This assignment introduces you to conditional statements and boolean expressions.
+Key Reading
+
+    2.3
+    3.1-3.2
+
+Background
+
+Hybrid cars usually have higher initial costs but lower fuel costs than non-hybrid cars. To help a car buyer decide which car has overall lower costs, you can to write a program to compute the cost of owning a car for 5 years. A user could then run your program for two potential car purchases in order to compare the resulting costs.
+Requirements
+Part 1 – User Input (4 points)
+
+Prompt the user for the following input:
+
+    The estimated miles driven per year
+    The estimated price of a gallon of gas during the 5 years of ownership
+    The initial cost of a hybrid car
+    The efficiency of the hybrid car in miles per gallon
+    The estimated resale value (a dollar amount) for a hybrid after 5 years
+    The initial cost of a non-hybrid car
+    The efficiency of the non-hybrid car in miles per gallon
+    The estimated resale value (a dollar amount) for a non-hybrid after 5 years
+    The user's buying criterion, either  minimized "Gas" consumption or minimized "Total" cost. Assume the user will enter one of these two strings
+
+Make sure that you prompt in this same order. If you do not, you will be marked off.
+
+Verify that all numerical inputs are positive. You will need to check each number individually and reprompt immediately in the event of bad numeric input (including 0). Output a message that only positive numbers are valid and reprompt one more time. You may assume that the second value will be a positive number. 
+Part 2 – Output Costs (12 points)
+
+For both cars, your program should output the following:
+
+    A label indicating whether the car is Hybrid or Non-Hybrid
+    The total gallons of fuel consumed over 5 years
+    The total cost of owning the car for 5 years (fuel cost + depreciation in car value)
+
+For the last question you prompt for, if the user's criterion is "Gas", then provide the output for the car with the lower gas consumption first.  If the criterion is "Total", then provide output for the car with the lowest total cost first. For every case, you will need to provide output for both vehicles, each with the total cost and the total gallons used.
+
+The points will be distributed as follows:
+
+    Computing the correct fuel consumption (4 points)
+    Computing the correct total cost (4 points)
+    Printing in the correct order (4 points)
+
+Good Coding Style (4 points)
+
+    Does your code exemplify the good coding habits taught in class?
+
+Requirement Notes:
+
+    No magic numbers (any numeric literal, such as 5 or 3.99 is a magic number)
+    3 test cases written in a comment block at the top of your code
+    You must prompt the user in the same order as listed in Part 1
+
+Extra Credit (1 point)
+
+Assume that
+
+    A new, non-hybrid car costs $15,000 and gets 25 mpg
+    A new hybrid car costs $32,000
+    You resell any car after 5 years for 75% its original value
+    You drive 10,000 miles in a year
+    Gas costs $2.50
+
+What gas mileage would a new hybrid need to have in order for the total costs over 5 years to be equal to the total costs for a non-hybrid car? Experiment with different values using your program to find the correct answer.  Then write your answer in a comment at the top of your code.  Please do not output your answer in your program... this may confuse the auto-grader.
+
+ 
+
+Lab 3 Auto-grader Notes
+
+We encourage you to read through the following notes on the auto-grader, ideally BEFORE you send your submission to the autograder.
+
+    REPROMPTING - Please make sure that you are reprompting if the user enters a non-positive value for any of the numeric values.  Remember that zero is not a positive number!
+    HYBRID/NON-HYBRID - The autograder is looking for the order in which you output the information for the two cars.  It looks at the order in which the words "hybrid" and "non-hyrid" appear in your program's output.  There are several occurences of these as your program prompts the user for input values.  The last two occurrences (of "hybrid" or "non-hybrid") are assumed to indicate the order which you will display your output.  Even if you're displaying them in the wrong order, it tries to give you credit for the gas consumed and the total cost of ownership.  Note however that outputting an extraneous "hybrid" or "non-hybrid", for example "The HYBRID is the winner!!!" may prevent the autograder from successfully giving you credit on the gas and cost parts. Also, please note that there CANNOT be spaces in "non-hybrid"
+    OUTPUT BOTH CARS - As specified in the requirements, make sure you output the information for both cars, not just the car that has a lower value according to the buyer's criterion.
+    GAS/TOTAL - As specified, make sure you're checking for the strings "Gas" and "Total", with the first letter capitalized and the rest in lower-case.
+    5 YEARS - Make sure you compute the gas consumption and cost of ownership over the full period of 5 years.
+    ENDLINES - The auto-grader cannot "type" newlines after each input, so unfortunately, the output you see will by default be one long string.  You can avoid this by printing an extra newline between each of your inputs.
+    EXTRA-CREDIT - As noted above, please do not have your program output anything for the extra-credit.
+
+
