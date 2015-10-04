@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -9,6 +11,19 @@ using namespace std;
 #define ERRORED     1
 #define NO_ERR      0
 
+#define SLOT_MIN    0
+#define SLOT_MAX    8
+
+#define OPT_MIN     1
+#define OPT_MAX     3   
+
+#define PEG_ROWS    12
+
+const int final_slot_vals[] = {
+    100,500,1000,0,10000,0,1000,500,100
+};
+
+//function prototypes
 int get_int(int buffsize, int &in_int);
 int get_slot(int &in_slot);
 int get_chips(int &in_chips);
@@ -16,8 +31,8 @@ int run_menu(void);
 int single_chip(void);
 int multiple_chips(void);
 
-//NOTE:
-//make integer input checking function
+uint8_t get_rand_bool(void);
+int single_chip_path(int slot, int * path_arr);
 
 int get_int(int buffsize, int &in_int){
     char buf[buffsize];
@@ -40,6 +55,8 @@ enum {
 int main(){
     int option = 0;    
     int main_loop_var = 1;
+    //seed the random number generator
+    srand(time(0));
     while(main_loop_var){
         option = run_menu();
         int error = 0;
@@ -59,11 +76,27 @@ int main(){
     return 0;
 }
 
-#define SLOT_MAX 8
-#define SLOT_MIN 0
+
+uint8_t rand_bool(void){
+    unsigned int in_rand = rand();
+    return (in_rand & 0x01);
+}
+
+int single_chip_path(int slot, float * path_arr){
+    float f_slot = (float)(slot * 1.0);
+    path_arr[0] = f_slot;
+    float pos   = f_slot;
+    int  final_row;
+    for(int r=1;r<=PEG_ROWS;r++){
+        pos += (rand_bool()) ? -0.5 : 0.5;
+        path_arr[r] = pos;
+        final_row = r;        
+    }
+    int final_pos = (int)path_arr[final_row];
+    return final_pos; 
+}
 
 int run_menu(void){
-    char buf[BUFF_SIZE];
     int opt = 0;
     int loop_var = 1;
     while(loop_var){
@@ -72,12 +105,9 @@ int run_menu(void){
                 "  2 - Drop multiple chips into one slot\n"
                 "  3 - Quit the program\n"
                 "Enter your selection now: ");
-        //int in_ret = scanf(" %i%c", &option, &term);   
-        fgets( buf, sizeof(buf), stdin ); 
-        //if(!((in_ret != 2) || (term != '\n'))){
         //check for integer input
-        if(sscanf( buf, "%i", &opt ) == 1){
-            if((opt > 0) && (opt <= 3)){
+        if(get_int(BUFF_SIZE, opt) == NO_ERR){
+            if((opt >= OPT_MIN) && (opt <= OPT_MAX)){
                 break;
             }
         }
@@ -97,26 +127,47 @@ int get_slot(int &in_slot){
             return NO_ERR;
         }
     }
-    printf("INVALID SLOT.\n");
+    printf("INVALID SLOT.\n\n");
     return ERRORED;
 }
 
 int single_chip(void){
-    int slot;
+    int slot, final_slot;
+    float path[PEG_ROWS+1];
     printf("*** DROP SINGLE CHIP ***\n");
     if(get_slot(slot) == NO_ERR){
+        final_slot = single_chip_path(slot, path); 
+        printf("PATH: [");
+        for(int r=0;r<=PEG_ROWS;r++){
+            printf("%f%c", path[r], ((r<PEG_ROWS)? ' ':']')); 
+        }
+        printf("\nWINNINGS: $%f", (float)final_slot_vals[final_slot]); 
         return NO_ERR;
     }
     return ERRORED;
 }
 
 int get_chips(int &in_chips){
-
+    int chips;
+    printf("How many chips do you want to drop (>0)? ");
+    if(get_int(BUFF_SIZE, chips) == NO_ERR){
+        if(chips > 0){
+            in_chips = chips;
+            return NO_ERR;
+        }
+    }
+    printf("INVALID NUMBER OF CHIPS.\n\n");
+    return ERRORED;
 }
 
 int multiple_chips(void){
     int slot, chips;
     printf("*** DROP MULTIPLE CHIPS ***\n");
-
+    if(get_chips(chips) == NO_ERR){
+        if(get_slot(slot) == NO_ERR){
+            return NO_ERR;
+        }
+    }
+    return ERRORED;
 }
 
