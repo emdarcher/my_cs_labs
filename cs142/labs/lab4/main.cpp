@@ -134,14 +134,15 @@ int get_slot(int &in_slot){
 int single_chip(void){
     int slot, final_slot;
     float path[PEG_ROWS+1];
-    printf("*** DROP SINGLE CHIP ***\n");
+    printf("\n*** DROP SINGLE CHIP ***\n");
     if(get_slot(slot) == NO_ERR){
         final_slot = single_chip_path(slot, path); 
+        printf("\n*** DROPPING CHIP INTO SLOT %i ***\n", slot);
         printf("PATH: [");
         for(int r=0;r<=PEG_ROWS;r++){
-            printf("%f%c", path[r], ((r<PEG_ROWS)? ' ':']')); 
+            printf("%3.1f%c", path[r], ((r<PEG_ROWS)? ' ':']')); 
         }
-        printf("\nWINNINGS: $%f", (float)final_slot_vals[final_slot]); 
+        printf("\nWINNINGS: $%.2f\n\n", (float)final_slot_vals[final_slot]); 
         return NO_ERR;
     }
     return ERRORED;
