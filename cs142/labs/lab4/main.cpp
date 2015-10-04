@@ -1,11 +1,11 @@
-#include <iostream>
+//#include <iostream>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
 
-using namespace std;
+//using namespace std;
 
 #define BUFF_SIZE   16
 #define ERRORED     1
@@ -163,9 +163,19 @@ int get_chips(int &in_chips){
 
 int multiple_chips(void){
     int slot, chips;
+    float total_winnings = 0.0, avg_winnings = 0.0;
+    float path[PEG_ROWS+1];
     printf("*** DROP MULTIPLE CHIPS ***\n");
     if(get_chips(chips) == NO_ERR){
         if(get_slot(slot) == NO_ERR){
+            for(int c=0;c<chips;c++){
+                int final_slot = single_chip_path(slot, path);
+                total_winnings += (float)final_slot_vals[final_slot]; 
+            }
+            printf("Total Winnings on %i chips: $%.2f\n", 
+                    chips, total_winnings);
+            avg_winnings = (float)(total_winnings / chips);
+            printf("Average winnings per chip: $%.2f\n\n", avg_winnings); 
             return NO_ERR;
         }
     }
