@@ -1,3 +1,33 @@
+/*
+ *  TEST CASES and Notes:
+ * 
+ * Testing Quitting:
+ * When at the menu, entering the number 3 at the prompt makes the program
+ * quit while printing "GOODBYE!".
+ * 
+ * Minor Bug Note:
+ * A non-damaging bug in my integer input checking function which will not
+ * accept non-inger input. The bug is that for example entering "df3ald"
+ * will not be accepted, and will cause a repromt to the menu, but typing
+ * for example, "3kda4fl" will be interpreted as a correct integer input of 3.
+ * This is due to the check `ssscanf( buf, "%i", &tmp_int ) == 1` is only
+ * checking for the integer, and anything after it is not checked. This 
+ * could be solved by having it check for a newline character after the
+ * integer. This will probaly be implemented in a future revision, but is
+ * a small enough problem that doesn't ruin much functionality.
+ *
+ * Checking for out of board paths:
+ * After repeated inputs to single chip drop, the paths have not shown any
+ * off of the table paths.
+ *
+ * Checking price output:
+ * For the multiple chips functionality, the average winnings output is
+ * accurately computing averages with proper floating point values as
+ * shown by decimal ouputs.
+ *
+ */
+
+
 //#include <iostream>
 #include <stdio.h>
 #include <math.h>
