@@ -88,7 +88,11 @@ int single_chip_path(int slot, float * path_arr){
     float pos   = f_slot;
     int  final_row;
     for(int r=1;r<=PEG_ROWS;r++){
-        pos += (rand_bool()) ? -0.5 : 0.5;
+        if((pos > SLOT_MIN) && (pos < SLOT_MAX)){
+            pos += (rand_bool()) ? -0.5 : 0.5;
+        } else {
+            pos += (pos==SLOT_MIN) ? 0.5 : -0.5;
+        }
         path_arr[r] = pos;
         final_row = r;        
     }
