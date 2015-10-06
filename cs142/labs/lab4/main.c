@@ -170,7 +170,7 @@ int single_chip(void){
     float path[PEG_ROWS+1];
     printf("\n*** DROP SINGLE CHIP ***\n");
     if(get_slot(&slot) == NO_ERR){
-        final_slot = single_chip_path(slot, &path); 
+        final_slot = single_chip_path(slot, path); 
         printf("\n*** DROPPING CHIP INTO SLOT %i ***\n", slot);
         printf("PATH: [");
         for(int r=0;r<=PEG_ROWS;r++){
@@ -203,7 +203,7 @@ int multiple_chips(void){
     if(get_chips(&chips) == NO_ERR){
         if(get_slot(&slot) == NO_ERR){
             for(int c=0;c<chips;c++){
-                int final_slot = single_chip_path(slot, &path);
+                int final_slot = single_chip_path(slot, path);
                 total_winnings += (float)final_slot_vals[final_slot]; 
             }
             printf("Total Winnings on %i chips: $%.2f\n", 
