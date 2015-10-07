@@ -49,6 +49,7 @@ uint8_t get_rand_bool(void);
 int single_chip_path(int slot, float * path_arr);
 
 struct Winnings multiple_chips_calc(int chips, int slot);
+void print_winnings(int chips, int slot, struct Winnings winnings);
 
 
 int get_int(int buffsize, int *in_int){
@@ -172,7 +173,7 @@ int single_chip(void){
         for(int r=0;r<=PEG_ROWS;r++){
             printf("%3.1f%c", path[r], ((r<PEG_ROWS)? ' ':']')); 
         }
-        printf("\nWINNINGS: $%.2f\n\n", (float)final_slot_vals[final_slot]); 
+        printf("\nWINNINGS: $%.2f\n\n", get_winnings(final_slot)); 
         return NO_ERR;
     }
     return ERRORED;
@@ -191,16 +192,35 @@ int get_chips(int *in_chips){
     return ERRORED;
 }
 
+void print_winnings(int chips, int slot, struct Winnings winnings){
+    printf("Total Winnings on %i chips in slot %i: $%.2f\n",
+            chips, slot, winnings.total);
+    printf("Average winnings per chip in slot %i: $%.2f\n\n",
+            slot, winnings.avg); 
+}
+
 int all_slots_multiple_chips(void){
     int chips;
-    float total_winnings = 0.0;
-
+    struct Winnings winnings;
+    printf("*** DROP MULTIPLE CHIPS IN ALL SLOTS ***\n");
+    if(get_chips(&chips) == NO_ERR){
+        for(int s=0;s<=SLOT_MAX;s++){
+            winnings = multiple_chips_calc(chips, s);
+            printf("Total Winnings on %i chips in slot %i: $%.2f\n",
+                    chips, s, winnings.total);
+            printf("Average winnings per chip in slot %i: $%.2f\n\n",
+                    s, winnings.avg); 
+        }
+        return NO_ERR;
+    }
+    return ERRORED;
 }
+
 float get_winnings(int slot){
     return (float)final_slot_vals[slot];
 }
+
 struct Winnings multiple_chips_calc(int chips, int slot){
-    float total_winnings = 0.0;
     struct Winnings winnings;
     float path[PEG_ROWS+1];
     for(int c=0;c<chips;c++){
@@ -213,20 +233,13 @@ struct Winnings multiple_chips_calc(int chips, int slot){
 
 int multiple_chips(void){
     int slot, chips;
-    //float total_winnings = 0.0, avg_winnings = 0.0;
-    float path[PEG_ROWS+1];
     struct Winnings winnings;
     printf("*** DROP MULTIPLE CHIPS ***\n");
     if(get_chips(&chips) == NO_ERR){
         if(get_slot(&slot) == NO_ERR){
-            //for(int c=0;c<chips;c++){
-            //    int final_slot = single_chip_path(slot, path);
-            //    total_winnings += (float)final_slot_vals[final_slot]; 
-            //}
             winnings = multiple_chips_calc(chips, slot);
             printf("Total Winnings on %i chips: $%.2f\n", 
                     chips, winnings.total);
-            //avg_winnings = (float)(total_winnings / chips);
             printf("Average winnings per chip: $%.2f\n\n", winnings.avg); 
             return NO_ERR;
         }
