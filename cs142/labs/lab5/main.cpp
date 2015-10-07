@@ -134,7 +134,7 @@ int run_menu(void){
         printf("MENU: Please select one of the following options:\n"
                 "  1 - Drop a single chip into one slot\n"
                 "  2 - Drop multiple chips into one slot\n"
-                "  3 - Multiple chips in all slots\n"
+                "  3 - Drop multiple chips in all slots\n"
                 "  4 - Quit the program\n"
                 "Enter your selection now: ");
         //check for integer input
