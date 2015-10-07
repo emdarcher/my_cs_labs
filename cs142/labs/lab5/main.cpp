@@ -14,7 +14,7 @@
 
 //using namespace std;
 
-#define BUFF_SIZE   16
+#define BUFF_SIZE   128
 #define ERRORED     1
 #define NO_ERR      0
 
@@ -57,9 +57,9 @@ int get_int(int buffsize, int *in_int){
     int tmp_int;
     char end_char;
     fgets( buf, sizeof(buf), stdin ); 
-    //check for integer input
+    //check for integer input and ending character
     if(sscanf( buf, "%i%c", &tmp_int, &end_char ) == 2){
-        //check if integer is followed by a newline
+        //check if integer is followed by a newline character
         if(end_char == '\n'){
             *in_int = tmp_int;
             return NO_ERR;
@@ -83,6 +83,7 @@ int main(){
     while(main_loop_var){
         option = run_menu();
         int error = 0;
+        //handle the different option cases
         switch (option) {
             case SINGLE_CHIP:
                 error = single_chip();
@@ -205,11 +206,10 @@ int all_slots_multiple_chips(void){
     printf("*** DROP MULTIPLE CHIPS IN ALL SLOTS ***\n");
     if(get_chips(&chips) == NO_ERR){
         for(int s=0;s<=SLOT_MAX;s++){
+            winnings.total  = 0.0;
+            winnings.avg    = 0.0;
             winnings = multiple_chips_calc(chips, s);
-            printf("Total Winnings on %i chips in slot %i: $%.2f\n",
-                    chips, s, winnings.total);
-            printf("Average winnings per chip in slot %i: $%.2f\n\n",
-                    s, winnings.avg); 
+            print_winnings(chips, s, winnings);
         }
         return NO_ERR;
     }
@@ -221,7 +221,7 @@ float get_winnings(int slot){
 }
 
 struct Winnings multiple_chips_calc(int chips, int slot){
-    struct Winnings winnings;
+    struct Winnings winnings = {0.0,0.0}; //resets winnings IMPORTANT!
     float path[PEG_ROWS+1];
     for(int c=0;c<chips;c++){
        int final_slot = single_chip_path(slot, path);
@@ -238,9 +238,7 @@ int multiple_chips(void){
     if(get_chips(&chips) == NO_ERR){
         if(get_slot(&slot) == NO_ERR){
             winnings = multiple_chips_calc(chips, slot);
-            printf("Total Winnings on %i chips: $%.2f\n", 
-                    chips, winnings.total);
-            printf("Average winnings per chip: $%.2f\n\n", winnings.avg); 
+            print_winnings(chips, slot, winnings);
             return NO_ERR;
         }
     }
