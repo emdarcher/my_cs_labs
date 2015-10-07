@@ -22,12 +22,17 @@
 #define SLOT_MAX    8
 
 #define OPT_MIN     1
-#define OPT_MAX     3   
+#define OPT_MAX     4
 
 #define PEG_ROWS    12
 
 const int final_slot_vals[] = {
     100,500,1000,0,10000,0,1000,500,100
+};
+
+struct Winnings {
+    float total;
+    float avg;
 };
 
 //function prototypes
@@ -42,7 +47,9 @@ float get_winnings(int slot);
 
 uint8_t get_rand_bool(void);
 int single_chip_path(int slot, float * path_arr);
-int multiple_chips_calc(int chips, int slot);
+
+struct Winnings multiple_chips_calc(int chips, int slot);
+
 
 int get_int(int buffsize, int *in_int){
     char buf[buffsize];
@@ -125,7 +132,8 @@ int run_menu(void){
         printf("MENU: Please select one of the following options:\n"
                 "  1 - Drop a single chip into one slot\n"
                 "  2 - Drop multiple chips into one slot\n"
-                "  3 - Quit the program\n"
+                "  3 - Multiple chips in all slots\n"
+                "  4 - Quit the program\n"
                 "Enter your selection now: ");
         //check for integer input
         if(get_int(BUFF_SIZE, &opt) == NO_ERR){
@@ -184,30 +192,42 @@ int get_chips(int *in_chips){
 }
 
 int all_slots_multiple_chips(void){
+    int chips;
+    float total_winnings = 0.0;
 
 }
 float get_winnings(int slot){
     return (float)final_slot_vals[slot];
 }
-int multiple_chips_calc(int chips, int slot){
-    
+struct Winnings multiple_chips_calc(int chips, int slot){
+    float total_winnings = 0.0;
+    struct Winnings winnings;
+    float path[PEG_ROWS+1];
+    for(int c=0;c<chips;c++){
+       int final_slot = single_chip_path(slot, path);
+       winnings.total += get_winnings(final_slot);
+    }
+    winnings.avg = (float)(winnings.total / chips);
+    return winnings;
 }
 
 int multiple_chips(void){
     int slot, chips;
-    float total_winnings = 0.0, avg_winnings = 0.0;
+    //float total_winnings = 0.0, avg_winnings = 0.0;
     float path[PEG_ROWS+1];
+    struct Winnings winnings;
     printf("*** DROP MULTIPLE CHIPS ***\n");
     if(get_chips(&chips) == NO_ERR){
         if(get_slot(&slot) == NO_ERR){
-            for(int c=0;c<chips;c++){
-                int final_slot = single_chip_path(slot, path);
-                total_winnings += (float)final_slot_vals[final_slot]; 
-            }
+            //for(int c=0;c<chips;c++){
+            //    int final_slot = single_chip_path(slot, path);
+            //    total_winnings += (float)final_slot_vals[final_slot]; 
+            //}
+            winnings = multiple_chips_calc(chips, slot);
             printf("Total Winnings on %i chips: $%.2f\n", 
-                    chips, total_winnings);
-            avg_winnings = (float)(total_winnings / chips);
-            printf("Average winnings per chip: $%.2f\n\n", avg_winnings); 
+                    chips, winnings.total);
+            //avg_winnings = (float)(total_winnings / chips);
+            printf("Average winnings per chip: $%.2f\n\n", winnings.avg); 
             return NO_ERR;
         }
     }
