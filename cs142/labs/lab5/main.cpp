@@ -208,7 +208,7 @@ struct Winnings multiple_chips_calc(int chips, int slot){
        winnings.total += get_winnings(final_slot);
     }
     winnings.avg = (float)(winnings.total / chips);
-    return winnings;
+    return (struct Winnings)winnings;
 }
 
 int multiple_chips(void){
