@@ -7,16 +7,16 @@ CPPC= g++
 CC= gcc
 STD= c99
 #STD= 
-CPPSTD=c++11
+CPPSTD=c++98
 CFLAGS= -Wall --std=$(STD)
-CPPFLAGS= -Wall #--std=$(CPPSTD)
+CPPFLAGS= -Wall --std=$(CPPSTD)
 
 OUTPUT=$(TARGET).bin
 
 all:
 	$(CPPC) $(CPPFLAGS) $(CPPSRC) -o $(OUTPUT)
 
-c_compiler:
+cc:
 	$(CC) $(CFLAGS) $(SRC) -o $(OUTPUT)
 
 clean:
