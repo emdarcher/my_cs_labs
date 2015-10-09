@@ -9,7 +9,7 @@ STD= c99
 #STD= 
 CPPSTD=c++11
 CFLAGS= -Wall --std=$(STD)
-CPPFLAGS= -Wall --std=$(CPPSTD)
+CPPFLAGS= -Wall #--std=$(CPPSTD)
 
 OUTPUT=$(TARGET).bin
 
