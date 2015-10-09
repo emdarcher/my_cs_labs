@@ -1,6 +1,28 @@
 /*
  *  TEST CASES and Notes:
  * 
+ * 1. Testing invalid input detection:
+ *  the `get_int(int buffsize, int *in_int);` function checks for valid
+ *  integer input. The valid range of integer input is tested in the functions
+ *  related to the various options.
+ *  tests:
+ *  input:  aofiejfaol  output: INVALID
+ *  input: 3            output: VALID
+ *  input: 3dfja        output: INVALID (this used to be valid in prev version)
+ *  input: 8            output: INVALID (out of range for the MENU)
+ *
+ *  2. Testing all slots with multiple chips functionality
+ *  tests: each slot is evaluated separately, with different total winnings,
+ *  not adding on to each other (a problem in a prev revision), and averages
+ *  are computed correctly.
+ *  PASSED
+ *
+ *  3. Testing if the winnings are giving sensible values, not errenous huge
+ *  numbers with only a few chips (a problem in earlier revision that had to
+ *  do with return in a struct without a proper cast)  
+ *  test: dropping 12 chips into slot 4
+ *  all total winnings are within 5 digits, no erronously big numbers (9+digits)
+ *
  *
  */
 
