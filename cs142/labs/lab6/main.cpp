@@ -31,8 +31,8 @@ int main(){
     init_temp_arr(new_temps);
     copy_temp_arr(new_temps, old_temps);
     //testing printing
-    print_temp_arr(old_temps);
-    print_temp_arr(new_temps); 
+    //print_temp_arr(old_temps);
+    //print_temp_arr(new_temps); 
     
     uint8_t first_loop = 1;
     uint8_t loop_var = 1;
