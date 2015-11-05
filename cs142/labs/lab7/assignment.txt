@@ -1,0 +1,130 @@
+C S 142 - Lab 7 - Restaurants
+November
+5
+Thursday, November 5 at 11:59pm MT
+Purpose
+
+This lab will give you  experience with vectors. It is important for you to learn how to create vectors, how to store values into vectors, and how to index into vectors.
+Key Reading
+
+    5.5-5.8
+    6.7
+
+Background
+
+You find yourself wondering how your family can have such difficulty arranging a night out. Every Friday night, your family goes out to eat. The discussion of where to eat, unfortunately, is often drawn out and sometimes becomes a little heated. Thinking about the NCAA Tournament, you get a brilliant idea of how to more efficiently make a selection.
+
+Instead of fighting over several restaurants at once, you decide to write a program that eliminates one restaurant at a time by pitting two restaurants against each other until a single restaurant remains. Your family can now decide where to eat based on answering a series of yes/no questions. While this doesn't eliminate all of the arguing, it does simplify the decisions to be made.
+Requirements
+Part 1 - The Menu (8 points)
+
+    Begin the program with a vector of 8 restaurants, all of which should be real restaurants
+    Prompt the user to select one of several operations:
+        1 - Display all restaurants
+        2 - Add a restaurant
+        3 - Remove a restaurant
+        4 - Shuffle the vector
+        5 - Begin the tournament
+        6 - Quit the program
+    After any operation is complete, reprompt the user to select the next operation
+    You should expect the user to input 1-6 to signify their menu choice
+    For part 1, only the quit option needs any functionality.
+
+Part 2 - The Contenders (8 points)
+
+    Add functionality to the first four operations:
+        Display all restaurants - display the restaurants in their current order (comma-separated, no trailing comma)
+        Add a restaurant
+            Prompt the user for a restaurant name
+            If the restaurant is not already in the vector, add it to the vector
+            If the restaurant is already in the vector, do nothing
+            In either situation, inform the user what has happened
+            Be sure to use the 'find' function described in the 'Pass Off Requirements' section below
+            You must create a function for this option
+        Remove a restaurant
+            Prompt the user for a restaurant name
+            If the restaurant is in the vector, remove it from the vector
+            If the restaurant is not in the vector, do nothing
+            In either situation, inform the user what has happened
+            Be sure to use the 'find' function described in the 'Pass Off Requirements' section below
+            You must create a function for this option
+        Shuffle the vector - Randomly rearrange the restaurants in the vector to help remove bias from the tournament.  
+            Do not use any of the standard library functions except for the random number generators.
+            Once the vector has been shuffled, inform the user that the list of restaurants has been shuffled.
+            You must use a function for this option
+
+Part 3 - The Battle (8 points)
+
+    Allow the user to run a tournament among the restaurants currently in the vector and report the winning restaurant
+    Each match of the tournament involves displaying two restaurants to the user, prompting him to choose his favorite, and removing the losing restaurant from the tournament
+        You should expect the user to input either 1 or 2, signifying they prefer either the first or second restaurant, respectively
+    For each round, each restaurant must appear exactly once in a match
+    If the user provides a response that is neither of the restaurants in the current match, reprompt the user until valid information is entered
+    Do not allow the tournament to begin unless the number of restaurants is equal to 2n for some value of n>0.  This must NOT be hard coded (i.e. if(n == 2 || n == 4 || n == 8...)). You must have an algorithm for solving this part.
+    You must use a function for this option.​
+
+Good Coding Style (6 points)
+
+    Does your code exemplify the good coding habits taught in class?
+
+Extra Credit - Where Am I? (5 points)
+
+    For each question during the tournament, display the match number, the total matches for that round, the round number, and the total rounds in the tournament
+    Each question constitutes a single match; each restaurant will be paired against another exactly once per round
+
+Requirement Notes
+Requirements for Pass Off
+
+    You may not assume that restaurant names will be single words.
+    You must provide a message that reports what has happened after an option has been chosen.
+    The program must end after the tournament is finished.
+        The program should not end if the number of restaurants was not a power of 2.
+    3 Test cases written in a comment block at the top of  your  code.
+    You must not use Global Variables. (Global Constants are allowed)
+    The following are descriptions of functions that must be implemented in the program and used:
+        Find a Restaurant
+            Return -1 if the restaurant name is NOT found
+            If the restaurant name is found, return the index it is currently in.
+        Add Restaurant
+        Remove Restaurant
+        Shuffle Restaurant
+        Start Tournament
+
+Tournament
+
+    The matches of the tournament should be selected by pairing the first two restaurants, then the next two, and so on.
+    The following is a sample tournament using the restaurants {A, B, C, D, E, F, G, H}, with user input underlined:
+        Match 1/4, Round 1/3 --- 1: A or 2: B? 2
+        Match 2/4, Round 1/3 --- 1: C or 2: D? 1
+        Match 3/4, Round 1/3 --- 1: E or 2: F? 2
+        Match 4/4, Round 1/3 --- 1: G or 2: H? Q
+        Invalid response (Q)
+        Match 4/4, Round 1/3 --- 1: G or 2: H? 2
+        Match 1/2, Round 2/3 --- 1: B or 2: C? 2
+        Match 2/2, Round 2/3 --- 1: F or 2: H? 1
+        Match 1/1, Round 3/3 --- 1: C or 2: F? 1
+        C is the winner!
+
+         
+    Note that the match and round information is only a part of the extra credit and is not required for the regular assignment
+
+ 
+
+FAQ
+
+    getline() doesn't wait for input! What's going on?
+        getline() takes everything from the buffer (that's what your input goes into before it gets to the variable), until it reaches a newline character, "\n". cin() leaves behind the newline character, and that becomes the first thing that getline() sees when it gets called, and that's why it goes on without waiting for input. Think of it like this: 
+        To fix this issue, call cin.sync() before getline()
+    Why 2n?
+        In a single-elimination tournament, every one matchup requires two players, and every matchup except for the initial matchups (first round), requires two previous matchups. This results in the number of players being reduced by half after each round. For example, 8 (23) players gets reduced to four after one round. The second round reduces four players to two, and the final round reduces two players to one. Six, which is not a power of two (although it is even), won't work, because after the first round, six is reduced to three, three would be reduce to 1.5, and you can't have half a player. For a more visual explanation, examine this tournament bracket:
+        Notice that at any level of the tournament, the number of players is a power of two (1 = 20).
+    How can I shuffle a vector?
+        Since you can't use the standard library <algorithm> or any other standard library functions (including swap), you'll need to write your own algorithm to shuffle your vector.
+        Check page 291 in the course textbook for help on swapping (since shuffling is essentially a random swapping of all the items in the list).
+    How do I remove from a vector?
+        The instinctive thought is to use something like myvector.remove(int index)
+        This won't work!
+            remove() is not part of the vector library
+        Use myvector.erase(myvector.begin() + int index)
+
+
