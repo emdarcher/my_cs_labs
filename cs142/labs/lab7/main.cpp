@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define BUFF_SIZE 128
+#define BUFF_SIZE   128
 
 #define ERRORED     1
 #define NO_ERR      0
@@ -17,18 +17,15 @@ using namespace std;
 #define OPT_MIN     1
 #define OPT_MAX     6
 
+#define NOT_FOUND   -1
+
 int get_int(int *in_int);
 int run_menu(void);
-void print_restaurants(vector<string> restaurants){
-    for(int i=0;i<restaurants.size();i++){
-        printf("%s", restaurants[i].c_str());
-        if(i != restaurants.size() - 1){
-            printf(", ");
-        }
-    }
-    printf("\n");
-}
+void print_restaurants(vector<string> restaurants);
 
+int find_restaurant(char * name_str, vector<string> restaurants);
+
+int add_restaurant(vector<string>& restaurants);
 
 #define INIT_RESTAURANT_NUM 8 
 void init_restaurants(vector<string>& restaurants){ 
@@ -67,6 +64,9 @@ int main(){
         int error = 0;
         //handle the different option cases
         switch (option) {
+            case ADD_A_RESTAURANT:
+                error = add_restaurant(restaurants);
+                break;
             case DISPLAY_ALL_RESTAURANTS:
                 print_restaurants(restaurants);
                 break;
@@ -119,4 +119,42 @@ int run_menu(void){
     }
     return opt;
 
+}
+
+int find_restaurant(char * name_str, vector<string> restaurants){
+    for(int i=0;i<restaurants.size();i++){
+        if(!strcmp(name_str,restaurants[i].c_str())){
+            return i;
+        } 
+    }
+    return NOT_FOUND;
+}
+
+int add_restaurant(vector<string>& restaurants){
+    char name_buff[BUFF_SIZE];
+    printf("Enter the name of the restaurant you want to add: ");
+    scanf("%s",name_buff);
+    int index = find_restaurant(name_buff, restaurants);
+    if(index == NOT_FOUND){
+        printf("No name conflict found, adding \"%s\" to the vector.\n", 
+                name_buff);
+        //constructing string object using char array string
+        string name_str(name_buff);
+        restaurants.push_back(name_str);
+        return NO_ERR;
+    } else {
+        printf("Name conflict found! Will not add \"%s\" to the vector.\n",
+               name_buff); 
+        return ERRORED;
+    }
+}
+
+void print_restaurants(vector<string> restaurants){
+    for(int i=0;i<restaurants.size();i++){
+        printf("%s", restaurants[i].c_str());
+        if(i != restaurants.size() - 1){
+            printf(", ");
+        }
+    }
+    printf("\n");
 }
