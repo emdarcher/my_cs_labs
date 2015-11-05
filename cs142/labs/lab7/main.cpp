@@ -26,6 +26,7 @@ void print_restaurants(vector<string> restaurants);
 int find_restaurant(char * name_str, vector<string> restaurants);
 
 int add_restaurant(vector<string>& restaurants);
+int remove_restaurant(vector<string>& restaurants);
 
 #define INIT_RESTAURANT_NUM 8 
 void init_restaurants(vector<string>& restaurants){ 
@@ -132,29 +133,60 @@ int find_restaurant(char * name_str, vector<string> restaurants){
 
 int add_restaurant(vector<string>& restaurants){
     char name_buff[BUFF_SIZE];
+    char end_char;
     printf("Enter the name of the restaurant you want to add: ");
-    scanf("%s",name_buff);
+    //making sure to take in the ending character "\n" so it doesn't
+    //ruin later input by staying in the buffer.
+    scanf("%s%c",name_buff, &end_char);
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
-        printf("No name conflict found, adding \"%s\" to the vector.\n", 
+        printf("No name conflict found, adding \"%s\" to the vector.\n\n", 
                 name_buff);
         //constructing string object using char array string
         string name_str(name_buff);
         restaurants.push_back(name_str);
         return NO_ERR;
     } else {
-        printf("Name conflict found! Will not add \"%s\" to the vector.\n",
+        printf("Name conflict found! Will not add \"%s\" to the vector.\n\n",
                name_buff); 
         return ERRORED;
     }
 }
 
+int remove_restaurant(vector<string>& restaurants){
+    char name_buff[BUFF_SIZE];
+    char end_char;
+    printf("Enter the name of the restaurant you want to remove: ");
+    //making sure to take in the ending character "\n" so it doesn't
+    //ruin later input by staying in the buffer.
+    scanf("%s%c",name_buff, &end_char);
+    int index = find_restaurant(name_buff, restaurants);
+    if(index == NOT_FOUND){
+        printf("No restaurant with name \"%s\" found. Not removing.\n\n", 
+                name_buff);
+        return ERRORED;
+    } else {
+        printf("Restaurant with name \"%s\" found." 
+                "Removing from the vector.\n\n",
+               name_buff); 
+        //removing procedure
+        //shifting values from the index onwards, then removing the last one.
+        for(int i=index;i<(restaurants.size()-1);i++){
+            restaurants[i] = restaurants[i+1];
+        }
+        restaurants.pop_back();
+
+        return NO_ERR;
+    }
+}
+
 void print_restaurants(vector<string> restaurants){
+    printf("{");
     for(int i=0;i<restaurants.size();i++){
         printf("%s", restaurants[i].c_str());
         if(i != restaurants.size() - 1){
             printf(", ");
         }
     }
-    printf("\n");
+    printf("}\n");
 }
