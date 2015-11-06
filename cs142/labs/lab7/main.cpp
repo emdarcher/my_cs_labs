@@ -9,6 +9,7 @@
 
 using namespace std;
 
+//constants
 #define BUFF_SIZE   128
 
 #define ERRORED     1
@@ -24,17 +25,14 @@ using namespace std;
 
 #define MAX_SWAPS_MULTIPLIER    3
 
+//function prototypes
 int get_int(int *in_int);
 int run_menu(void);
 void print_restaurants(vector<string> restaurants);
-
 int find_restaurant(char * name_str, vector<string> restaurants);
-
 int add_restaurant(vector<string>& restaurants);
 int remove_restaurant(vector<string>& restaurants);
-
 void shuffle_restaurants(vector<string>& restaurants);
-
 int run_tournament(vector<string>& restaurants);
 
 int powerOfTwo(unsigned int in_val){
@@ -115,12 +113,11 @@ int main(){
     return 0;
 }
 
-
 int run_tournament(vector<string>& restaurants){
     unsigned int r_size = restaurants.size();
     if(!powerOfTwo(r_size)){
         printf("The amount of restaurants is not a power of two, "
-                "so tournament cannot start.\n");
+                "so the tournament cannot start.\n");
         return ERRORED;
     }
     int rounds = 0;
@@ -129,7 +126,7 @@ int run_tournament(vector<string>& restaurants){
     while((tmp_size >>= 1)){
         rounds++;        
     }
-
+    //begin the tournament rounds
     printf("starting with %i rounds.\n", rounds);
     for(int r=1;r<=rounds;r++){
         //get the amount of matches
@@ -155,7 +152,6 @@ int run_tournament(vector<string>& restaurants){
             }
             //remove the restaurant that loses
             restaurants.erase(restaurants.begin() + m - ((opt == CHOICE1)?0:1));
-            
         }
     } 
     printf("%s is the winner!\n", restaurants[0].c_str());
@@ -179,7 +175,7 @@ int get_int(int *in_int){
 }
 
 int run_menu(void){
-
+    //run the base menu
     int opt = 0;
     int loop_var = 1;
     while(loop_var){
@@ -201,7 +197,6 @@ int run_menu(void){
                     OPT_MIN, OPT_MAX);
     }
     return opt;
-
 }
 
 int find_restaurant(char * name_str, vector<string> restaurants){
@@ -218,6 +213,10 @@ int add_restaurant(vector<string>& restaurants){
     printf("Enter the name of the restaurant you want to add: ");
     //get a line of input and copy into the buffer.
     fgets(name_buff, BUFF_SIZE, stdin);
+    int ln = strlen(name_buff) - 1;
+    if(name_buff[ln] == '\n'){
+        name_buff[ln] = '\0';
+    }
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
         printf("No name conflict found, adding \"%s\" to the vector.\n\n", 
@@ -238,6 +237,10 @@ int remove_restaurant(vector<string>& restaurants){
     printf("Enter the name of the restaurant you want to remove: ");
     //get a line of input and copy into the buffer.
     fgets(name_buff, BUFF_SIZE, stdin);
+    int ln = strlen(name_buff) - 1;
+    if(name_buff[ln] == '\n'){
+        name_buff[ln] = '\0';
+    }
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
         printf("No restaurant with name \"%s\" found. Not removing.\n\n", 
