@@ -32,6 +32,22 @@ int remove_restaurant(vector<string>& restaurants);
 
 void shuffle_restaurants(vector<string>& restaurants);
 
+int run_tournament(vector<string>& restaurants);
+
+int powerOfTwo(unsigned int in_val){
+    //checks for zero then
+    //check if there is only one bit in the variable
+    //(which means it's a power of two because in the binary system
+    //each bit is a power of two)
+    //it checks by using binary AND '&'
+    //example 
+    //64 == 0b01000000
+    //64 - 1 == 63 == 0b00111111
+    //64 & 63 == 0b01000000 & 0b00111111 == 0b00000000 == 0
+    //so therefore 64 is a power of 2
+    return ((in_val != 0) && !(in_val & (in_val - 1)));
+}
+
 #define INIT_RESTAURANT_NUM 8 
 void init_restaurants(vector<string>& restaurants){ 
     string rest[] = {
@@ -81,6 +97,12 @@ int main(){
             case SHUFFLE_THE_VECTOR:
                 shuffle_restaurants(restaurants);
                 break;
+            case BEGIN_THE_TOURNAMENT:
+                error = run_tournament(restaurants);
+                if(error == NO_ERR){
+                    return 0;
+                }
+                break;
             case QUIT_THE_PROGRAM:
                 //printf("GOODBYE!\n");
                 return 0;
@@ -88,6 +110,14 @@ int main(){
         }
     }
     return 0;
+}
+
+int run_tournament(vector<string>& restaurants){
+    if(!powerOfTwo(restaurants.size())){
+        return ERRORED;
+    }
+
+
 }
 
 int get_int(int *in_int){
