@@ -19,6 +19,8 @@ using namespace std;
 
 #define NOT_FOUND   -1
 
+#define MAX_SWAPS_MULTIPLIER    3
+
 int get_int(int *in_int);
 int run_menu(void);
 void print_restaurants(vector<string> restaurants);
@@ -27,6 +29,8 @@ int find_restaurant(char * name_str, vector<string> restaurants);
 
 int add_restaurant(vector<string>& restaurants);
 int remove_restaurant(vector<string>& restaurants);
+
+void shuffle_restaurants(vector<string>& restaurants);
 
 #define INIT_RESTAURANT_NUM 8 
 void init_restaurants(vector<string>& restaurants){ 
@@ -57,7 +61,7 @@ enum {
 int main(){
     vector<string> restaurants;
     init_restaurants(restaurants);
-
+    srand(time(0));
     int option = 0;    
     uint8_t main_loop_var = 1;
     while(main_loop_var){
@@ -65,11 +69,17 @@ int main(){
         int error = 0;
         //handle the different option cases
         switch (option) {
+            case DISPLAY_ALL_RESTAURANTS:
+                print_restaurants(restaurants);
+                break;
             case ADD_A_RESTAURANT:
                 error = add_restaurant(restaurants);
                 break;
-            case DISPLAY_ALL_RESTAURANTS:
-                print_restaurants(restaurants);
+            case REMOVE_A_RESTAURANT:
+                error = remove_restaurant(restaurants);
+                break;
+            case SHUFFLE_THE_VECTOR:
+                shuffle_restaurants(restaurants);
                 break;
             case QUIT_THE_PROGRAM:
                 //printf("GOODBYE!\n");
@@ -133,11 +143,9 @@ int find_restaurant(char * name_str, vector<string> restaurants){
 
 int add_restaurant(vector<string>& restaurants){
     char name_buff[BUFF_SIZE];
-    char end_char;
     printf("Enter the name of the restaurant you want to add: ");
-    //making sure to take in the ending character "\n" so it doesn't
-    //ruin later input by staying in the buffer.
-    scanf("%s%c",name_buff, &end_char);
+    //get a line of input and copy into the buffer.
+    gets(name_buff);
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
         printf("No name conflict found, adding \"%s\" to the vector.\n\n", 
@@ -155,18 +163,16 @@ int add_restaurant(vector<string>& restaurants){
 
 int remove_restaurant(vector<string>& restaurants){
     char name_buff[BUFF_SIZE];
-    char end_char;
     printf("Enter the name of the restaurant you want to remove: ");
-    //making sure to take in the ending character "\n" so it doesn't
-    //ruin later input by staying in the buffer.
-    scanf("%s%c",name_buff, &end_char);
+    //get a line of input and copy into the buffer.
+    gets(name_buff);
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
         printf("No restaurant with name \"%s\" found. Not removing.\n\n", 
                 name_buff);
         return ERRORED;
     } else {
-        printf("Restaurant with name \"%s\" found." 
+        printf("Restaurant with name \"%s\" found. "
                 "Removing from the vector.\n\n",
                name_buff); 
         //removing procedure
@@ -178,6 +184,19 @@ int remove_restaurant(vector<string>& restaurants){
 
         return NO_ERR;
     }
+}
+
+void shuffle_restaurants(vector<string>& restaurants){
+    int r_size = restaurants.size();
+    int max_swaps = MAX_SWAPS_MULTIPLIER * r_size; 
+    for(int i=0;i<max_swaps;i++){
+        int index1 = rand() % r_size;
+        string tmp_r = restaurants[index1];
+        int index2 = rand() % r_size;
+        restaurants[index1] = restaurants[index2];
+        restaurants[index2] = tmp_r;
+    }
+    printf("The restaurants have been shuffled.\n\n");
 }
 
 void print_restaurants(vector<string> restaurants){
