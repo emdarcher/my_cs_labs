@@ -179,7 +179,7 @@ int main(){
                 }
                 break;
             case QUIT_THE_PROGRAM:
-                //printf("GOODBYE!\n");
+                printf("QUITTING PROGRAM!\n");
                 return 0;
                 break;
         }
@@ -287,9 +287,10 @@ int add_restaurant(vector<string>& restaurants){
     printf("Enter the name of the restaurant you want to add: ");
     //get a line of input and copy into the buffer.
     fgets(name_buff, BUFF_SIZE, stdin);
+    //remove the trailing newline '\n' character 
     int ln = strlen(name_buff) - 1;
     if(name_buff[ln] == '\n'){
-        name_buff[ln] = '\0';
+        name_buff[ln] = '\0'; //replace with NULL '\0' to end string
     }
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
@@ -311,9 +312,10 @@ int remove_restaurant(vector<string>& restaurants){
     printf("Enter the name of the restaurant you want to remove: ");
     //get a line of input and copy into the buffer.
     fgets(name_buff, BUFF_SIZE, stdin);
+    //remove the trailing newline '\n' character 
     int ln = strlen(name_buff) - 1;
     if(name_buff[ln] == '\n'){
-        name_buff[ln] = '\0';
+        name_buff[ln] = '\0'; //replace with NULL '\0' to end string
     }
     int index = find_restaurant(name_buff, restaurants);
     if(index == NOT_FOUND){
@@ -349,6 +351,7 @@ void shuffle_restaurants(vector<string>& restaurants){
 }
 
 void print_restaurants(vector<string> restaurants){
+    printf("Printing Restaurant names.\n");
     printf("{");
     for(int i=0;i<restaurants.size();i++){
         printf("%s", restaurants[i].c_str());
