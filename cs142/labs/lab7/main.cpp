@@ -1,3 +1,77 @@
+/*
+ * TEST CASES:
+ * Add and Remove functionality properly detect matching names.
+ *
+ *
+ * 1. Test output:
+ *Enter the name of the restaurant you want to add: Panda Express
+    No name conflict found, adding "Panda Express" to the vector. 
+ *
+ *Enter the name of the restaurant you want to add: Panda Express
+ Name conflict found! Will not add "Panda Express" to the vector.
+ *
+ * Enter the name of the restaurant you want to remove: Panda Express
+ * Restaurant with name "Panda Express" found. Removing from the vector.
+ *
+ * 2. Testing Invalid input detection for the Menu and Matches
+ * MENU: Please select one of the following options:
+  1 - Display all restaurants
+  2 - Add a restaurant
+  3 - Remove a restaurant
+  4 - Shuffle the vector
+  5 - Begin the tournament
+  6 - Quit the program
+Enter your selection now: 30q2jf
+INVALID SELECTION. Please enter an int between 1 and 6
+ * MENU: Please select one of the following options:
+  1 - Display all restaurants
+  2 - Add a restaurant
+  3 - Remove a restaurant
+  4 - Shuffle the vector
+  5 - Begin the tournament
+  6 - Quit the program
+Enter your selection now: 9
+INVALID SELECTION. Please enter an int between 1 and 6
+ * 
+ * match menu:
+ * Match 1/4, Round 1/3 --- 1: Five Guys or 2: SubWay? 5
+ * Invalid response. Please enter 1 or 2
+ * Match 1/4, Round 1/3 --- 1: Five Guys or 2: SubWay? dsfa
+ * Invalid response. Please enter 1 or 2
+ * Match 1/4, Round 1/3 --- 1: Five Guys or 2: SubWay? Q
+ * Invalid response. Please enter 1 or 2
+ * Match 1/4, Round 1/3 --- 1: Five Guys or 2: SubWay? 0
+ * Invalid response. Please enter 1 or 2
+ *
+ * 3. Testing Checking for power of two amount of restaurants.
+ *
+ * {Five Guys, SubWay, Chick-Fil-A, In-n-Out, Wagamama, Taco Bell, KFC, Olive Garden}
+ * 8 restaurants
+ * output:
+ * starting with 3 rounds.
+ * Match 1/4, Round 1/3 --- 1: Five Guys or 2: SubWay?
+ *
+ * starts correctly
+ *
+ * {Five Guys, SubWay, Chick-Fil-A, In-n-Out, Wagamama, Taco Bell, KFC, Olive Garden, Panda Express}
+ * 9 restaurants
+ * output:
+ * The amount of restaurants is not a power of two, so the tournament cannot start.
+ *
+ * properly detected not a power of two.
+ *
+ * Now let's test if it has a multiple of two, that is not a power of two, if
+ * it gets confused.
+ *
+ * {Five Guys, SubWay, Chick-Fil-A, In-n-Out, Wagamama, Taco Bell, KFC, Olive Garden, Panda Express, McDonald's, Burger King, Chevy's}
+ * 12 restaurants
+ * output:
+ * The amount of restaurants is not a power of two, so the tournament cannot start.
+ *
+ * properly detected.
+ *
+ */
+
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
