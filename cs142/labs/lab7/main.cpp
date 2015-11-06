@@ -137,8 +137,10 @@ int run_tournament(vector<string>& restaurants){
         for(int m=1;m<=matches;m++){
             int opt = 0;
             uint8_t loop_var = 1;
-            char * name1 = restaurants[m-1].c_str();
-            char * name2 = restaurants[m].c_str();
+            char name1[BUFF_SIZE];
+            strcpy(name1,restaurants[m-1].c_str());
+            char name2[BUFF_SIZE];
+            strcpy(name2,restaurants[m].c_str());
             while(loop_var){
                 printf("Match %i/%i, Round %i/%i --- 1: %s or 2: %s? ",
                         m, matches, r, rounds, name1, name2); 
@@ -151,10 +153,13 @@ int run_tournament(vector<string>& restaurants){
                 printf("Invalid response. Please enter %i or %i\n",
                         CHOICE1, CHOICE2);
             }
-
+            //remove the restaurant that loses
+            restaurants.erase(restaurants.begin() + m - ((opt == CHOICE1)?0:1));
+            
         }
     } 
-
+    printf("%s is the winner!\n", restaurants[0].c_str());
+    return NO_ERR;
 }
 
 int get_int(int *in_int){
