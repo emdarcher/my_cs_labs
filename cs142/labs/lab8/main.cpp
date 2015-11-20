@@ -38,6 +38,7 @@ void show_bal(double bal);
 int buy_car(vector<Car*> *inv, double * bal);
 int sell_car(vector<Car*> *inv, double * bal);
 int paint_car(vector<Car*> *inv);
+int load_file(vector<Car*> *inv, double * bal);
 
 int car_exists(vector<Car*> inv, char * name);
 void remove_car(vector<Car*> *inv, int index);
@@ -79,6 +80,7 @@ int main(){
                 error = paint_car(&inventory);
                 break;
             case LOAD_FILE:
+                error = load_file(&inventory, &balance);
                 break;
             case SAVE_FILE:
                 break;
@@ -203,6 +205,54 @@ int paint_car(vector<Car*> *inv){
     string color_string(color);
     (*(*inv)[car_index]).paint(color_string);
     printf("Painted Car with name \"%s\" the color %s\n", name, color);
+    return NO_ERR;
+}
+
+int load_file(vector<Car*> *inv, double * bal){
+    char filename[INPUT_BUFF_SIZE];
+
+    //FILE pointer for the file operations.
+    FILE * inv_file_ptr;
+    printf("Enter filename of the inventory file to load: ");
+    get_word(filename);
+    printf("Attempting to open a file with filename \"%s\"\n", filename);
+
+    //open the file for reading
+    inv_file_ptr = fopen(filename, "r");
+    //check if the file exists
+    if(inv_file_ptr == NULL){
+        printf("A file with filename \"%s\" doesn't exist!\n", filename);
+        return ERRORED;
+    }
+    char buff[INPUT_BUFF_SIZE];
+    //get the value to add to the balance
+    double added_balance;
+    char end_char;
+    fgets(buff, sizeof(buff), inv_file_ptr);
+    if(sscanf(buff, "%lf%c", &added_balance, &end_char) != 2){
+        printf("Error reading balance from first line of file.\n");
+        return ERRORED;
+    } else {
+        //add the balance from the file to our current balance
+        *bal += added_balance;
+    }
+    int line = 1;
+    //read in the rest of the file and Car details
+    while(fgets(buff, sizeof(buff), inv_file_ptr) != NULL){
+        char name[INPUT_BUFF_SIZE];
+        char color[INPUT_BUFF_SIZE];
+        double price = 0;
+        if(sscanf(buff, "%s %s %lf", name, color, &price) == 3){
+            string name_string(name);
+            string color_string(color);
+            Car* tmp_Car_ptr = new Car(name_string, color_string, price);
+            (*inv).push_back(tmp_Car_ptr);
+        } else {
+            printf("Error reading line %i from file \"%s\"\n", line, filename);
+            return ERRORED;
+        }
+        line++;
+    } 
     return NO_ERR;
 }
 
