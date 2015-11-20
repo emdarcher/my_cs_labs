@@ -1,4 +1,401 @@
 //
+/*
+ *  TEST CASES:
+ *
+ *  1. Testing Buying and Selling Cars, and checking if they exist
+ *
+ *  testing buying and adding to inventory, and adjusting Balance
+ *  MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $10000.00
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 3
+Enter name of the Car: Mercedes
+Enter the color of the Car: Violet
+Enter the price of the Car: 3400.20
+Just added car with these details:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $6599.80
+ *
+ * Now testing Selling the Car
+ *
+ * MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 4
+Enter name of the Car: Mercedes
+Removed Car with name "Mercedes" from the inventory.
+Sold for $3400.20
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $10000.00
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+ * 
+ * Correctly removed the Car from the Inventory and regained the money
+ *
+ * 2. Testing detection of existing cars with the same name
+ *
+ * MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 3
+Enter name of the Car: Mercedes
+Enter the color of the Car: Violet
+Enter the price of the Car: 3400.20
+Just added car with these details:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: Beetle
+INVALID SELECTION. Please enter an int between 1 and 8
+
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 3
+Enter name of the Car: Beetle
+Enter the color of the Car: Red
+Enter the price of the Car: 2010.28
+Just added car with these details:
+Name: Beetle
+Color: Red
+Price: $2010.28
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+Name: Beetle
+Color: Red
+Price: $2010.28
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $4589.52
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 3
+Enter name of the Car: Beetle
+Car with name "Beetle" already exists!
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 4
+Enter name of the Car: Herbie
+A Car with name "Herbie" does not exist in the inventory.
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now:
+ *
+ * Correctly detected existence of Cars with same name.
+ *
+ * 3. Testing File saving and reading.
+ *
+ * loading the cars1.txt file
+ *
+ * MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+Name: Beetle
+Color: Red
+Price: $2010.28
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $4589.52
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 6
+Enter filename of the inventory file to load: cars1.txt
+Opened a file with filename "cars1.txt"
+Loaded Inventory information from file "cars1.txt"
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+Name: Beetle
+Color: Red
+Price: $2010.28
+Name: Jalopy
+Color: Blue
+Price: $3402.99
+Name: Rustbucket
+Color: Brown
+Price: $44.99
+Name: Lemon
+Color: Yellow
+Price: $4226.99
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $5118.75
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 7
+Enter filename of the file to save the inventory in: testfile.txt
+Opened file with name: testfile.txt
+Saved Inventory to file with name: testfile.txt
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 8
+QUITTING THE PROGRAM!
+ *
+ *MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 2
+Current Balance: $10000.00
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 6
+Enter filename of the inventory file to load: testfile.txt
+Opened a file with filename "testfile.txt"
+Loaded Inventory information from file "testfile.txt"
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now: 1
+Inventory:
+Name: Mercedes
+Color: Violet
+Price: $3400.2
+Name: Beetle
+Color: Red
+Price: $2010.28
+Name: Jalopy
+Color: Blue
+Price: $3402.99
+Name: Rustbucket
+Color: Brown
+Price: $44.99
+Name: Lemon
+Color: Yellow
+Price: $4226.99
+MENU: Please select one of the following options:
+  1 - Show Current Inventory
+  2 - Show Current Balance
+  3 - Buy a Car
+  4 - Sell a Car
+  5 - Paint a Car
+  6 - Load File
+  7 - Save File
+  8 - Quit Program
+Enter your selection now:
+ *
+ *
+ *
+ *
+ */
+
 //
 //this has to be defined for this to compile in Visual Studio
 #define _CRT_SECURE_NO_DEPRECATE
@@ -130,12 +527,7 @@ void remove_car(vector<Car*> *inv, int index){
 int buy_car(vector<Car*> *inv, double * bal){
     char name[INPUT_BUFF_SIZE];
     printf("Enter name of the Car: ");
-    //scanf("%s", name);
     get_word(name);
-    //if(get_word(name) == ERRORED){
-    //    printf("INVALID INPUT!\n");
-    //    return ERRORED;
-    //}
     if(car_exists(*inv, name) != DOES_NOT_EXIST){
         printf("Car with name \"%s\" already exists!\n", name);
         return ERRORED;
@@ -143,8 +535,6 @@ int buy_car(vector<Car*> *inv, double * bal){
     printf("Enter the color of the Car: ");
     char color[INPUT_BUFF_SIZE];
     get_word(color);
-    //scanf("%s", color);
-    //getchar();
     double price = 0;    
     printf("Enter the price of the Car: ");
     //check for double input
