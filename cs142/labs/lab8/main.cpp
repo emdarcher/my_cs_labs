@@ -94,7 +94,7 @@ void show_inv(vector<Car*> inv){
 }
 
 void show_bal(double bal){
-    printf("Current Balance: %0.2lf\n", bal);
+    printf("Current Balance: $%0.2lf\n", bal);
 }
 
 uint8_t car_exists(vector<Car*> inv, char * name){
@@ -111,18 +111,20 @@ int buy_car(vector<Car*> *inv, double * bal){
     char name[INPUT_BUFF_SIZE];
     printf("Enter name of the Car: ");
     //scanf("%s", name);
-    if(get_word(name) == ERRORED){
-        printf("INVALID INPUT!\n");
-        return ERRORED;
-    }
+    get_word(name);
+    //if(get_word(name) == ERRORED){
+    //    printf("INVALID INPUT!\n");
+    //    return ERRORED;
+    //}
     if(car_exists(*inv, name)){
         printf("Car with name %s already exists!\n", name);
         return ERRORED;
     } 
     printf("Enter the color of the Car: ");
     char color[INPUT_BUFF_SIZE];
-    scanf("%s", color);
-    getchar();
+    get_word(color);
+    //scanf("%s", color);
+    //getchar();
     double price = 0;    
     printf("Enter the price of the Car: ");
     //check for double input
@@ -136,7 +138,10 @@ int buy_car(vector<Car*> *inv, double * bal){
         *bal -= price;
         string name_string(name);
         string color_string(color);
-        (*inv).push_back(new Car(name_string, color_string, price));
+        Car* tmp_Car_ptr = new Car(name_string, color_string, price);
+        (*inv).push_back(tmp_Car_ptr);
+        printf("Just added car with these details:\n%s",
+                (*tmp_Car_ptr).toString().c_str());
         return NO_ERR;
     } else {
         printf("INVALID INPUT!\n");
