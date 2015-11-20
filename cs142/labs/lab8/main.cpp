@@ -109,14 +109,22 @@ uint8_t car_exists(vector<Car*> inv, char * name){
 
 int buy_car(vector<Car*> *inv, double * bal){
     char name[INPUT_BUFF_SIZE];
-    scanf("%s", name);
+    printf("Enter name of the Car: ");
+    //scanf("%s", name);
+    if(get_word(name) == ERRORED){
+        printf("INVALID INPUT!\n");
+        return ERRORED;
+    }
     if(car_exists(*inv, name)){
         printf("Car with name %s already exists!\n", name);
         return ERRORED;
     } 
+    printf("Enter the color of the Car: ");
     char color[INPUT_BUFF_SIZE];
     scanf("%s", color);
+    getchar();
     double price = 0;    
+    printf("Enter the price of the Car: ");
     //check for double input
     if(get_double(&price) == NO_ERR){
         if(price > *bal){
@@ -126,6 +134,9 @@ int buy_car(vector<Car*> *inv, double * bal){
         } 
         //subtract price from balance
         *bal -= price;
+        string name_string(name);
+        string color_string(color);
+        (*inv).push_back(new Car(name_string, color_string, price));
         return NO_ERR;
     } else {
         printf("INVALID INPUT!\n");
@@ -136,7 +147,15 @@ int buy_car(vector<Car*> *inv, double * bal){
 
 int get_word(char * word){
     char buf[INPUT_BUFF_SIZE];
+    char tmp_word[INPUT_BUFF_SIZE];
     
+    fgets( buf, sizeof(buf), stdin);
+
+    if(sscanf(buf, "%s", tmp_word) == 1){
+        strcpy(word, tmp_word);
+        return NO_ERR;
+    }
+    return ERRORED;
 }
 
 int get_double(double *in_double){
