@@ -26,6 +26,7 @@ using namespace std;
 #define NO_ERR  0
 #define ERRORED 1
 
+#define DOES_NOT_EXIST  -1
 
 //function prototypes
 int run_menu(void);
@@ -35,8 +36,9 @@ int get_word(char * word);
 void show_inv(vector<Car*> inv);
 void show_bal(double bal);
 int buy_car(vector<Car*> *inv, double * bal);
+int sell_car(vector<Car*> *inv, double * bal);
 
-uint8_t car_exists(vector<Car*> inv, char * name);
+int car_exists(vector<Car*> inv, char * name);
 
 enum {
     SHOW_CURR_INV = OPT_MIN,
@@ -97,14 +99,15 @@ void show_bal(double bal){
     printf("Current Balance: $%0.2lf\n", bal);
 }
 
-uint8_t car_exists(vector<Car*> inv, char * name){
+int car_exists(vector<Car*> inv, char * name){
+    //returns index in vector where a Car with the name exists 
     for(int i=0;i<inv.size();i++){
         string car_name = (*inv[i]).getName();
         if(!strcmp(name, car_name.c_str())){
-            return 1;
+            return i;
         }
     }
-    return 0;
+    return DOES_NOT_EXIST;
 }
 
 int buy_car(vector<Car*> *inv, double * bal){
