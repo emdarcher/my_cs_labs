@@ -37,8 +37,10 @@ void show_inv(vector<Car*> inv);
 void show_bal(double bal);
 int buy_car(vector<Car*> *inv, double * bal);
 int sell_car(vector<Car*> *inv, double * bal);
+int paint_car(vector<Car*> *inv);
 
 int car_exists(vector<Car*> inv, char * name);
+void remove_car(vector<Car*> *inv, int index);
 
 enum {
     SHOW_CURR_INV = OPT_MIN,
@@ -71,8 +73,10 @@ int main(){
                 error = buy_car(&inventory, &balance);
                 break;
             case SELL_A_CAR:
+                error = sell_car(&inventory, &balance);
                 break;
             case PAINT_A_CAR:
+                error = paint_car(&inventory);
                 break;
             case LOAD_FILE:
                 break;
@@ -110,6 +114,14 @@ int car_exists(vector<Car*> inv, char * name){
     return DOES_NOT_EXIST;
 }
 
+void remove_car(vector<Car*> *inv, int index){
+    Car * tmp_Car_ptr = (*inv)[index];
+    //deallocate the pointer
+    delete tmp_Car_ptr;
+    //erase the pointer from the vector
+    (*inv).erase((*inv).begin() + index); 
+}
+
 int buy_car(vector<Car*> *inv, double * bal){
     char name[INPUT_BUFF_SIZE];
     printf("Enter name of the Car: ");
@@ -119,8 +131,8 @@ int buy_car(vector<Car*> *inv, double * bal){
     //    printf("INVALID INPUT!\n");
     //    return ERRORED;
     //}
-    if(car_exists(*inv, name)){
-        printf("Car with name %s already exists!\n", name);
+    if(car_exists(*inv, name) != DOES_NOT_EXIST){
+        printf("Car with name \"%s\" already exists!\n", name);
         return ERRORED;
     } 
     printf("Enter the color of the Car: ");
@@ -151,6 +163,47 @@ int buy_car(vector<Car*> *inv, double * bal){
         return ERRORED;
     }
 
+}
+
+int sell_car(vector<Car*> *inv, double * bal){
+    char name[INPUT_BUFF_SIZE];
+    printf("Enter name of the Car: ");
+    get_word(name);
+    int car_index = car_exists(*inv, name);
+    if(car_index == DOES_NOT_EXIST){
+        printf("A Car with name \"%s\" does not exist in the inventory.\n",
+                name);
+        return ERRORED;
+    }
+    Car* tmp_Car_ptr = (*inv)[car_index];
+    //get the price of the Car before we "sell" it
+    double sell_price = (*tmp_Car_ptr).getPrice();
+    //"sell" the car, add the price back into the balance
+    *bal += sell_price;
+    //remove the Car from the vector
+    remove_car(inv, car_index);
+    printf("Removed Car with name \"%s\" from the inventory.\n"
+            "Sold for $%0.2lf\n", name, sell_price);
+    return NO_ERR;
+}
+
+int paint_car(vector<Car*> *inv){
+    char name[INPUT_BUFF_SIZE];
+    char color[INPUT_BUFF_SIZE];
+    printf("Enter name of the Car to paint: ");
+    get_word(name);
+    int car_index = car_exists(*inv, name);
+    if(car_index == DOES_NOT_EXIST){
+        printf("A Car with name \"%s\" does not exist in the inventory.\n",
+                name);
+        return ERRORED;
+    }
+    printf("Enter the color to paint the Car: ");
+    get_word(color); 
+    string color_string(color);
+    (*(*inv)[car_index]).paint(color_string);
+    printf("Painted Car with name \"%s\" the color %s\n", name, color);
+    return NO_ERR;
 }
 
 int get_word(char * word){
