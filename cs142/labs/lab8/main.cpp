@@ -25,6 +25,7 @@ using namespace std;
 
 #define NO_ERR  0
 #define ERRORED 1
+#define INTENDED_RETURN 3
 
 #define DOES_NOT_EXIST  -1
 
@@ -39,6 +40,7 @@ int buy_car(vector<Car*> *inv, double * bal);
 int sell_car(vector<Car*> *inv, double * bal);
 int paint_car(vector<Car*> *inv);
 int load_file(vector<Car*> *inv, double * bal);
+int save_file(vector<Car*> inv, double bal);
 
 int car_exists(vector<Car*> inv, char * name);
 void remove_car(vector<Car*> *inv, int index);
@@ -83,6 +85,7 @@ int main(){
                 error = load_file(&inventory, &balance);
                 break;
             case SAVE_FILE:
+                error = save_file(inventory, balance);
                 break;
             case QUIT_PROGRAM:
                 printf("QUITTING THE PROGRAM!\n");
@@ -215,15 +218,16 @@ int load_file(vector<Car*> *inv, double * bal){
     FILE * inv_file_ptr;
     printf("Enter filename of the inventory file to load: ");
     get_word(filename);
-    printf("Attempting to open a file with filename \"%s\"\n", filename);
 
     //open the file for reading
     inv_file_ptr = fopen(filename, "r");
     //check if the file exists
     if(inv_file_ptr == NULL){
         printf("A file with filename \"%s\" doesn't exist!\n", filename);
+        fclose(inv_file_ptr);
         return ERRORED;
     }
+    printf("Opened a file with filename \"%s\"\n", filename);
     char buff[INPUT_BUFF_SIZE];
     //get the value to add to the balance
     double added_balance;
@@ -231,6 +235,7 @@ int load_file(vector<Car*> *inv, double * bal){
     fgets(buff, sizeof(buff), inv_file_ptr);
     if(sscanf(buff, "%lf%c", &added_balance, &end_char) != 2){
         printf("Error reading balance from first line of file.\n");
+        fclose(inv_file_ptr);
         return ERRORED;
     } else {
         //add the balance from the file to our current balance
@@ -249,19 +254,71 @@ int load_file(vector<Car*> *inv, double * bal){
             (*inv).push_back(tmp_Car_ptr);
         } else {
             printf("Error reading line %i from file \"%s\"\n", line, filename);
+            fclose(inv_file_ptr);
             return ERRORED;
         }
         line++;
+    }
+    printf("Loaded Inventory information from file \"%s\"\n", filename);
+    //close the file
+    fclose(inv_file_ptr); 
+    return NO_ERR;
+}
+
+int save_file(vector<Car*> inv, double bal){
+    char filename[INPUT_BUFF_SIZE];
+
+    //FILE pointer for the file operations.
+    FILE * inv_file_ptr;
+    printf("Enter filename of the file to save the inventory in: ");
+    get_word(filename);
+ 
+    //check if file already exists, ask if they want to continue
+    if(fopen(filename, "r") != NULL){
+        while(1){
+            printf("A file with name \"%s\" already exists!\n"
+                    "Do you want to continue and overwrite the file?\n"
+                    "( enter 1 to continue, or 2 to go back to the menu): ",
+                    filename);
+            int choice = 0;
+            if(get_int(&choice) == NO_ERR){
+                if(choice == 1){
+                    break;
+                } else if(choice == 2){
+                    printf("Returning to menu...\n");
+                    return INTENDED_RETURN;
+                } else {
+                    printf("Must enter 1 or 2!\n");
+                }
+            }
+        }
+    }
+
+    //open file for writing
+    inv_file_ptr = fopen(filename, "w");
+    printf("Opened file with name: %s\n", filename);
+    //enter in the balance value
+    fprintf(inv_file_ptr, "%0.2lf\n", bal);
+    //enter in the Cars from the vector on each following line
+    for(int i=0;i<inv.size();i++){
+        string name_string = (*inv[i]).getName();
+        string color_string = (*inv[i]).getColor();
+        double price = (*inv[i]).getPrice(); 
+        fprintf(inv_file_ptr, "%s %s %0.2lf\n", 
+                name_string.c_str(), color_string.c_str(), price);
     } 
+    printf("Saved Inventory to file with name: %s\n", filename);
+    //close the file
+    fclose(inv_file_ptr);
     return NO_ERR;
 }
 
 int get_word(char * word){
     char buf[INPUT_BUFF_SIZE];
     char tmp_word[INPUT_BUFF_SIZE];
-    
+    //get a line from standard input 
     fgets( buf, sizeof(buf), stdin);
-
+    //check for string input
     if(sscanf(buf, "%s", tmp_word) == 1){
         strcpy(word, tmp_word);
         return NO_ERR;
