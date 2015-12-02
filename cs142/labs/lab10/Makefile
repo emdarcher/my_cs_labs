@@ -13,7 +13,7 @@ CPPFLAGS= -Wall --std=$(CPPSTD)
 #have it include all .h files in current directory
 CPPFLAGS+= -I. 
 
-LOCAL_CPPSRC= 
+LOCAL_CPPSRC= Property.cpp
 
 CPPSRC+= $(LOCAL_CPPSRC)
 

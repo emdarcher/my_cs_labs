@@ -7,6 +7,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "Property.h"
 
 using namespace std;
 
