@@ -1,0 +1,19 @@
+Ignoring unknown types of properties appearing in the input file: Commerical 23343.2 Wrong Way
+
+Property id: 0  Address:  142 CS Blvd  NOT Rental  Estimated value: 250000  occupied
+Property id: 1  Address:  350 Sea Towers  NOT rental  Estimated value:1.23457e+006  Discounted  Discount: 0.2
+Property id: 2  Address:  572 Random Road  Rental  Estimated value: 533000 NOT occupied
+
+NOW PRINTING TAX REPORT:
+** Taxes due for the property at:  142 CS Blvd
+	Property id:					0
+	This property has an estimated value of:	250000
+	Taxes due on this property are:			1500
+** Taxes due for the property at:  250 Sea Towers
+	Property id:					1
+	This property has an estimated value of:	1.23457e+006
+	Taxes due on this property are:			9876.54
+** Taxes due for the property at:  572 Random Road
+	Property id:					2
+	This property has an estimated value of:	533000
+	Taxes due on this property are:			4797

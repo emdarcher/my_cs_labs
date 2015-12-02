@@ -1,0 +1,46 @@
+Ignoring bad RESIDENTIAL in input file: Residential 0 Banana-Onion Road
+Ignoring bad COMMERCIAL in input file: Commercial 0 2995342 24 Secret Tunnel Turnpike
+Ignoring bad COMMERCIAL in input file: Commercial 24668832 0.2 23 Metal Bend
+Ignoring bad RESIDENTIAL in input file: Residential 1 233342 245 Flameo Circle
+Ignoring bad COMMERCIAL in input file: Commercial 1 5133266 0 Badger Mole Court
+Ignoring bad RESIDENTIAL in input file: Residential 1 25000 Cabbage Drive
+Ignoring unknown types of properties appearing in the input file: Hotman
+
+All valid properties:
+Property id: 0  Address: 129 Avatar Lane  Rental  Estimated value: 5e+006  NOT occupied
+Property id: 1  Address: 85 Sparky-Sparky Boom Village  NOT rental  Estimated value: 7.33421e+006  NOT occupied
+Property id: 2  Address: 977 Rough Buddy Blvd  NOT rental  Estimated value: 598776  Discounted  Discount: 0.23
+Property id: 3  Address: 557 MoMo Run  NOT rental  Estimated value: 955322  occupied
+Property id: 4  Address: 12 Spirit Way  Rental  Estimated value: 7.72994e+007  NOT discounted
+Property id: 5  Address: 354 Jasmine Dragon Run  NOT rental  Estimated value: 5.009e+007  NOT discounted
+Property id: 6  Address: 101 Circle Bird Drive  NOT rental  Estimated value: 2.22266e+006  occupied
+
+NOW PRINTING TAX REPORT:
+** Taxes due for the property at:  129 Avatar Lane
+	Property id:					0
+	This property has an estimated value of:	5e+006
+	Taxes due on this property are:			45000
+** Taxes due for the property at:  85 Sparky-Sparky Boom Villiage
+	Property id:					1
+	This property has an estimated value of:	7.33421e+006
+	Taxes due on this property are:			66007.9
+** Taxes due for the property at:  977 Rough Buddy Blvd
+	Property id:					2
+	This property has an estimated value of:	598776
+	Taxes due on this property are:			4610.58
+** Taxes due for the property at:  557 MoMo Run
+	Property id:					3
+	This property has an estimated value of:	955322
+	Taxes due on this property are:			5731.93
+** Taxes due for the property at:  12 Spirit Way
+	Property id:					4
+	This property has an estimated value of:	7.72994e+007
+	Taxes due on this property are:			927592
+** Taxes due for the property at:  354 Jasmine Dragon Run
+	Property id:					5
+	This property has an estimated value of:	5.009e+007
+	Taxes due on this property are:			500900
+** Taxes due for the property at:  101 Circle Bird Drive
+	Property id:					6
+	This property has an estimated value of:	2.22266e+006
+	Taxes due on this property are:			13336
