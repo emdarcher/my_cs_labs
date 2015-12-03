@@ -25,11 +25,17 @@ using namespace std;
 #define TAG_RESIDENTIAL 0
 #define TAG_COMMERCIAL 1
 
+#define SORT_ADDRESS    1
+#define SORT_TAXES_DUE  2
+#define SORT_NOTHING    3
+
 int get_word(char * word);
+int get_int(int *in_int);
 int load_file(vector<Property*> *props, char * filename);
 void print_properties(vector<Property*> props);
 void remove_EOL_chars(char * str);
 void print_tax_report(vector<Property*> props);
+int sort_properties(vector<Property*> *props, int sort_type);
 
 int main(){
     vector<Property*> properties;
@@ -38,6 +44,23 @@ int main(){
     get_word(file);
     load_file(&properties, file);
     print_properties(properties);
+    int option = 0;
+    while(1){
+        printf("How do you want your tax report sorted?\n"
+               "(1) by Address, (2) by Taxes Due, or (3) Do not sort : "); 
+        //check for integer input
+        if(get_int(&option) == NO_ERR){
+            if((option == SORT_ADDRESS) 
+                    || (option == SORT_TAXES_DUE)
+                    || (option == SORT_NOTHING) ){
+                break; 
+            } 
+        } 
+        printf("INVALID selection, please enter %i, %i, or %i\n",
+                SORT_ADDRESS, SORT_TAXES_DUE, SORT_NOTHING);
+    }
+    sort_properties(&properties, option);
+
     print_tax_report(properties);
 
     return 0;
@@ -53,6 +76,23 @@ int get_word(char * word){
     if(sscanf(buf, "%s", tmp_word) == 1){
         strcpy(word, tmp_word);
         return NO_ERR;
+    }
+    return ERRORED;
+}
+
+int get_int(int *in_int){
+//gets a single integer from standard input
+    char buf[INPUT_BUFF_SIZE];
+    int tmp_int;
+    char end_char;
+    fgets( buf, sizeof(buf), stdin ); 
+    //check for integer input and ending character
+    if(sscanf( buf, "%i%c", &tmp_int, &end_char ) == 2){
+        //check if integer is followed by a newline character
+        if(end_char == '\n'){
+            *in_int = tmp_int;
+            return NO_ERR;
+        }
     }
     return ERRORED;
 }
@@ -205,3 +245,44 @@ void print_tax_report(vector<Property*> props){
     }
 }
 
+int sort_properties(vector<Property*> *props, int sort_type){
+    //sort the properties in the vector in different ways
+    int props_size = (*props).size();
+    if(sort_type == SORT_TAXES_DUE){
+        //sort by taxes due, lowest to greatest
+        for(int i=0;i<props_size;i++){
+            for(int j=i;j<props_size;j++){
+                if((*(*props)[i]).getTaxes() > (*(*props)[j]).getTaxes()){
+                    //if lower than tax of current lowest index
+                    //swap places
+                    Property* tmp_Prop_ptr = (*props)[i];
+                    (*props)[i] = (*props)[j];
+                    (*props)[j] = tmp_Prop_ptr;
+                } 
+            }
+        } 
+        return NO_ERR;
+    } else if(sort_type == SORT_ADDRESS){
+        //sort by the address, numerically, then alphabetically
+        for(int i=0;i<props_size;i++){
+            for(int j=i;j<props_size;j++){
+                //compare strings using strcmp() to to see which is greater
+
+                if(strcmp((*(*props)[i]).getAddr().c_str(),
+                            (*(*props)[j]).getAddr().c_str()) > 0){
+                    //if the j index Property has "greater"
+                    //alphbetical (by ASCII) order value
+                    //swap the places
+                    Property* tmp_Prop_ptr = (*props)[i];
+                    (*props)[i] = (*props)[j];
+                    (*props)[j] = tmp_Prop_ptr;
+                }
+            }
+        }
+
+        return NO_ERR; 
+    } else {
+        return ERRORED;
+    }
+
+}
