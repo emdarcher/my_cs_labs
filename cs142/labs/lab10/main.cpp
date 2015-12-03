@@ -28,6 +28,7 @@ using namespace std;
 int get_word(char * word);
 int load_file(vector<Property*> *props, char * filename);
 void print_properties(vector<Property*> props);
+void remove_EOL_chars(char * str);
 
 int main(){
     vector<Property*> properties;
@@ -54,6 +55,19 @@ int get_word(char * word){
     return ERRORED;
 }
 
+void remove_EOL_chars(char * str){
+    //remove ending newline or carriage-return
+    while(1){
+        int str_len = strlen(str);
+        if(str[str_len - 1] == '\n' 
+                || str[str_len - 1] == '\r'){
+            str[str_len - 1] = '\0';    
+        } else {
+            break;
+        }
+    }
+}
+
 int load_file(vector<Property*> *props, char * filename){
 //load in the Properties from the file with filename
 
@@ -73,7 +87,7 @@ int load_file(vector<Property*> *props, char * filename){
     //get the value to add to the balance
     //double added_balance;
     int line = 0;
-    unsigned int new_id = 0;
+    //static unsigned int new_id = 0;
     //read in the lines from the file
     while(fgets(buff, sizeof(buff), props_file_ptr) != NULL){
         char tag[INPUT_BUFF_SIZE];
@@ -92,6 +106,8 @@ int load_file(vector<Property*> *props, char * filename){
             tag_code = TAG_RESIDENTIAL;
         }
 
+        static unsigned int new_id = 0;
+        
         int line_error = -1;
 
         if(tag_code == TAG_UNKNOWN){
@@ -101,54 +117,62 @@ int load_file(vector<Property*> *props, char * filename){
         } else if(tag_code == TAG_COMMERCIAL){
             if(sscanf(buff, "%s %i %lf %i %lf %s", tag, &rental_flag, &value, 
                         &discount_flag, &discount_rate, addr_begin) == 6){
-                line_error = NO_ERR;
-                //get address
-                //get pointer to the occurence of addr_begin to get full address
-                char * addr_ptr = strstr(buff, addr_begin);
-                //remove ending newline
-                int addr_len = strlen(addr_ptr);
-                if(addr_ptr[addr_len - 1] == '\n'){
-                    addr_ptr[addr_len - 1] = '\0';    
-                }
-
-                string addr_str(addr_ptr);
-                Commercial* tmp_Commercial_ptr = new Commercial(new_id,
+                if((discount_rate <= 1)){
+                    line_error = NO_ERR;
+                    //get address
+                    //get pointer to the occurence of 
+                    //addr_begin to get full address
+                    char * addr_ptr = strstr(buff, addr_begin);
+                    //remove ending chars
+                    remove_EOL_chars(addr_ptr);
+                    //convert to C++ string
+                    string addr_str(addr_ptr);
+                    Commercial* tmp_Com_ptr = new Commercial(new_id,
                                                                 rental_flag,
                                                                 value,
                                                                 addr_str,
                                                                 discount_flag,
                                                                 discount_rate); 
-                (*props).push_back(tmp_Commercial_ptr);
-                new_id++;
-                        
+                    (*props).push_back(tmp_Com_ptr);
+                    new_id++;
+                } else {
+                    line_error = ERRORED;
+                }
             } else {
                 line_error = ERRORED;
-                printf("Ignoring bad COMMERCIAL in input file \"%s\""
+            }
+            if(line_error == ERRORED){
+                printf("Ignoring bad COMMERCIAL in input file \"%s\" "
                         "at line %i: %s\n", filename, line, buff);
             }
         } else if(tag_code == TAG_RESIDENTIAL){
             if(sscanf(buff, "%s %i %lf %i %s", tag, &rental_flag, &value, 
                         &vacancy, addr_begin) == 5){
-                line_error = NO_ERR;
-                //get address
-                //get pointer to the occurence of addr_begin to get full address
-                char * addr_ptr = strstr(buff, addr_begin);
-                //remove ending newline
-                int addr_len = strlen(addr_ptr);
-                if(addr_ptr[addr_len - 1] == '\n'){
-                    addr_ptr[addr_len - 1] = '\0';    
-                }
-                string addr_str(addr_ptr);
-                Residential* tmp_Residential_ptr = new Residential(new_id,
+                if((vacancy <= OCCUPIED) && (vacancy >= VACANT)){
+                    //get address
+                    //get pointer to the occurence of 
+                    //addr_begin to get full address
+                    char * addr_ptr = strstr(buff, addr_begin);
+                    //remove ending newline or carriage-return
+                    remove_EOL_chars(addr_ptr);
+                    //convert to C++ string
+                    string addr_str(addr_ptr);
+                    Residential* tmp_Res_ptr = new Residential(new_id,
                                                                 rental_flag,
                                                                 value,
                                                                 addr_str,
                                                                 vacancy); 
-                (*props).push_back(tmp_Residential_ptr);
-                new_id++;
+                    (*props).push_back(tmp_Res_ptr);
+                    new_id++;
+                } else {
+                    line_error = ERRORED;
+                }
             } else {
                 line_error = ERRORED;
-                printf("Ignoring bad RESIDENTIAL in input file \"%s\""
+            } 
+            if(line_error == ERRORED){
+                //line_error = ERRORED;
+                printf("Ignoring bad RESIDENTIAL in input file \"%s\" "
                         "at line %i: %s\n", filename, line, buff);
             }
         }
@@ -166,7 +190,6 @@ void print_properties(vector<Property*> props){
     printf("All valid properties: \n");
     for(int i=0;i<(props.size());i++){
         string prop_string = (*props[i]).toString();
-        //printf("%s\n", prop_string.c_str());
         puts(prop_string.c_str());
     } 
 }
