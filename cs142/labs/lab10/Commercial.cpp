@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 Commercial::Commercial(unsigned int in_id,
         bool in_rental,
         double in_val,
@@ -12,6 +14,12 @@ Commercial::Commercial(unsigned int in_id,
         double in_discount_rate) : Property(in_id, in_rental, in_val, in_addr){
         discounted = in_discounted;
         discount_rate = in_discount_rate;
+        double tax_rate = (rental) ? RENTAL_TAX_RATE : NOT_RENTAL_TAX_RATE;
+        if(discounted){
+            taxes = value * tax_rate * (1.0 - discount_rate); 
+        } else {
+            taxes = value * tax_rate;
+        }
 }
 Commercial::~Commercial(){}
 bool Commercial::getDiscounted(void) const {

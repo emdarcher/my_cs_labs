@@ -15,9 +15,11 @@ using namespace std;
 class Property {
     private:
         unsigned int id;
+        string address;
+    protected:
+        double taxes;
         bool rental;
         double value;
-        string address;
     public:
         Property(unsigned int in_id,
                 bool in_rental,
@@ -30,6 +32,8 @@ class Property {
         bool getRental(void) const;
         double getValue(void) const;         
         virtual string toString(void) const;
+        double getTaxes(void) const;
+        virtual string taxesString(void) const;
 };
 
 #endif

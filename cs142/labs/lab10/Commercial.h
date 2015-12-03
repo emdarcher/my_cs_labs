@@ -1,8 +1,12 @@
 
 #ifndef _COMMERCIAL_H_
 #define _COMMERCIAL_H_
+
 #include "Property.h"
 #include <string>
+
+#define RENTAL_TAX_RATE 0.012
+#define NOT_RENTAL_TAX_RATE 0.01
 
 class Commercial : public Property {
     private:
@@ -19,6 +23,8 @@ class Commercial : public Property {
         bool getDiscounted(void) const;
         double getDiscountRate(void) const;
         virtual string toString(void) const;
+        //virtual double getTaxes(void) const;
+        //virtual string taxesString(void) const;
 
 };
 

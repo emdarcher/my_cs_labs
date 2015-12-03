@@ -10,6 +10,7 @@ Property::Property(unsigned int in_id,
     rental = in_rental;
     value = in_val;
     address = in_addr;
+    taxes = 0.0;
 }
 Property::~Property(){}
 
@@ -41,4 +42,17 @@ bool Property::getRental(void) const {
 }
 double Property::getValue(void) const {
     return value;
+}
+double Property::getTaxes(void) const {
+    return taxes;
+}
+string Property::taxesString(void) const {
+    char ret_buff[PROP_OUT_BUFF_SIZE];
+    sprintf(ret_buff, "** Taxes due for property at: %s\n"
+                    "\tProperty id:\t\t\t\t%i\n"
+                    "\tThis property has an estimated value of:\t%G\n"
+                    "\tTaxes due on this property are:\t\t%G",
+                    address.c_str(), id, value, taxes);
+    string ret_str(ret_buff);
+    return ret_str;
 }

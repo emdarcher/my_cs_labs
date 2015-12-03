@@ -29,6 +29,7 @@ int get_word(char * word);
 int load_file(vector<Property*> *props, char * filename);
 void print_properties(vector<Property*> props);
 void remove_EOL_chars(char * str);
+void print_tax_report(vector<Property*> props);
 
 int main(){
     vector<Property*> properties;
@@ -37,6 +38,7 @@ int main(){
     get_word(file);
     load_file(&properties, file);
     print_properties(properties);
+    print_tax_report(properties);
 
     return 0;
 }
@@ -193,3 +195,13 @@ void print_properties(vector<Property*> props){
         puts(prop_string.c_str());
     } 
 }
+
+void print_tax_report(vector<Property*> props){
+    //print out the tax report strings
+    printf("NOW PRINTING TAX REPORT:\n");
+    for(int i=0;i<(props.size());i++){
+        string prop_tax_str = (*props[i]).taxesString();
+        puts(prop_tax_str.c_str());
+    }
+}
+
