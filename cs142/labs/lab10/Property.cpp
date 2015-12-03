@@ -7,7 +7,7 @@ Property::Property(string in_addr){
 }
 Property::~Property(){}
 
-void Property::setAddr(in_addr){
+void Property::setAddr(string in_addr){
     address = in_addr;
 }
 

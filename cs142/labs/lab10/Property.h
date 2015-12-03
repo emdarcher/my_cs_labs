@@ -12,6 +12,7 @@ using namespace std;
 
 class Property {
     private:
+        unsigned int id;
         string address;
     public:
         Property(string in_addr);
@@ -19,6 +20,6 @@ class Property {
         void setAddr(string in_addr);
         string getAddr(void);
         string toString(void);
-}
+};
 
 #endif
