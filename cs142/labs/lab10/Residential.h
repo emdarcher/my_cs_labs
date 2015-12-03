@@ -17,8 +17,8 @@ class Residential : public Property {
                 string in_addr,
                 unsigned int in_vacancy);
         virtual ~Residential();
-        unsigned int getVacancy(void);
-        virtual string toString(void);
+        unsigned int getVacancy(void) const;
+        virtual string toString(void) const;
 };
 
 #endif

@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 Residential::Residential(unsigned int in_id,
         bool in_rental,
         double in_val,
@@ -15,11 +14,11 @@ Residential::Residential(unsigned int in_id,
 
 Residential::~Residential(){}
 
-unsigned int Residential::getVacancy(void){
+unsigned int Residential::getVacancy(void) const {
     return vacancy;
 }
 
-string Residential::toString(void){
+string Residential::toString(void) const {
     char ret_buff[PROP_OUT_BUFF_SIZE];    
     string prop_str = Property::toString();
     char vacancy_str[PROP_OUT_BUFF_SIZE];

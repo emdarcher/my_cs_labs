@@ -25,11 +25,11 @@ class Property {
                 string in_addr);
         virtual ~Property();
         void setAddr(string in_addr);
-        string getAddr(void);
-        unsigned int getId(void);
-        bool getRental(void);
-        double getValue(void);         
-        virtual string toString(void);
+        string getAddr(void) const;
+        unsigned int getId(void) const;
+        bool getRental(void) const;
+        double getValue(void) const;         
+        virtual string toString(void) const;
 };
 
 #endif

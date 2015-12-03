@@ -11,20 +11,17 @@ Property::Property(unsigned int in_id,
     value = in_val;
     address = in_addr;
 }
-//Property::Property(string in_addr){
-//    address = in_addr;
-//}
 Property::~Property(){}
 
 void Property::setAddr(string in_addr){
     address = in_addr;
 }
 
-string Property::getAddr(void){
+string Property::getAddr(void) const {
     return address;
 }
 
-string Property::toString(void){
+string Property::toString(void) const {
     
     char ret_buff[PROP_OUT_BUFF_SIZE];
     char rental_str[PROP_OUT_BUFF_SIZE];
@@ -36,12 +33,12 @@ string Property::toString(void){
     return ret_str;
 
 }
-unsigned int Property::getId(void){
+unsigned int Property::getId(void) const {
     return id;
 }
-bool Property::getRental(void){
+bool Property::getRental(void) const {
     return rental; 
 }
-double Property::getValue(void){
+double Property::getValue(void) const {
     return value;
 }

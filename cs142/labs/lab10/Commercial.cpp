@@ -14,13 +14,13 @@ Commercial::Commercial(unsigned int in_id,
         discount_rate = in_discount_rate;
 }
 Commercial::~Commercial(){}
-bool Commercial::getDiscounted(void){
+bool Commercial::getDiscounted(void) const {
     return discounted;
 }
-double Commercial::getDiscountRate(void){
+double Commercial::getDiscountRate(void) const {
     return discount_rate;
 }
-string Commercial::toString(void){
+string Commercial::toString(void) const {
     char ret_buff[PROP_OUT_BUFF_SIZE];    
     string prop_str = Property::toString();
     char discounted_str[PROP_OUT_BUFF_SIZE];
@@ -35,5 +35,4 @@ string Commercial::toString(void){
             discounted_str, discount_str);
     string out_str(ret_buff);
     return out_str; 
-    
 }

@@ -16,9 +16,9 @@ class Commercial : public Property {
                 bool in_discounted,
                 double in_discount_rate);
         virtual ~Commercial();
-        bool getDiscounted(void);
-        double getDiscountRate(void);
-        virtual string toString(void);
+        bool getDiscounted(void) const;
+        double getDiscountRate(void) const;
+        virtual string toString(void) const;
 
 };
 
