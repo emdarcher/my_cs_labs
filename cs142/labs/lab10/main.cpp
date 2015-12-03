@@ -49,6 +49,10 @@ int get_word(char * word){
     return ERRORED;
 }
 
+#define TAG_UNKNOWN -1
+#define TAG_RESIDENTIAL 0
+#define TAG_COMMERCIAL 1
+
 int load_file(vector<Property*> *props, char * filename){
 
     //FILE pointer for the file operations.
@@ -79,10 +83,42 @@ int load_file(vector<Property*> *props, char * filename){
         int discount_flag = -1;
         double discount_rate = 0.0;
         char addr_begin[INPUT_BUFF_SIZE];
-        if(sscanf(buff, "%s %i %i %i %lf %s", tag, &rental_flag, &value, 
-                    &discount_flag, &discount_rate, addr_begin) == 6){
+        sscanf(buff, "%s", tag);
+        int tag_code = TAG_UNKNOWN;
+
+        if(!strcmp(tag, "Commercial")){
+            tag_code = TAG_COMMERCIAL;
+        } else if(!strcmp(tag, "Residential")){
+            tag_code = TAG_RESIDENTIAL;
+        }
+
+        int line_error = -1;
+        
+        if(tag_code == TAG_UNKNOWN){
+            printf("Unknown Type in file \"%s\" on line %i: %s\n",
+                        filename, line, buff);  
+            line_error = ERRORED;
+        } else if(tag_code == TAG_COMMERCIAL){
+            if(sscanf(buff, "%s %i %i %i %lf %s", tag, &rental_flag, &value, 
+                        &discount_flag, &discount_rate, addr_begin) == 6){
+                line_error = NO_ERR;
+            } else {
+                line_error = ERRORED;
+            }
+        } else if(tag_code == TAG_RESIDENTIAL){
+            if(sscanf(buff, "%s %i %i %i %s", tag, &rental_flag, &value, 
+                        &discount_flag, addr_begin) == 5){
+                line_error = NO_ERR;
+            } else {
+                line_error = ERRORED;
+            }
+        }
+        
+        if(line_error == ERRORED){
+            printf("Error reading file \"%s\" line %i: %s\n", 
+                    filename, line, buff);
+        } else {
             //get address
-            
             //get pointer to the occurence of addr_begin to get full address
             char * addr_ptr = strstr(buff, addr_begin);
             //remove ending newline
@@ -90,17 +126,14 @@ int load_file(vector<Property*> *props, char * filename){
             if(addr_ptr[addr_len - 1] == '\n'){
                 addr_ptr[addr_len - 1] = '\0';    
             }
-
             //make string object
             string addr_string(addr_ptr);
             
             Property* tmp_Property_ptr = new Property(addr_string);
             (*props).push_back(tmp_Property_ptr);
-        } else {
-            printf("Error reading line %i from file \"%s\"\n", line, filename);
-            fclose(props_file_ptr);
-            return ERRORED;
+          
         }
+
         line++;
     }
     printf("Loaded Property information from file \"%s\"\n", filename);
