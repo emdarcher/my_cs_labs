@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include <vector>
 #include "Property.h"
+#include "Residential.h"
+#include "Commercial.h"
 
 using namespace std;
 
@@ -19,7 +21,9 @@ using namespace std;
 #define ERRORED 1
 #define INTENDED_RETURN 3
 
-#define DOES_NOT_EXIST  -1
+#define TAG_UNKNOWN -1
+#define TAG_RESIDENTIAL 0
+#define TAG_COMMERCIAL 1
 
 int get_word(char * word);
 int load_file(vector<Property*> *props, char * filename);
@@ -37,6 +41,7 @@ int main(){
 }
 
 int get_word(char * word){
+//get a single word from standard input
     char buf[INPUT_BUFF_SIZE];
     char tmp_word[INPUT_BUFF_SIZE];
     //get a line from standard input 
@@ -49,11 +54,8 @@ int get_word(char * word){
     return ERRORED;
 }
 
-#define TAG_UNKNOWN -1
-#define TAG_RESIDENTIAL 0
-#define TAG_COMMERCIAL 1
-
 int load_file(vector<Property*> *props, char * filename){
+//load in the Properties from the file with filename
 
     //FILE pointer for the file operations.
     FILE * props_file_ptr;
@@ -70,17 +72,15 @@ int load_file(vector<Property*> *props, char * filename){
     char buff[INPUT_BUFF_SIZE];
     //get the value to add to the balance
     //double added_balance;
-    char end_char;
     int line = 0;
-    //read in the rest of the file and Car details
+    unsigned int new_id = 0;
+    //read in the lines from the file
     while(fgets(buff, sizeof(buff), props_file_ptr) != NULL){
-        //char name[INPUT_BUFF_SIZE];
-        //char color[INPUT_BUFF_SIZE];
-        //double price = 0;
         char tag[INPUT_BUFF_SIZE];
         int rental_flag = -1;
-        int value = -1;
+        double value = 0.0;
         int discount_flag = -1;
+        int vacancy = -1; 
         double discount_rate = 0.0;
         char addr_begin[INPUT_BUFF_SIZE];
         sscanf(buff, "%s", tag);
@@ -93,47 +93,66 @@ int load_file(vector<Property*> *props, char * filename){
         }
 
         int line_error = -1;
-        
+
         if(tag_code == TAG_UNKNOWN){
-            printf("Unknown Type in file \"%s\" on line %i: %s\n",
+            printf("Ignoring Unknown Type in file \"%s\" on line %i: %s\n",
                         filename, line, buff);  
             line_error = ERRORED;
         } else if(tag_code == TAG_COMMERCIAL){
-            if(sscanf(buff, "%s %i %i %i %lf %s", tag, &rental_flag, &value, 
+            if(sscanf(buff, "%s %i %lf %i %lf %s", tag, &rental_flag, &value, 
                         &discount_flag, &discount_rate, addr_begin) == 6){
                 line_error = NO_ERR;
+                //get address
+                //get pointer to the occurence of addr_begin to get full address
+                char * addr_ptr = strstr(buff, addr_begin);
+                //remove ending newline
+                int addr_len = strlen(addr_ptr);
+                if(addr_ptr[addr_len - 1] == '\n'){
+                    addr_ptr[addr_len - 1] = '\0';    
+                }
+
+                string addr_str(addr_ptr);
+                Commercial* tmp_Commercial_ptr = new Commercial(new_id,
+                                                                rental_flag,
+                                                                value,
+                                                                addr_str,
+                                                                discount_flag,
+                                                                discount_rate); 
+                (*props).push_back(tmp_Commercial_ptr);
+                new_id++;
+                        
             } else {
                 line_error = ERRORED;
+                printf("Ignoring bad COMMERCIAL in input file \"%s\""
+                        "at line %i: %s\n", filename, line, buff);
             }
         } else if(tag_code == TAG_RESIDENTIAL){
-            if(sscanf(buff, "%s %i %i %i %s", tag, &rental_flag, &value, 
-                        &discount_flag, addr_begin) == 5){
+            if(sscanf(buff, "%s %i %lf %i %s", tag, &rental_flag, &value, 
+                        &vacancy, addr_begin) == 5){
                 line_error = NO_ERR;
+                //get address
+                //get pointer to the occurence of addr_begin to get full address
+                char * addr_ptr = strstr(buff, addr_begin);
+                //remove ending newline
+                int addr_len = strlen(addr_ptr);
+                if(addr_ptr[addr_len - 1] == '\n'){
+                    addr_ptr[addr_len - 1] = '\0';    
+                }
+                string addr_str(addr_ptr);
+                Residential* tmp_Residential_ptr = new Residential(new_id,
+                                                                rental_flag,
+                                                                value,
+                                                                addr_str,
+                                                                vacancy); 
+                (*props).push_back(tmp_Residential_ptr);
+                new_id++;
             } else {
                 line_error = ERRORED;
+                printf("Ignoring bad RESIDENTIAL in input file \"%s\""
+                        "at line %i: %s\n", filename, line, buff);
             }
         }
-        
-        if(line_error == ERRORED){
-            printf("Error reading file \"%s\" line %i: %s\n", 
-                    filename, line, buff);
-        } else {
-            //get address
-            //get pointer to the occurence of addr_begin to get full address
-            char * addr_ptr = strstr(buff, addr_begin);
-            //remove ending newline
-            int addr_len = strlen(addr_ptr);
-            if(addr_ptr[addr_len - 1] == '\n'){
-                addr_ptr[addr_len - 1] = '\0';    
-            }
-            //make string object
-            string addr_string(addr_ptr);
-            
-            Property* tmp_Property_ptr = new Property(addr_string);
-            (*props).push_back(tmp_Property_ptr);
-          
-        }
-
+        //increment the line count
         line++;
     }
     printf("Loaded Property information from file \"%s\"\n", filename);
@@ -143,10 +162,11 @@ int load_file(vector<Property*> *props, char * filename){
 }
 
 void print_properties(vector<Property*> props){
-        
-    printf("Properties: \n");
+    //print out the strings of the Properties in the vector 
+    printf("All valid properties: \n");
     for(int i=0;i<(props.size());i++){
         string prop_string = (*props[i]).toString();
-        printf("%s", prop_string.c_str());
+        //printf("%s\n", prop_string.c_str());
+        puts(prop_string.c_str());
     } 
 }
