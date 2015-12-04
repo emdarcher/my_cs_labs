@@ -1,0 +1,71 @@
+Residential 1 248809248 0.3 333 Floating Castle
+Commercial 1 32488.42 0 0.4 213 Comet's Crater Lane
+Residential 0 2345095 0 The Cabin in The Woods
+Commercial 0 83.249 1 0.8 The Cardboard Box
+
+Residential 1 23084e+007 1 492 The Long and Winding Road
+Commercial 1 2398475 1 1.9 245 Overhill Drive
+Residential 1 08472 1 894 Diagon Alley
+
+^ copy of the input above ^
+
+should detect and skip the following errors:
+
+the incorrect Residential in line 1, with a floating point value for the vacancy value, which should be 1 or 0 only.
+
+should detect the empty line 5 and skip it
+
+should detect the errenous Commercial input on line 7 that has a discount value greater than 1.0, which should not happen.
+
+When sorting by Address, the program should properly handle the cases on lines 3 and 4 where the Address does not contain a number at the beginning and properly sort them alphabetically.
+the Alphabetic order should be:
+The Cabin in The Woods
+The Carboard Box
+then the rest would be ordered by the numbers in the address
+
+each Property should have a unique Id number
+
+
+ACTUAL OUTPUT:
+
+Where should I read the data from? testcase2.txt
+Opened a file with filename "testcase2.txt"
+Ignoring bad RESIDENTIAL in input file "testcase2.txt" at line 1: Residential 1 248809248 0.3 333 Floating Castle
+
+Ignoring Unknown Type in file "testcase2.txt" on line 5:
+
+Ignoring bad COMMERCIAL in input file "testcase2.txt" at line 7: Commercial 1 2398475 1 1.9 245 Overhill Drive
+
+Loaded Property information from file "testcase2.txt"
+All valid properties:
+Property id: 0  Address: 213 Comet's Crater Lane  Rental  Estimated value: 32488.4  NOT discounted
+Property id: 1  Address: The Cabin in The Woods  NOT rental  Estimated value: 2.3451E+06  NOT occupied
+Property id: 2  Address: The Cardboard Box  NOT rental  Estimated value: 83.249  Discounted  Discount 0.8
+Property id: 3  Address: 492 The Long and Winding Road  Rental  Estimated value: 2.3084E+11  occupied
+Property id: 4  Address: 894 Diagon Alley  Rental  Estimated value: 8472  occupied
+How do you want your tax report sorted?
+(1) by Address, (2) by Taxes Due, or (3) Do not sort : 1
+NOW PRINTING TAX REPORT:
+** Taxes due for property at: The Cabin in The Woods
+    Property id:                1
+    This property has an estimated value of:    2.3451E+06
+    Taxes due on this property are:     21105.9
+** Taxes due for property at: The Cardboard Box
+    Property id:                2
+    This property has an estimated value of:    83.249
+    Taxes due on this property are:     0.166498
+** Taxes due for property at: 213 Comet's Crater Lane
+    Property id:                0
+    This property has an estimated value of:    32488.4
+    Taxes due on this property are:     389.861
+** Taxes due for property at: 492 The Long and Winding Road
+    Property id:                3
+    This property has an estimated value of:    2.3084E+11
+    Taxes due on this property are:     1.38504E+09
+** Taxes due for property at: 894 Diagon Alley
+    Property id:                4
+    This property has an estimated value of:    8472
+    Taxes due on this property are:     50.832
+
+
+PASSED

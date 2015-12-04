@@ -1,0 +1,8 @@
+Residential 1 248809248 0.3 333 Floating Castle
+Commercial 1 32488.42 0 0.4 213 Comet's Crater Lane
+Residential 0 2345095 0 The Cabin in The Woods
+Commercial 0 83.249 1 0.8 The Cardboard Box
+
+Residential 1 23084e+007 1 492 The Long and Winding Road
+Commercial 1 2398475 1 1.9 245 Overhill Drive
+Residential 1 08472 1 894 Diagon Alley

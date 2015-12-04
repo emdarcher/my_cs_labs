@@ -1,5 +1,13 @@
 /*
  *  By Ethan Durrant (2015)
+ *
+ *  NOTE TO TA's I've been working on this code on a Mac, compiling
+ *  using the included Makefile with the code, using the g++ compiler.
+ *  I have not had a chance to test it in Visual Studio yet, so not
+ *  sure if it works there. The code should compile fine on Linux systems
+ *  which have the g++ compiler (the Lab Computer's Linux OS should work).
+ *  Just go into the directory where the code is stored via the terminal
+ *  then enter `make` to compile the code. To run the code, type `./main.bin` .
  */
 
 //this has to be defined for this to compile in Visual Studio
@@ -146,19 +154,24 @@ int load_file(vector<Property*> *props, char * filename){
         double value = 0.0;
         int discount_flag = -1;
         int vacancy = -1; 
+        double vacancy_float_check_var = 0.0;
         double discount_rate = 0.0;
         char addr_begin[INPUT_BUFF_SIZE];
         sscanf(buff, "%s", tag);
         int tag_code = TAG_UNKNOWN;
 
-        if(!strcmp(tag, "Commercial")){
-            tag_code = TAG_COMMERCIAL;
-        } else if(!strcmp(tag, "Residential")){
-            tag_code = TAG_RESIDENTIAL;
+        if( sscanf(buff, "%s", tag) == 1 ){
+            if(!strcmp(tag, "Commercial")){
+                tag_code = TAG_COMMERCIAL;
+            } else if(!strcmp(tag, "Residential")){
+                tag_code = TAG_RESIDENTIAL;
+            }
         }
-
-        static unsigned int new_id = 0;
         
+        //static value to increment for unique id numbers
+        static unsigned int new_id = 0;
+       
+        //variable to store whether there was an error on a line 
         int line_error = -1;
 
         if(tag_code == TAG_UNKNOWN){
@@ -197,26 +210,34 @@ int load_file(vector<Property*> *props, char * filename){
                         "at line %i: %s\n", filename, line, buff);
             }
         } else if(tag_code == TAG_RESIDENTIAL){
-            if(sscanf(buff, "%s %i %lf %i %s", tag, &rental_flag, &value, 
-                        &vacancy, addr_begin) == 5){
-                if((vacancy <= OCCUPIED) && (vacancy >= VACANT)){
-                    //get address
-                    //get pointer to the occurence of 
-                    //addr_begin to get full address
-                    char * addr_ptr = strstr(buff, addr_begin);
-                    //remove ending newline or carriage-return
-                    remove_EOL_chars(addr_ptr);
-                    //convert to C++ string
-                    string addr_str(addr_ptr);
-                    Residential* tmp_Res_ptr = new Residential(new_id,
-                                                                rental_flag,
-                                                                value,
-                                                                addr_str,
-                                                                vacancy); 
-                    (*props).push_back(tmp_Res_ptr);
-                    new_id++;
-                } else {
-                    line_error = ERRORED;
+            if(sscanf(buff, "%s %i %lf %lf %s", tag, &rental_flag, &value, 
+                        &vacancy_float_check_var, addr_begin) == 5){
+                //check for integer input for vacancy
+                if( (int)vacancy_float_check_var 
+                        == (float)vacancy_float_check_var){
+                    //if so set the vacancy flag
+                    vacancy = (int)vacancy_float_check_var;
+                    if((vacancy <= OCCUPIED) && (vacancy >= VACANT)){
+                        //get address
+                        //get pointer to the occurence of 
+                        //addr_begin to get full address
+                        char * addr_ptr = strstr(buff, addr_begin);
+                        //remove ending newline or carriage-return
+                        remove_EOL_chars(addr_ptr);
+                        //convert to C++ string
+                        string addr_str(addr_ptr);
+                        Residential* tmp_Res_ptr = new Residential(new_id,
+                                                                    rental_flag,
+                                                                    value,
+                                                                    addr_str,
+                                                                    vacancy); 
+                        (*props).push_back(tmp_Res_ptr);
+                        new_id++;
+                    } else {
+                        line_error = ERRORED;
+                    }
+                } else { 
+                    line_error = ERRORED; 
                 }
             } else {
                 line_error = ERRORED;
@@ -281,9 +302,23 @@ int address_str_compare(char * addr0_str, char * addr1_str){
         //if numbers are equal, or both are -1 from no number
         //then compare the two remaining strings
         //get remaining end strings
-        char * addr0_end_str_ptr = strstr(addr0_str, addr0_end_str);
-        char * addr1_end_str_ptr = strstr(addr1_str, addr1_end_str);
-        
+        char * addr0_end_str_ptr;
+        char * addr1_end_str_ptr;
+        //to prevent segfaults from unitialized strings
+        if(addr0_num >= 0){
+            //if the sscanf was successful, and addr0_end_str initialized
+            addr0_end_str_ptr = strstr(addr0_str, addr0_end_str);
+        } else {
+            //if sscanf failed, there is not a number in the address
+            addr0_end_str_ptr = addr0_str;
+        }
+        //same
+        if(addr1_num >= 0){
+            addr1_end_str_ptr = strstr(addr1_str, addr1_end_str);
+        } else {
+            addr1_end_str_ptr = addr1_str;
+        }
+
         //return the result from strcmp() which will the compare
         //the two strings ASCIIbetically (by character order in ASCII)
         return strcmp(addr0_end_str_ptr, addr1_end_str_ptr);
