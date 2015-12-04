@@ -1,4 +1,9 @@
+/*
+ *  By Ethan Durrant (2015)
+ */
+
 //this has to be defined for this to compile in Visual Studio
+//not necessary when using g++, but should be kept here anyway
 #define _CRT_SECURE_NO_DEPRECATE
 #include <iostream>
 #include <stdio.h>
@@ -29,6 +34,7 @@ using namespace std;
 #define SORT_TAXES_DUE  2
 #define SORT_NOTHING    3
 
+//function prototypes
 int get_word(char * word);
 int get_int(int *in_int);
 int load_file(vector<Property*> *props, char * filename);
@@ -36,8 +42,10 @@ void print_properties(vector<Property*> props);
 void remove_EOL_chars(char * str);
 void print_tax_report(vector<Property*> props);
 int sort_properties(vector<Property*> *props, int sort_type);
+int address_str_compare(char * addr0_str, char * addr1_str);
 
 int main(){
+    //the main() function of the program
     vector<Property*> properties;
     printf("Where should I read the data from? ");
     char file[INPUT_BUFF_SIZE];
@@ -45,6 +53,7 @@ int main(){
     load_file(&properties, file);
     print_properties(properties);
     int option = 0;
+    //the sorting selection option, for the Extra Credit
     while(1){
         printf("How do you want your tax report sorted?\n"
                "(1) by Address, (2) by Taxes Due, or (3) Do not sort : "); 
@@ -60,7 +69,7 @@ int main(){
                 SORT_ADDRESS, SORT_TAXES_DUE, SORT_NOTHING);
     }
     sort_properties(&properties, option);
-
+    //print out the tax report after sorting
     print_tax_report(properties);
 
     return 0;
@@ -245,6 +254,45 @@ void print_tax_report(vector<Property*> props){
     }
 }
 
+int address_str_compare(char * addr0_str, char * addr1_str){
+    //returns a value that states if addr1_str is greater
+    //than addr0_str by numerical and alphabetical order
+    int addr0_num = 0;
+    char addr0_end_str[INPUT_BUFF_SIZE];
+    //check and see if you can extract an int from the addr
+    //if it fails set to -1 for having no number
+    if(sscanf(addr0_str, "%i %s", &addr0_num, addr0_end_str) != 2){
+        addr0_num = -1; 
+    } 
+    //do the same with addr1_str
+    int addr1_num = 0;
+    char addr1_end_str[INPUT_BUFF_SIZE];
+    if(sscanf(addr1_str, "%i %s", &addr1_num, addr1_end_str) != 2){
+        addr1_num = -1;
+    }
+    if(addr1_num < addr0_num){
+        //if the number is less, than return 1 for greater in 
+        //numerical order
+        return 1;
+    } else if(addr1_num > addr0_num){
+        //if greater, return -1 for less-than in numerical order
+        return -1;
+    } else if(addr1_num == addr0_num){
+        //if numbers are equal, or both are -1 from no number
+        //then compare the two remaining strings
+        //get remaining end strings
+        char * addr0_end_str_ptr = strstr(addr0_str, addr0_end_str);
+        char * addr1_end_str_ptr = strstr(addr1_str, addr1_end_str);
+        
+        //return the result from strcmp() which will the compare
+        //the two strings ASCIIbetically (by character order in ASCII)
+        return strcmp(addr0_end_str_ptr, addr1_end_str_ptr);
+    }
+    //return if something else somehow fails 
+    //and to stop the compiler's complaints
+    return 0;
+}
+
 int sort_properties(vector<Property*> *props, int sort_type){
     //sort the properties in the vector in different ways
     int props_size = (*props).size();
@@ -266,13 +314,17 @@ int sort_properties(vector<Property*> *props, int sort_type){
         //sort by the address, numerically, then alphabetically
         for(int i=0;i<props_size;i++){
             for(int j=i;j<props_size;j++){
-                //compare strings using strcmp() to to see which is greater
-
-                if(strcmp((*(*props)[i]).getAddr().c_str(),
-                            (*(*props)[j]).getAddr().c_str()) > 0){
-                    //if the j index Property has "greater"
-                    //alphbetical (by ASCII) order value
-                    //swap the places
+                //copy the addresses into C strings
+                char i_addr_str[INPUT_BUFF_SIZE];
+                i_addr_str[0] = '\0';
+                strcat(i_addr_str, (*(*props)[i]).getAddr().c_str());
+                char j_addr_str[INPUT_BUFF_SIZE];
+                j_addr_str[0] = '\0';
+                strcat(j_addr_str, (*(*props)[j]).getAddr().c_str());
+                //use address_str_compare function to see if the address
+                //at index i is "greater" in order than at index j
+                if(address_str_compare(i_addr_str, j_addr_str) > 0){
+                    //swap the places if so
                     Property* tmp_Prop_ptr = (*props)[i];
                     (*props)[i] = (*props)[j];
                     (*props)[j] = tmp_Prop_ptr;
@@ -281,8 +333,9 @@ int sort_properties(vector<Property*> *props, int sort_type){
         }
 
         return NO_ERR; 
+    } else if(sort_type == SORT_NOTHING){
+        return NO_ERR;
     } else {
         return ERRORED;
     }
-
 }
