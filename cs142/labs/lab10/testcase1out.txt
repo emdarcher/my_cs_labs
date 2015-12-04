@@ -1,0 +1,55 @@
+expected output:
+should detect the errenous parameters input on line 2 for the Commercial Property
+-> Commercial 234204 1 300 Bad Road
+should detect the mispelled type on line 6: 
+-> Residencial 1 2332998 0 987 Wyrd wey
+
+output for the properties should be like this:
+Property id: 0  Address: 423 Thalmage Street  Rental  Estimated value: 234500  occupied
+Property id: 1  Address: 423 Thomas Ave.  NOT rental  Estimated value: 34594.2  occupied
+Property id: 2  Address: 321 Industrial Ave.  NOT rental  Estimated value: 34302.2  Discounted  Discount 0.3
+Property id: 3  Address: 221 Angled Way  Rental  Estimated value: 2349.2  NOT discounted
+
+when sorting by Addresses
+these two addresses should be in this order:
+423 Thalmage Street
+423 Thomas Avenue 
+to test proper sorting of the string after the number in the address
+
+in the computation of the taxes, the input from line 5:
+-> Commercial 1 2349.2 0 0.70 221 Angled Way
+should not compute any discount in the output
+
+ACTUAL OUTPUT:
+
+Where should I read the data from? testcase1.txt
+Opened a file with filename "testcase1.txt"
+Ignoring bad COMMERCIAL in input file "testcase1.txt" at line 2: Commercial 234204 1 300 Bad Road
+
+Ignoring Unknown Type in file "testcase1.txt" on line 6: Residencial 1 2332998 0 987 Wyrd wey
+
+Loaded Property information from file "testcase1.txt"
+All valid properties:
+Property id: 0  Address: 423 Thalmage Street  Rental  Estimated value: 234500  occupied
+Property id: 1  Address: 423 Thomas Ave.  NOT rental  Estimated value: 34594.2  occupied
+Property id: 2  Address: 321 Industrial Ave.  NOT rental  Estimated value: 34302.2  Discounted  Discount 0.3
+Property id: 3  Address: 221 Angled Way  Rental  Estimated value: 2349.2  NOT discounted
+How do you want your tax report sorted?
+(1) by Address, (2) by Taxes Due, or (3) Do not sort : 1
+NOW PRINTING TAX REPORT:
+** Taxes due for property at: 221 Angled Way
+    Property id:                3
+    This property has an estimated value of:    2349.2
+    Taxes due on this property are:     28.1904
+** Taxes due for property at: 321 Industrial Ave.
+    Property id:                2
+    This property has an estimated value of:    34302.2
+    Taxes due on this property are:     240.116
+** Taxes due for property at: 423 Thalmage Street
+    Property id:                0
+    This property has an estimated value of:    234500
+    Taxes due on this property are:     1407
+** Taxes due for property at: 423 Thomas Ave.
+    Property id:                1
+    This property has an estimated value of:    34594.2
+    Taxes due on this property are:     207.565

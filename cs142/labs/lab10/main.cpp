@@ -137,8 +137,8 @@ int load_file(vector<Property*> *props, char * filename){
     char buff[INPUT_BUFF_SIZE];
     //get the value to add to the balance
     //double added_balance;
-    int line = 0;
-    //static unsigned int new_id = 0;
+    //start line count with line 1
+    int line = 1;
     //read in the lines from the file
     while(fgets(buff, sizeof(buff), props_file_ptr) != NULL){
         char tag[INPUT_BUFF_SIZE];

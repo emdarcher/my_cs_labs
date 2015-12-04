@@ -1,0 +1,6 @@
+Residential 1 234500 1 423 Thalmage Street
+Commercial 234204 1 300 Bad Road
+Residential 0 34594.234 1 423 Thomas Ave.
+Commercial 0 34302.25 1 0.3 321 Industrial Ave.
+Commercial 1 2349.2 0 0.70 221 Angled Way
+Residencial 1 2332998 0 987 Wyrd wey
