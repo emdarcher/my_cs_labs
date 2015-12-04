@@ -8,6 +8,7 @@ Residential 0 47369.24e+4 0 Bubbly Boulevard
 ^ copy of the input above ^
 
 This set of tests are all testing proper read in of numerical values and calculation of taxes.
+Also after that testing proper ordering when sorting by the Properties by Taxes Due.
 
 equations used for pre-caclulation
 
@@ -29,5 +30,87 @@ line 4: 29487 * 0.012 * (1 - 0.4) = 212.3064
 line 5: (90745.0*10^18) * 0.01 * (1 - 0.333) = 605269150000000000000.000000
 line 6: (47369.24*10^4) * 0.009 = 4263231.60000
 
+ACTUAL OUTPUT:
 
+Where should I read the data from? testcase3.txt
+Opened a file with filename "testcase3.txt"
+Loaded Property information from file "testcase3.txt"
+All valid properties:
+Property id: 0  Address: 29 Commercial Circle Road  Rental  Estimated value: 3.46928E+08  NOT discounted
+Property id: 1  Address: 403 LENGTHY LANE  Rental  Estimated value: 93487.3  occupied
+Property id: 2  Address: 94 Wild Way  NOT rental  Estimated value: 294875  occupied
+Property id: 3  Address: 294 Rollin' Rocks Road  Rental  Estimated value: 29487  Discounted  Discount 0.4
+Property id: 4  Address: 478 Brooke Layne  NOT rental  Estimated value: 9.0745E+22  Discounted  Discount 0.333
+Property id: 5  Address: Bubbly Boulevard   NOT rental  Estimated value: 4.73692E+08  NOT occupied
+How do you want your tax report sorted?
+(1) by Address, (2) by Taxes Due, or (3) Do not sort : 3
+NOW PRINTING TAX REPORT:
+** Taxes due for property at: 29 Commercial Circle Road
+    Property id:                0
+    This property has an estimated value of:    3.46928E+08
+    Taxes due on this property are:     4.16314E+06
+** Taxes due for property at: 403 LENGTHY LANE
+    Property id:                1
+    This property has an estimated value of:    93487.3
+    Taxes due on this property are:     560.924
+** Taxes due for property at: 94 Wild Way
+    Property id:                2
+    This property has an estimated value of:    294875
+    Taxes due on this property are:     1769.25
+** Taxes due for property at: 294 Rollin' Rocks Road
+    Property id:                3
+    This property has an estimated value of:    29487
+    Taxes due on this property are:     212.306
+** Taxes due for property at: 478 Brooke Layne
+    Property id:                4
+    This property has an estimated value of:    9.0745E+22
+    Taxes due on this property are:     6.05269E+20
+** Taxes due for property at: Bubbly Boulevard
+    Property id:                5
+    This property has an estimated value of:    4.73692E+08
+    Taxes due on this property are:     4.26323E+06
+
+PASSED
+
+Now to test printing correct order when ordering by Taxes Due
+
+Where should I read the data from? testcase3.txt
+Opened a file with filename "testcase3.txt"
+Loaded Property information from file "testcase3.txt"
+All valid properties:
+Property id: 0  Address: 29 Commercial Circle Road  Rental  Estimated value: 3.46928E+08  NOT discounted
+Property id: 1  Address: 403 LENGTHY LANE  Rental  Estimated value: 93487.3  occupied
+Property id: 2  Address: 94 Wild Way  NOT rental  Estimated value: 294875  occupied
+Property id: 3  Address: 294 Rollin' Rocks Road  Rental  Estimated value: 29487  Discounted  Discount 0.4
+Property id: 4  Address: 478 Brooke Layne  NOT rental  Estimated value: 9.0745E+22  Discounted  Discount 0.333
+Property id: 5  Address: Bubbly Boulevard   NOT rental  Estimated value: 4.73692E+08  NOT occupied
+How do you want your tax report sorted?
+(1) by Address, (2) by Taxes Due, or (3) Do not sort : 2
+NOW PRINTING TAX REPORT:
+** Taxes due for property at: 294 Rollin' Rocks Road
+    Property id:                3
+    This property has an estimated value of:    29487
+    Taxes due on this property are:     212.306
+** Taxes due for property at: 403 LENGTHY LANE
+    Property id:                1
+    This property has an estimated value of:    93487.3
+    Taxes due on this property are:     560.924
+** Taxes due for property at: 94 Wild Way
+    Property id:                2
+    This property has an estimated value of:    294875
+    Taxes due on this property are:     1769.25
+** Taxes due for property at: 29 Commercial Circle Road
+    Property id:                0
+    This property has an estimated value of:    3.46928E+08
+    Taxes due on this property are:     4.16314E+06
+** Taxes due for property at: Bubbly Boulevard
+    Property id:                5
+    This property has an estimated value of:    4.73692E+08
+    Taxes due on this property are:     4.26323E+06
+** Taxes due for property at: 478 Brooke Layne
+    Property id:                4
+    This property has an estimated value of:    9.0745E+22
+    Taxes due on this property are:     6.05269E+20
+
+PASSED 
 

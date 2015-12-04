@@ -186,6 +186,9 @@ int load_file(vector<Property*> *props, char * filename){
                     //get address
                     //get pointer to the occurence of 
                     //addr_begin to get full address
+                    //add space to end of addr_begin to prevent overlap
+                    //with previous numbers
+                    strcat(addr_begin, " ");
                     char * addr_ptr = strstr(buff, addr_begin);
                     //remove ending chars
                     remove_EOL_chars(addr_ptr);
@@ -221,6 +224,9 @@ int load_file(vector<Property*> *props, char * filename){
                         //get address
                         //get pointer to the occurence of 
                         //addr_begin to get full address
+                        //add space to end of addr_begin to prevent overlap
+                        //with previous numbers
+                        strcat(addr_begin, " ");
                         char * addr_ptr = strstr(buff, addr_begin);
                         //remove ending newline or carriage-return
                         remove_EOL_chars(addr_ptr);
