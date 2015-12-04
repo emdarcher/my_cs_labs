@@ -1,0 +1,33 @@
+Commercial 1 346928234.293 0 0.8 29 Commercial Circle Road
+Residential 1 93487.324 1 403 LENGTHY LANE
+Residential 0 294875 1 94 Wild Way
+Commercial 1 29487 1 0.4 294 Rollin' Rocks Road
+Commercial 0 90745.0e+018 1 0.333 478 Brooke Layne
+Residential 0 47369.24e+4 0 Bubbly Boulevard 
+
+^ copy of the input above ^
+
+This set of tests are all testing proper read in of numerical values and calculation of taxes.
+
+equations used for pre-caclulation
+
+for commercial:
+rental: taxes_due = value * (0.012 (1.2%)) * (1 - (discount rate (if discounted))
+non-rental: taxes_due = value * (0.01 (1%)) * (1 - (discount rate (if discounted))
+
+for residential:
+occupied: taxes_due = value * (0.006 (0.6%))
+not-occupied: taxes_due = value * (0.009 (0.9%))
+
+calculated taxes due 
+(using command line calculator utility `bc` with scale of precision of 12)
+
+For line 1: 346928234.293 * 0.012 = 4163138.811516
+line 2: 93487.324 * 0.006 = 560.923944
+line 3: 294875 * 0.006 = 1769.250
+line 4: 29487 * 0.012 * (1 - 0.4) = 212.3064
+line 5: (90745.0*10^18) * 0.01 * (1 - 0.333) = 605269150000000000000.000000
+line 6: (47369.24*10^4) * 0.009 = 4263231.60000
+
+
+
