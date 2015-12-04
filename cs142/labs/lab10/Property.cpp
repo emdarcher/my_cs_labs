@@ -7,6 +7,9 @@ Property::Property(unsigned int in_id,
         double in_val,
         string in_addr){
     id = in_id;
+    //should initialize once
+    //id_counter = 0;
+    //id = id_counter++;
     rental = in_rental;
     value = in_val;
     address = in_addr;

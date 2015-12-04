@@ -14,6 +14,7 @@ using namespace std;
 
 class Property {
     private:
+        static unsigned int id_counter;
         unsigned int id;
         string address;
     protected:
