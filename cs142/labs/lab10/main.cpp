@@ -183,12 +183,16 @@ int load_file(vector<Property*> *props, char * filename){
                         &discount_flag, &discount_rate, addr_begin) == 6){
                 if((discount_rate <= 1)){
                     line_error = NO_ERR;
+                    int test_int;
+                    if(sscanf(addr_begin, "%i", &test_int) == 1){
+                        // if addr_begin is an int (at beginning of address)
+                        //add space to end of addr_begin to prevent overlap
+                        //with previous numbers in the input string
+                        strcat(addr_begin, " ");
+                    }
                     //get address
                     //get pointer to the occurence of 
                     //addr_begin to get full address
-                    //add space to end of addr_begin to prevent overlap
-                    //with previous numbers
-                    strcat(addr_begin, " ");
                     char * addr_ptr = strstr(buff, addr_begin);
                     //remove ending chars
                     remove_EOL_chars(addr_ptr);
@@ -221,12 +225,16 @@ int load_file(vector<Property*> *props, char * filename){
                     //if so set the vacancy flag
                     vacancy = (int)vacancy_float_check_var;
                     if((vacancy <= OCCUPIED) && (vacancy >= VACANT)){
+                        int test_int;
+                        if(sscanf(addr_begin, "%i", &test_int) == 1){
+                            //if addr_begin is an int (at beginning of address)
+                            //add space to end of addr_begin to prevent overlap
+                            //with previous numbers in the input string
+                            strcat(addr_begin, " ");
+                        }
                         //get address
                         //get pointer to the occurence of 
                         //addr_begin to get full address
-                        //add space to end of addr_begin to prevent overlap
-                        //with previous numbers
-                        strcat(addr_begin, " ");
                         char * addr_ptr = strstr(buff, addr_begin);
                         //remove ending newline or carriage-return
                         remove_EOL_chars(addr_ptr);
