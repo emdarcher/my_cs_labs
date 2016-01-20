@@ -50,7 +50,7 @@ void Fighter::reset(){
 }
 
 void Fighter::regenerate(){
-    regen_amount = (this->strength / 6);
+    int regen_amount = (this->strength / 6);
     if(regen_amount < 1){
         regen_amount = 1;
     }
