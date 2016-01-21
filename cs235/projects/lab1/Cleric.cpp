@@ -41,6 +41,6 @@ void Cleric::reset(){
     Fighter::reset();
     this->mana = this->max_mana;
 }
-int Cleric::getDamage() const{
+int Cleric::getDamage(){
     return this->magic;
 }

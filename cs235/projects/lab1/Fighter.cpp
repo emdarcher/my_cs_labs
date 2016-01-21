@@ -15,27 +15,27 @@ Fighter::Fighter(string name, int hit_points, int strength,
 
 Fighter::~Fighter(){}
 
-string Fighter::getName() const{
+string Fighter::getName(){
     return this->name;
 }
 
-int Fighter::getMaximumHP() const{
+int Fighter::getMaximumHP(){
     return this->max_hit_points;
 }
 
-int Fighter::getCurrentHP() const{
+int Fighter::getCurrentHP(){
     return this->hit_points;
 }
 
-int Fighter::getStrength() const{
+int Fighter::getStrength(){
     return this->strength;
 }
 
-int Fighter::getSpeed() const{
+int Fighter::getSpeed(){
     return this->speed;
 }
 
-int Fighter::getMagic() const{
+int Fighter::getMagic(){
     return this->magic;
 }
 

@@ -16,7 +16,7 @@ Arena::~Arena(){}
  *  returns ERRORED (1) if it fails to parse correctly
  *
  */
-int string_to_stats(string in_str, string * name, char * type,
+int Arena::string_to_stats(string in_str, string * name, char * type,
         int * max_hit_points, int * strength, int * speed, int * magic){
    
     char name_str[NAME_BUFF];
@@ -98,9 +98,9 @@ bool Arena::addFighter(string info){
 bool Arena::removeFighter(string name){
     int fighter_index = find_fighter(name);
     if(fighter_index != DOES_NOT_EXIST){
-        Fighter* tmp_Fighter_ptr = fighters[fighter_index];
+        FighterInterface* tmp_FighterI_ptr = fighters[fighter_index];
         //deallocate memory
-        delete tmp_Fighter_ptr;
+        delete tmp_FighterI_ptr;
         //erase pointer from the vector
         fighters.erase(fighters.begin() + fighter_index);
         return true;

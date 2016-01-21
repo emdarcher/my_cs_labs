@@ -16,7 +16,7 @@ class Cleric : public Fighter {
 		virtual void regenerate();
 		virtual bool useAbility();
         virtual void reset();
-        virtual int getDamage() const;
+        virtual int getDamage();
 
 };
 

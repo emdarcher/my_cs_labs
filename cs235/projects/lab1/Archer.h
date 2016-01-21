@@ -13,7 +13,7 @@ class Archer : public Fighter {
         ~Archer();
 		virtual bool useAbility();
         virtual void reset();
-        virtual int getDamage() const;
+        virtual int getDamage();
 
 
 };

@@ -15,6 +15,6 @@ void Archer::reset(){
     Fighter::reset();
     speed = original_speed;
 }
-int Archer::getDamage() const{
+int Archer::getDamage(){
     return this->speed;
 }

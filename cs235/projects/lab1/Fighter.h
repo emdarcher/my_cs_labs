@@ -4,7 +4,7 @@
 
 #include "FighterInterface.h"
 
-class Fighter : public FighterInterface {
+class Fighter : virtual public FighterInterface {
     protected:
         string name;
         int hit_points;
@@ -18,12 +18,12 @@ class Fighter : public FighterInterface {
                 int speed, int magic);
         virtual ~Fighter();
 
-        virtual string getName() const;
-        virtual int getMaximumHP() const;
-        virtual int getCurrentHP() const;
-        virtual int getStrength() const;
-		virtual int getSpeed() const;
-		virtual int getMagic() const;
+        virtual string getName();
+        virtual int getMaximumHP();
+        virtual int getCurrentHP();
+        virtual int getStrength();
+		virtual int getSpeed();
+		virtual int getMagic();
 		virtual int getDamage() = 0;
 		virtual void takeDamage(int damage);
 		virtual void reset();
