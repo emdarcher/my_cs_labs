@@ -15,8 +15,8 @@ class Fighter : public FighterInterface {
         int damage; 
     public:
         Fighter(string name, int hit_points, int strength,
-                int speed, int magic){}
-        virtual ~Fighter(){}
+                int speed, int magic);
+        virtual ~Fighter();
 
         virtual string getName() const;
         virtual int getMaximumHP() const;
