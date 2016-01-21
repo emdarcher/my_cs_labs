@@ -80,7 +80,7 @@ bool Arena::addFighter(string info){
             }
 
             fighters.push_back(tmp_Fighter_ptr);  
-            return false;
+            return true;
         }
     }   
 
