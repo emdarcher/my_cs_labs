@@ -3,6 +3,10 @@
 
 
 #include "ArenaInterface.h"
+#include "Fighter.h"
+#include "Cleric.h"
+#include "Archer.h"
+#include "Robot.h"
 
 #define NAME_BUFF 64
 
@@ -16,11 +20,10 @@ class Arena : public ArenaInterface {
         Arena();
         ~Arena();
 
-        virtual bool addFighter(string info) const;
-        virtual bool removeFighter(string name) const;
+        virtual bool addFighter(string info);
+        virtual bool removeFighter(string name);
         virtual FighterInterface* getFighter(string name);
-        virtual int getSize(void) const; 
-
+        virtual int getSize(); 
 
 };
 

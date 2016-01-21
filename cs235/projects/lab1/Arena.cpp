@@ -19,19 +19,19 @@ void string_to_stats(string in_str, string * name, char * type,
 
 }
 
-bool Arena::addFighter(string info) const{
-     
+bool Arena::addFighter(string info){
+    return true;  
 }
 
-bool Arena::removeFighter(string name) const{
-
+bool Arena::removeFighter(string name){
+    return true;
 }
 
 FighterInterface* Arena::getFighter(string name){
 
 }
 
-int Arena::getSize(void) const{
-
+int Arena::getSize(){
+    return 1;
 }
 
