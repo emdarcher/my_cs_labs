@@ -21,8 +21,15 @@ int Arena::string_to_stats(string in_str, string * name, char * type,
    
     char name_str[NAME_BUFF];
 
-    if(sscanf(in_str.c_str(), "%s %c %i %i %i %i", name_str, type,
-           max_hit_points, strength, speed, magic) == 6){
+    char end_char;
+    if(sscanf(in_str.c_str(), "%s %c %i %i %i %i%c", name_str, type,
+           max_hit_points, strength, speed, magic, &end_char) == 6){
+        
+        //checkes that the number stats are not 0, if not then return ERRORED
+        if(!(*max_hit_points && *strength && *speed && *magic) 
+                                            || (end_char != '\0')){
+            return ERRORED;
+        }
 
         *name = string(name_str); 
         return NO_ERR; 
