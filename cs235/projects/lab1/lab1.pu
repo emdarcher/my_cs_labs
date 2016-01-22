@@ -1,0 +1,120 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface ArenaInterface <<interface>> {
+    +ArenaInterface()
+    + {abstract} ~ArenaInterface()
+    + {abstract} bool addFighter(string info)
+    + {abstract} bool removeFighter(string name)
+    + {abstract} FighterInterface* getFighter(string name)
+    + {abstract} int getSize()   
+}
+
+class Arena {
+    - vector<FighterInterface*> fighters
+    - int string_to_stats(string  in_str, string * name, char * type, 
+            int * max_hit_points, int * strength, int * speed, int * magic)
+    - int find_fighter(string name)
+    + Arena()
+    + ~Arena()
+    + bool addFighter(string info)
+    + bool removeFighter(string name)
+    + FighterInterface* getFighter(string name)
+    + int getSize();
+}
+
+class Factory {
+    + {static} static ArenaInterface* createArena()
+}
+
+interface FighterInterface <<interface>> {
+    const int ROBOT_ABILITY_COST
+    const int CLERIC_ABILITY_COST
+    + FighterInterface()
+    + {abstract} ~FighterInterface()
+    + {abstract} string getName()
+    + {abstract} int getMaximumHP()
+    + {abstract} int getCurrentHP()
+    + {abstract} int getStrength() 
+    + {abstract} int getSpeed()
+    + {abstract} int getMagic()
+    + {abstract} int getDamage()
+    + {abstract} void takeDamage(int damage)
+    + {abstract} void reset()
+    + {abstract} void regenerate()
+    + {abstract} bool useAbility()
+}
+
+ArenaInterface <|-up- Arena
+ArenaInterface --* Factory
+ArenaInterface *- FighterInterface
+Arena *-up- FighterInterface
+
+
+abstract class Fighter {
+    # string name
+    # int hit_points
+    # int max_hit_points
+    # int strength
+    # int speed
+    # int magic
+    # int damage
+    + Fighter(string name, int hit_points, int strength,
+                int speed, int magic);
+    + ~Fighter()
+    + string getName()
+    + int getMaximumHP() 
+    + int getCurrentHP() 
+    + int getStrength() 
+    + int getSpeed() 
+    + int getMagic() 
+    + {abstract} int getDamage() 
+    + void takeDamage(int damage) 
+    + void reset() 
+    + void regenerate() 
+    + {abstract} bool useAbility() 
+}
+
+FighterInterface <|-- Fighter
+
+class Archer {
+    - int original_speed
+    + Archer(string name, int hit_points, 
+            int strength, int speed, int magic)
+    + ~Archer()
+    + bool useAbility()
+    + void reset()
+    + int getDamage()
+}
+
+Fighter <|-- Archer
+
+class Cleric {
+    - int mana
+    - int max_mana
+    + Cleric(string name, int hit_points, int strength,
+                int speed, int magic)
+    + ~Cleric()
+    + void regenerate()
+    + bool useAbility()
+    + void reset() 
+    + int getDamage()
+}
+
+Fighter <|-- Cleric
+
+class Robot {
+    - int energy
+    - int max_energy
+    - int bonus_damage
+    + Robot(string name, int hit_points, int strength,
+                int speed, int magic)
+    + ~Robot()
+    + int getDamage()
+    + void reset()
+    + bool useAbility() 
+}
+
+Fighter <|-- Robot
+
+@enduml
