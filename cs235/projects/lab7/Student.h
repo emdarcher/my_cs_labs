@@ -9,10 +9,12 @@ class Student : public StudentInterface {
     private:
         unsigned long long int id;
         string name;
-        string gpa;
+        string address;
+        string phone_number;
+        double gpa;
     public:
-        Student(unsigned long long int id, string name, 
-                    string gpa);
+        Student(unsigned long long int id, string name,
+                    string address, string phone_number, double gpa);
         virtual ~Student(void);
 
 		virtual unsigned long long int getID();
