@@ -7,10 +7,11 @@ Student::Student(unsigned long long int id, string name,
     this->address = address;
     this->phone_number = phone_number;
     this->gpa = gpa;
+    this->num_courses = 0;
+    this->grade_sum = 0;
 }
 
 Student::~Student(){}
-
 
 unsigned long long int Student::getID(){
     return this->id;
@@ -25,8 +26,16 @@ string Student::getGPA(){
     return ss;
 }
 void Student::addGPA(double classGrade){
-
+    this->num_courses++;
+    this->grade_sum += classGrade;
+    this->gpa = this->grade_sum / (double)this->num_courses; 
 }
 string Student::toString(){
+    stringstream ss;
+    ss << id << "\n";
+    ss << name << "\n";
+    ss << address << "\n";
+    ss << phone_number << "\n";
+    ss << setprecision(2) << fixed << gpa;
 
 }

@@ -12,6 +12,8 @@ class Student : public StudentInterface {
         string address;
         string phone_number;
         double gpa;
+        int num_courses;
+        double grade_sum;
     public:
         Student(unsigned long long int id, string name,
                     string address, string phone_number, double gpa);
