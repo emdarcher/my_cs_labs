@@ -15,5 +15,6 @@
 */
 GPAInterface * Factory::getGPA()
 {
-	return NULL;//Modify this line
+	//return NULL;//Modify this line
+    return new GPA();
 }

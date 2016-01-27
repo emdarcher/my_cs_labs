@@ -1,0 +1,28 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface StudentInterface <<interface>> {
+    + StudentInterface(void)
+    + ~StudentInterface(void)
+    + {abstract} unsigned long long int getID()
+    + {abstract} string getName()
+    + {abstract} string getGPA() = 0;
+	+ {abstract} void addGPA(double classGrade) = 0;
+    + {abstract} string toString() = 0;
+
+}
+
+interface GPAInterface <<interface>> {
+    + GPAInterface(void)
+    + ~GPAInterface(void)
+    + {abstract} map<unsigned long long int,StudentInterface*> getMap()
+    + {abstract} set<StudentInterface*,Comparator> getSet()
+    + {abstract} bool importStudents(string mapFileName, string setFileName)
+    + {abstract} bool importGrades(string fileName)
+    + {abstract} string querySet(string fileName)
+	+ {abstract} string queryMap(string fileName)
+	+ {abstract} void clear()
+
+}
+
+@enduml
