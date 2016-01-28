@@ -25,4 +25,51 @@ interface GPAInterface <<interface>> {
 
 }
 
+GPAInterface *-- StudentInterface
+
+GPAInterface --* Factory
+
+class Factory {
+    + {static} static GPAInterface* getGPA()
+}
+
+GPA --|> GPAInterface
+
+class GPA {
+    - map<unsigned long long int,StudentInterface*> student_map
+    - set<StudentInterface*,Comparator> student_set
+    + GPA(void)
+    + ~GPA(void)
+    + map<unsigned long long int,studentinterface*> getmap()
+    + set<StudentInterface*,Comparator> getSet()
+    + bool importStudents(string mapFileName, string setFileName)
+    + bool importGrades(string fileName)
+    + string querySet(string fileName)
+    + string querySet(string fileName)
+    + void clear()
+} 
+
+Student --|> StudentInterface
+
+class Student {
+    
+    - unsigned long long int id
+    - string name
+    - string address
+    - string phone_number
+    - double gpa
+    - int num_courses
+    - double grade_sum
+    + Student(unsigned long long int id, string name,
+                 string address, string phone_number, double gpa);
+    + ~Student(void);
+
+	+ unsigned long long int getID();
+
+	+ string getName();
+	+ string getGPA();
+	+ void addGPA(double classGrade);
+	+ string toString();
+}
+
 @enduml

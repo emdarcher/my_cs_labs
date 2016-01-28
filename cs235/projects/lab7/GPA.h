@@ -12,12 +12,12 @@ class GPA : GPAInterface {
         GPA(void);
         virtual ~GPA(void);
 
-		virtual map<unsigned long long int,StudentInterface*> getMap();
+		virtual map<unsigned long long int,studentinterface*> getmap();
 		virtual set<StudentInterface*,Comparator> getSet();
-		virtual bool importStudents(string mapFileName, string setFileName) ;
+		virtual bool importStudents(string mapFileName, string setFileName);
 		virtual bool importGrades(string fileName);
 		virtual string querySet(string fileName);
-		virtual string queryMap(string fileName);
+		virtual string querymap(string filename);
 		virtual void clear();
 };
 
