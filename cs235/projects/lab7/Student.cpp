@@ -32,10 +32,10 @@ void Student::addGPA(double classGrade){
 }
 string Student::toString(){
     stringstream ss;
-    ss << id << "\n";
-    ss << name << "\n";
-    ss << address << "\n";
-    ss << phone_number << "\n";
-    ss << setprecision(2) << fixed << gpa;
+    ss << this->id << "\n";
+    ss << this->name << "\n";
+    ss << this->address << "\n";
+    ss << this->phone_number << "\n";
+    ss << setprecision(2) << fixed << this->gpa;
     return ss.str();
 }

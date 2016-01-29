@@ -19,40 +19,49 @@ set<StudentInterface*,Comparator> GPA::getSet(){
 int GPA::count_file_lines(ifstream& in_file){
     int lc;
     string linestr;
-    while(!in_file.eof()){
-        getline(in_file, linestr);
-        lc++; 
+    while(getline(in_file, linestr)){
+        ++lc; 
     }
     return lc;
 }
 
 
 bool GPA::importStudents(string mapFileName, string setFileName){
+    string linestr;
     ifstream mapFile(mapFileName);
     ifstream setFile(setFileName);
     if(!mapFile.is_open() || !setFile.is_open()){
         //the any file does't exist
         return false; 
     }
-    int mapFile_lc = count_file_lines(mapFile);
-    int setFile_lc = count_file_lines(setFile);
-    if(!((mapFile_lc % 4 == 0) && (setFile_lc % 4 == 0))){
-        //if any file doesn't have a correct line count 
-        return false;
-    }  
-    string linestr;
+    int mapFile_lc;
+    int setFile_lc;
+    //while(getline(mapFile, linestr)){
+    //    ++mapFile_lc;
+    //}
+    //while(getline(setFile, linestr)){
+    //    ++setFile_lc;
+    //}
+    mapFile_lc = count_file_lines(mapFile);
+    setFile_lc = count_file_lines(setFile);
+    //if((mapFile_lc % 4 != 0) || (setFile_lc % 4 != 0)){
+    //    //if any file doesn't have a correct line count 
+    //    //cout << "incorrect line count!\n";
+    //    return false;
+    //}  
+    //string linestr;
     unsigned long long int id; 
     string name, address, phone_number;
     while(!mapFile.eof()){
         getline(mapFile, linestr);
         istringstream iss_line(linestr);
         iss_line >> id; 
-        getline(mapFile, linestr);
-        name = linestr;
-        getline(mapFile, linestr);
-        address = linestr;
-        getline(mapFile, linestr);
-        phone_number = linestr;
+        getline(mapFile, name);
+        //name = linestr;
+        getline(mapFile, address);
+        //address = linestr;
+        getline(mapFile, phone_number);
+        //phone_number = linestr;
    
         student_map[id] = new Student(id, name, address, phone_number);
     }
@@ -61,16 +70,17 @@ bool GPA::importStudents(string mapFileName, string setFileName){
         getline(setFile, linestr);
         istringstream iss_line(linestr);
         iss_line >> id; 
-        getline(setFile, linestr);
-        name = linestr;
-        getline(setFile, linestr);
-        address = linestr;
-        getline(setFile, linestr);
-        phone_number = linestr;
+        getline(setFile, name);
+        //name = linestr;
+        getline(setFile, address);
+        //address = linestr;
+        getline(setFile, phone_number);
+        //phone_number = linestr;
         
         student_set.insert( new Student(id, name, address, phone_number) );
     }
     setFile.close();
+    return true;
 }
 bool GPA::importGrades(string fileName){
 
@@ -82,8 +92,16 @@ string GPA::queryMap(string fileName){
 
 }
 void GPA::clear(){
+    
+    for( auto& student : student_map ){
+        delete student.second;
+    }
+    student_map.clear();
 
-
+    for( StudentInterface* student : student_set ){
+        delete student; 
+    }
+    student_set.clear();
 }
 
 double GPA::grade_to_points(string grade){
