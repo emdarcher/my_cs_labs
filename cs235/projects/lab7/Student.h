@@ -19,7 +19,7 @@ class Student : public StudentInterface {
         double grade_sum;
     public:
         Student(unsigned long long int id, string name,
-                    string address, string phone_number, double gpa);
+                    string address, string phone_number);
         virtual ~Student(void);
 
 		virtual unsigned long long int getID();
