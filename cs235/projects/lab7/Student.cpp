@@ -23,7 +23,7 @@ string Student::getName(){
 string Student::getGPA(){
     stringstream ss;
     ss << setprecision(2) << fixed << gpa; 
-    return ss;
+    return ss.string();
 }
 void Student::addGPA(double classGrade){
     this->num_courses++;
@@ -37,5 +37,5 @@ string Student::toString(){
     ss << address << "\n";
     ss << phone_number << "\n";
     ss << setprecision(2) << fixed << gpa;
-
+    return ss.string();
 }

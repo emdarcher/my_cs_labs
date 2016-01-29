@@ -3,7 +3,10 @@
 #define STUDENT_H
 
 #include "StudentInterface.h"
-
+#include <iomanip>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 class Student : public StudentInterface {
     private:
