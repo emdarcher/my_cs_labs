@@ -16,40 +16,45 @@ set<StudentInterface*,Comparator> GPA::getSet(){
     return student_set;
 }
 
-int GPA::count_file_lines(ifstream& in_file){
+int GPA::count_file_lines(string in_file_name){
     int lc;
     string linestr;
-    while(getline(in_file, linestr)){
-        ++lc; 
+    ifstream in_file(in_file_name);
+    if(in_file.is_open()){
+        while(getline(in_file, linestr)){
+            ++lc; 
+        }
+        in_file.close();
+        return lc;
     }
-    return lc;
+    return NO_FILE;
 }
 
 
 bool GPA::importStudents(string mapFileName, string setFileName){
     string linestr;
+
+    int mapFile_lc;
+    int setFile_lc;
+    mapFile_lc = count_file_lines(mapFileName);
+    setFile_lc = count_file_lines(setFileName);
+    if((mapFile_lc == NO_FILE) || (setFile_lc == NO_FILE)){
+        //if any file doesn't exist
+        return false; 
+    } else if((mapFile_lc % 4 != 0) || (setFile_lc % 4 != 0)){
+        //if any file doesn't have a correct line count 
+        //cout << "incorrect line count!\n";
+        return false;
+    }  
+
     ifstream mapFile(mapFileName);
     ifstream setFile(setFileName);
     if(!mapFile.is_open() || !setFile.is_open()){
         //the any file does't exist
         return false; 
     }
-    int mapFile_lc;
-    int setFile_lc;
-    //while(getline(mapFile, linestr)){
-    //    ++mapFile_lc;
-    //}
-    //while(getline(setFile, linestr)){
-    //    ++setFile_lc;
-    //}
-    mapFile_lc = count_file_lines(mapFile);
-    setFile_lc = count_file_lines(setFile);
-    //if((mapFile_lc % 4 != 0) || (setFile_lc % 4 != 0)){
-    //    //if any file doesn't have a correct line count 
-    //    //cout << "incorrect line count!\n";
-    //    return false;
-    //}  
     //string linestr;
+    
     unsigned long long int id; 
     string name, address, phone_number;
     while(!mapFile.eof()){
@@ -83,13 +88,13 @@ bool GPA::importStudents(string mapFileName, string setFileName){
     return true;
 }
 bool GPA::importGrades(string fileName){
-
+    return false;
 }
 string GPA::querySet(string fileName){
-
+    return "";
 }
 string GPA::queryMap(string fileName){
-
+    return "";
 }
 void GPA::clear(){
     
