@@ -128,7 +128,21 @@ bool GPA::importGrades(string fileName){
     return true;
 }
 string GPA::querySet(string fileName){
-    return "";
+    ifstream queryFile(fileName);
+    if(!queryFile.is_open()){
+        return "";
+    }
+    stringstream ss;
+    unsigned long long int id;
+    while(queryFile >> id){
+        for( StudentInterface* student : student_set ){
+            if(student->getID() == id){
+                ss << id << " " << student->getGPA() << " " 
+                    << student->getName() << "\n";
+            }
+        }
+    }
+    return ss.str();
 }
 string GPA::queryMap(string fileName){
     return "";
