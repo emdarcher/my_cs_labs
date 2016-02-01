@@ -17,11 +17,11 @@ set<StudentInterface*,Comparator> GPA::getSet(){
 }
 
 int GPA::count_file_lines(string in_file_name){
-    int lc;
+    int lc = 0;
     string linestr;
     ifstream in_file(in_file_name);
     if(in_file.is_open()){
-        while(getline(in_file, linestr)){
+        while(getline(in_file, linestr, '\n')){
             ++lc; 
         }
         in_file.close();
@@ -34,31 +34,36 @@ int GPA::count_file_lines(string in_file_name){
 bool GPA::importStudents(string mapFileName, string setFileName){
     string linestr;
 
-    int mapFile_lc;
-    int setFile_lc;
-    mapFile_lc = count_file_lines(mapFileName);
-    setFile_lc = count_file_lines(setFileName);
+    //int mapFile_lc;
+    //int setFile_lc;
+    int mapFile_lc = count_file_lines(mapFileName);
+    int setFile_lc = count_file_lines(setFileName);
+    cout << "filenames: mapFileName = " << mapFileName 
+            << " setFileName = " << setFileName << "\n";
     if((mapFile_lc == NO_FILE) || (setFile_lc == NO_FILE)){
         //if any file doesn't exist
+        cout << "file doesn't exist!\n";
         return false; 
     } else if((mapFile_lc % 4 != 0) || (setFile_lc % 4 != 0)){
         //if any file doesn't have a correct line count 
-        //cout << "incorrect line count!\n";
+        cout << "incorrect line count! mapFile_lc = " << mapFile_lc 
+                << " setFile_lc = " << setFile_lc <<"\n";
         return false;
     }  
 
     ifstream mapFile(mapFileName);
     ifstream setFile(setFileName);
-    if(!mapFile.is_open() || !setFile.is_open()){
-        //the any file does't exist
-        return false; 
-    }
+    //if(!mapFile.is_open() || !setFile.is_open()){
+    //    //the any file does't exist
+    //    return false; 
+    //}
     //string linestr;
     
     unsigned long long int id; 
     string name, address, phone_number;
-    while(!mapFile.eof()){
-        getline(mapFile, linestr);
+    //while(!mapFile.eof()){
+    while(getline(mapFile, linestr)){
+        //getline(mapFile, linestr);
         istringstream iss_line(linestr);
         iss_line >> id; 
         getline(mapFile, name);
@@ -71,8 +76,9 @@ bool GPA::importStudents(string mapFileName, string setFileName){
         student_map[id] = new Student(id, name, address, phone_number);
     }
     mapFile.close();
-    while(!setFile.eof()){
-        getline(setFile, linestr);
+    //while(!setFile.eof()){
+    while(getline(setFile, linestr)){
+        //getline(setFile, linestr);
         istringstream iss_line(linestr);
         iss_line >> id; 
         getline(setFile, name);
