@@ -94,7 +94,38 @@ bool GPA::importStudents(string mapFileName, string setFileName){
     return true;
 }
 bool GPA::importGrades(string fileName){
-    return false;
+    string linestr;
+    int file_lc = count_file_lines(fileName);
+    if((file_lc == NO_FILE) || (file_lc % 3 != 0)){
+        return false;
+    }
+    
+    ifstream gradeFile(fileName);
+
+    unsigned long long int id;
+    
+    string course, grade;
+    while(getline(gradeFile, linestr)){
+        istringstream iss_line(linestr);
+        iss_line >> id;
+        getline(gradeFile, course);
+        getline(gradeFile, linestr);
+        istringstream grade_ss(linestr);
+        grade_ss >> grade; 
+        double points = grade_to_points(grade);
+        //cout << "read in grade " << grade << "\n"; 
+        if(student_map.count(id)){
+            student_map[id]->addGPA(points);
+        }  
+        for( StudentInterface* student : student_set ){
+            if(student->getID() == id){
+                student->addGPA(points);
+            } 
+        }
+
+    }
+    gradeFile.close();
+    return true;
 }
 string GPA::querySet(string fileName){
     return "";
