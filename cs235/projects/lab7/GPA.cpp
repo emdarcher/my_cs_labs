@@ -38,16 +38,16 @@ bool GPA::importStudents(string mapFileName, string setFileName){
     //int setFile_lc;
     int mapFile_lc = count_file_lines(mapFileName);
     int setFile_lc = count_file_lines(setFileName);
-    cout << "filenames: mapFileName = " << mapFileName 
-            << " setFileName = " << setFileName << "\n";
+    //cout << "filenames: mapFileName = " << mapFileName 
+    //        << " setFileName = " << setFileName << "\n";
     if((mapFile_lc == NO_FILE) || (setFile_lc == NO_FILE)){
         //if any file doesn't exist
-        cout << "file doesn't exist!\n";
+        //cout << "file doesn't exist!\n";
         return false; 
     } else if((mapFile_lc % 4 != 0) || (setFile_lc % 4 != 0)){
         //if any file doesn't have a correct line count 
-        cout << "incorrect line count! mapFile_lc = " << mapFile_lc 
-                << " setFile_lc = " << setFile_lc <<"\n";
+        //cout << "incorrect line count! mapFile_lc = " << mapFile_lc 
+        //        << " setFile_lc = " << setFile_lc <<"\n";
         return false;
     }  
 
