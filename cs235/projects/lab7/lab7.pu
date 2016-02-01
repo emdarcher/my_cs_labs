@@ -25,7 +25,7 @@ interface GPAInterface <<interface>> {
 
 }
 
-GPAInterface *-- StudentInterface
+StudentInterface -right-* GPAInterface 
 
 GPAInterface --* Factory
 
@@ -33,11 +33,13 @@ class Factory {
     + {static} static GPAInterface* getGPA()
 }
 
-GPA --|> GPAInterface
+GPA -right-|> GPAInterface
 
 class GPA {
     - map<unsigned long long int,StudentInterface*> student_map
     - set<StudentInterface*,Comparator> student_set
+    - double grade_to_points(string grade)
+    - int count_file_lines(string in_file_name)
     + GPA(void)
     + ~GPA(void)
     + map<unsigned long long int,studentinterface*> getmap()
@@ -49,7 +51,9 @@ class GPA {
     + void clear()
 } 
 
-Student --|> StudentInterface
+StudentInterface -down-* GPA
+
+Student -right-|> StudentInterface
 
 class Student {
     
