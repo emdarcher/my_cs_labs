@@ -53,40 +53,27 @@ bool GPA::importStudents(string mapFileName, string setFileName){
 
     ifstream mapFile(mapFileName);
     ifstream setFile(setFileName);
-    //if(!mapFile.is_open() || !setFile.is_open()){
-    //    //the any file does't exist
-    //    return false; 
-    //}
-    //string linestr;
     
     unsigned long long int id; 
     string name, address, phone_number;
-    //while(!mapFile.eof()){
+
     while(getline(mapFile, linestr)){
-        //getline(mapFile, linestr);
         istringstream iss_line(linestr);
         iss_line >> id; 
         getline(mapFile, name);
-        //name = linestr;
         getline(mapFile, address);
-        //address = linestr;
         getline(mapFile, phone_number);
-        //phone_number = linestr;
    
         student_map[id] = new Student(id, name, address, phone_number);
     }
     mapFile.close();
-    //while(!setFile.eof()){
+
     while(getline(setFile, linestr)){
-        //getline(setFile, linestr);
         istringstream iss_line(linestr);
         iss_line >> id; 
         getline(setFile, name);
-        //name = linestr;
         getline(setFile, address);
-        //address = linestr;
         getline(setFile, phone_number);
-        //phone_number = linestr;
         
         student_set.insert( new Student(id, name, address, phone_number) );
     }
@@ -145,7 +132,20 @@ string GPA::querySet(string fileName){
     return ss.str();
 }
 string GPA::queryMap(string fileName){
-    return "";
+    ifstream queryFile(fileName);
+    if(!queryFile.is_open()){
+        return "";
+    }
+    stringstream ss;
+    unsigned long long int id;
+    while(queryFile >> id){
+        //check if that id exists
+        if(student_map.count(id)){
+            ss << id << " " << student_map[id]->getGPA() << " "
+                << student_map[id]->getName() << "\n";
+        }
+    }
+    return ss.str();
 }
 void GPA::clear(){
     
