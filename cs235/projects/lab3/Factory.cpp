@@ -16,6 +16,7 @@ using namespace std;
 */
 ExpressionManagerInterface* Factory::createManager()
 {
-	return NULL;//Modify this line
+	//return NULL;//Modify this line
+    return new ExpressionManager();
 }
 //=======================================================================================
