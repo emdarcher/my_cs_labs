@@ -18,7 +18,7 @@ set<StudentInterface*,Comparator> GPA::getSet(){
 
 int GPA::count_file_lines(string in_file_name){
     int lc = 0;
-    string linestr;
+    string linestr = "";
     ifstream in_file(in_file_name);
     if(in_file.is_open()){
         while(getline(in_file, linestr, '\n')){
@@ -32,12 +32,12 @@ int GPA::count_file_lines(string in_file_name){
 
 
 bool GPA::importStudents(string mapFileName, string setFileName){
-    string linestr;
+    string linestr =  "";
 
-    //int mapFile_lc;
-    //int setFile_lc;
-    int mapFile_lc = count_file_lines(mapFileName);
-    int setFile_lc = count_file_lines(setFileName);
+    int mapFile_lc = NO_FILE;
+    int setFile_lc = NO_FILE;
+    mapFile_lc = count_file_lines(mapFileName);
+    setFile_lc = count_file_lines(setFileName);
     //cout << "filenames: mapFileName = " << mapFileName 
     //        << " setFileName = " << setFileName << "\n";
     if((mapFile_lc == NO_FILE) || (setFile_lc == NO_FILE)){
@@ -54,8 +54,10 @@ bool GPA::importStudents(string mapFileName, string setFileName){
     ifstream mapFile(mapFileName);
     ifstream setFile(setFileName);
     
-    unsigned long long int id; 
-    string name, address, phone_number;
+    unsigned long long int id = -1; 
+    string name = ""; 
+    string address = ""; 
+    string phone_number = "";
 
     while(getline(mapFile, linestr)){
         istringstream iss_line(linestr);
@@ -81,17 +83,19 @@ bool GPA::importStudents(string mapFileName, string setFileName){
     return true;
 }
 bool GPA::importGrades(string fileName){
-    string linestr;
-    int file_lc = count_file_lines(fileName);
+    string linestr = "";
+    int file_lc = NO_FILE;
+    file_lc = count_file_lines(fileName);
     if((file_lc == NO_FILE) || (file_lc % 3 != 0)){
         return false;
     }
     
     ifstream gradeFile(fileName);
 
-    unsigned long long int id;
+    unsigned long long int id = -1;
     
-    string course, grade;
+    string course = ""; 
+    string grade = "";
     while(getline(gradeFile, linestr)){
         istringstream iss_line(linestr);
         iss_line >> id;
@@ -120,7 +124,7 @@ string GPA::querySet(string fileName){
         return "";
     }
     stringstream ss;
-    unsigned long long int id;
+    unsigned long long int id = -1;
     while(queryFile >> id){
         for( StudentInterface* student : student_set ){
             if(student->getID() == id){
@@ -137,7 +141,7 @@ string GPA::queryMap(string fileName){
         return "";
     }
     stringstream ss;
-    unsigned long long int id;
+    unsigned long long int id = -1;
     while(queryFile >> id){
         //check if that id exists
         if(student_map.count(id)){

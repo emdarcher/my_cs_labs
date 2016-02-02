@@ -6,7 +6,7 @@ Student::Student(unsigned long long int id, string name,
     this->name = name;
     this->address = address;
     this->phone_number = phone_number;
-    //this->gpa = gpa;
+    this->gpa = 0;
     this->num_courses = 0;
     this->grade_sum = 0;
 }
