@@ -6,7 +6,9 @@ GPA::GPA(){
 
 }
 
-GPA::~GPA(){}
+GPA::~GPA(){
+    clear();
+}
 
 
 map<unsigned long long int,StudentInterface*> GPA::getMap(){
