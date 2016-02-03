@@ -1,6 +1,9 @@
 #include "Factory.h"
+
+#include "ExpressionManager.h"
 //You may add #include statments here
 using namespace std;
+
 
 /*
 	Unlike all other documents provided, you may modify this document slightly (but do not change its name)
