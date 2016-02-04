@@ -14,10 +14,11 @@ bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char
 
     if(prev_char == '\0'){
         //if this is the first time running
-
         //first check to make sure there is an even amount of tokens
+        //if the amount of tokens is not even then the function must
+        //not be balanced
         if(in_tokens.size() % 2 == 0){
-            top_char = in_tokens.top();
+            top_char = in_tokens.top(); 
             in_tokens.pop();
             return balance_check_rec(in_tokens, top_char);
         } else {
@@ -50,9 +51,7 @@ bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char
                         //also a base case
                         return true;
                     }
-                } else {
-                    return false;
-                }
+                } else { return false; }
             } else {
                 //base case
                 return false;
@@ -69,15 +68,11 @@ bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char
             if(strcspn(front_symbols, check_top_str) ==
                     strcspn(back_symbols, check_prev_str)){
                 return true;
-            } else {
-                return false;
-            }
+            } else { return false; }
         }
     } else {
         return false;
     }
-
-
 }
 
 
@@ -114,17 +109,11 @@ bool ExpressionManager::isBalanced(string expression){
         exp_ptr++;
 
     }
-    //check if the amount of symbols is not even, 
-    //if it is not, then it must not be balanced
-    //if(tokens.size() % 2 != 0){
-    //    return false;
-    //}
 
     //checks for balance in the equation
     //set prev_symbol to NULL '\0' so the recursive function knows it's starting
     char prev_symbol = '\0';
     return balance_check_rec(tokens, prev_symbol);
-
 }
 
 string ExpressionManager::postfixToInfix(string postfixExpression){

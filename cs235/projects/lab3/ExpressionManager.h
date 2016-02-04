@@ -16,7 +16,6 @@ const char front_symbols[] = "{[(";
 
 class ExpressionManager : public ExpressionManagerInterface {
     private:
-        //stack<char> tokens;
         bool balance_check_rec(stack<char>& in_tokens, char prev_char);
     public:
         ExpressionManager();
