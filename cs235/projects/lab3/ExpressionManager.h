@@ -9,6 +9,8 @@
 #define STR_BUFF_SIZE 256
 
 const char symbols[] = "{}()[]";
+
+//DO NOT CHANGE THE ORDER OF CHARACTERS IN THE FOLLOWING TWO ARRAYS!
 const char back_symbols[] = "}])";
 const char front_symbols[] = "{[(";
 

@@ -62,6 +62,10 @@ bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char
             //get the indexes of the character matches
             //in the back_symbols and front_symbols arrays
             //to see if they match 
+            //NOTE: this depends on the ordering of the symbols in the arrays
+            //back_symbols and front_symbols in ExpressionManager.h
+            //so don't change them!
+            //
             if(strcspn(front_symbols, check_top_str) ==
                     strcspn(back_symbols, check_prev_str)){
                 return true;
@@ -116,13 +120,13 @@ bool ExpressionManager::isBalanced(string expression){
     //    return false;
     //}
 
-    //do more checks for balance in the equation
-    //
+    //checks for balance in the equation
+    //set prev_symbol to NULL '\0' so the recursive function knows it's starting
     char prev_symbol = '\0';
     return balance_check_rec(tokens, prev_symbol);
 
-    
 }
+
 string ExpressionManager::postfixToInfix(string postfixExpression){
     return "";
 }
