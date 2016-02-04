@@ -115,11 +115,47 @@ bool ExpressionManager::isBalanced(string expression){
     char prev_symbol = '\0';
     return balance_check_rec(tokens, prev_symbol);
 }
+    
+bool ExpressionManager::is_op(char ch){
+    return (strchr(operators, ch) != NULL);
+}
+
+bool ExpressionManager::op_num_ratio_check(string expression){
+    int op_cnt = 0;
+    int num_cnt = 0;
+    for(int i = 0;i<expression.length();i++){
+        if(isdigit(expression[i])){
+            num_cnt++;
+        } else if(is_op(expression[i])){
+            op_cnt++;
+        } else if(strchr(symbols, expression[i]) != NULL){
+            //it's fine
+        }  else {
+            //it's not fine
+            return false;
+        }
+    }
+    return ((num_cnt - 1) == op_cnt);
+}
+bool ExpressionManager::is_valid(string expression){
+
+}
 
 string ExpressionManager::postfixToInfix(string postfixExpression){
     return "";
 }
 string ExpressionManager::infixToPostfix(string infixExpression){
+    stack<char> symbols;
+     
+
+    //do tests for the validity of the infix expression
+    if(!isBalanced(infixExpression)){
+        return invalid;
+    }
+    if(!op_num_ratio_check(infixExpression)){
+        return invalid;
+    }
+
     return "";
 }
 string ExpressionManager::postfixEvaluate(string postfixExpression){
