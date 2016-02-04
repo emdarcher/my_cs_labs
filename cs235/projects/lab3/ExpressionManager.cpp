@@ -11,6 +11,10 @@ ExpressionManager::~ExpressionManager(){
 bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char){
 //recursive function which checks a stack of symbols for balance
     char top_char = '\0';
+    
+    if(in_tokens.empty()){
+        return false;
+    }
 
     if(prev_char == '\0'){
         //if this is the first time running
@@ -24,8 +28,7 @@ bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char
         } else {
             return false;
         }
-    }
-    
+    }    
     char check_prev_str[] = " ";
     check_prev_str[0] = prev_char;
     top_char = in_tokens.top(); 
@@ -138,15 +141,17 @@ bool ExpressionManager::op_num_ratio_check(string expression){
     return ((num_cnt - 1) == op_cnt);
 }
 bool ExpressionManager::is_valid(string expression){
-
+    return false;
 }
 
 string ExpressionManager::postfixToInfix(string postfixExpression){
+    if(!op_num_ratio_check(postfixExpression)){
+        return invalid;
+    }
     return "";
 }
 string ExpressionManager::infixToPostfix(string infixExpression){
     stack<char> symbols;
-     
 
     //do tests for the validity of the infix expression
     if(!isBalanced(infixExpression)){
@@ -159,5 +164,9 @@ string ExpressionManager::infixToPostfix(string infixExpression){
     return "";
 }
 string ExpressionManager::postfixEvaluate(string postfixExpression){
+    if(!op_num_ratio_check(postfixExpression)){
+        return invalid;
+    }
+
     return "";
 }
