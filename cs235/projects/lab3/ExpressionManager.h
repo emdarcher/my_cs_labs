@@ -4,6 +4,7 @@
 
 #include "ExpressionManagerInterface.h"
 #include <string.h>
+#include <iostream>
 
 #define STR_BUFF_SIZE 256
 
