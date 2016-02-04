@@ -22,9 +22,11 @@ const string invalid = "invalid";
 #define CLOSE_PAREN 3
 
 const char operators[] = "+-/%*";
+const int op_priority[] = {1,1,2,2,2};
 
 class ExpressionManager : public ExpressionManagerInterface {
     private:
+        bool is_int_num(string str);
         bool is_op(char ch);
         bool op_num_ratio_check(string expression);
         bool is_valid(string expression);

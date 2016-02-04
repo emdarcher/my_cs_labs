@@ -123,20 +123,44 @@ bool ExpressionManager::is_op(char ch){
     return (strchr(operators, ch) != NULL);
 }
 
+bool ExpressionManager::is_int_num(string str){
+    for(int i=0;i<str.length();i++){
+        if(!isdigit(str[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
 bool ExpressionManager::op_num_ratio_check(string expression){
     int op_cnt = 0;
     int num_cnt = 0;
-    for(int i = 0;i<expression.length();i++){
-        if(isdigit(expression[i])){
+    
+    char exp_str[STR_BUFF_SIZE];
+    exp_str[0] = '\0';
+    //create a C string from the expression string
+    //for use in strtok
+    strcat(exp_str, expression.c_str());
+
+    char * token;
+
+    //use strtok to tokenize the string
+    //separating by spaces
+
+    token = strtok(exp_str, " ");
+    while(token != NULL){
+        if(is_int_num(string(token))){
             num_cnt++;
-        } else if(is_op(expression[i])){
+        } else if(is_op( *token)){
             op_cnt++;
-        } else if(strchr(symbols, expression[i]) != NULL){
+        } else if(strchr(symbols, *token) != NULL){
             //it's fine
         }  else {
             //it's not fine
             return false;
         }
+        //increment to the next token
+        token = strtok(NULL, " ");
     }
     return ((num_cnt - 1) == op_cnt);
 }
