@@ -205,6 +205,11 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
         //a postfix expression shouldn't have any paren symbols
         return invalid;
     }
+    if(!is_op(postfixExpression[postfixExpression.length() - 1])){
+        //if the last character of the expression is not an operator
+        //then it must not be a valid postfix expression
+        return invalid;
+    }
     return "";
 }
 string ExpressionManager::infixToPostfix(string infixExpression){
