@@ -120,20 +120,37 @@ bool ExpressionManager::isBalanced(string expression){
 }
         
 int ExpressionManager::get_precedence(char op){
+    int paren_type = is_paren(op);
+    if(paren_type != NOT_A_PAREN){
+        //then it is a paren
+        return paren_type; 
+    }
+    //otherwise it is an op
     char op_str[1];
     op_str[0] = op;
     op_str[1] = '\0';
     int index = strcspn(operators, op_str);
     return op_precedence[index];
+
 }
     
 bool ExpressionManager::is_op(char ch){
     return (strchr(operators, ch) != NULL);
 }
 
+int ExpressionManager::is_paren(char ch){
+    if(strchr(front_symbols, ch) != NULL){
+        return OPEN_PAREN;
+    } else if(strchr(front_symbols, ch) != NULL){
+        return CLOSE_PAREN;
+    } else {
+        return NOT_A_PAREN;
+    }
+}
+
 bool ExpressionManager::is_int_num(string str){
     for(int i=0;i<str.length();i++){
-        cout << "check isdigit(\'" << str[i] << "\')\n";
+        //cout << "check isdigit(\'" << str[i] << "\')\n";
         if(!isdigit(str[i])){
             return false;
         }
@@ -158,7 +175,7 @@ bool ExpressionManager::op_num_ratio_check(string expression){
 
     token = strtok(exp_str, " ");
     while(token != NULL){
-        cout << "token: " << token << "\n";
+        //cout << "token: " << token << "\n";
         if(is_int_num(string(token))){
             num_cnt++;
         } else if(is_op( *token)){
@@ -174,6 +191,7 @@ bool ExpressionManager::op_num_ratio_check(string expression){
     }
     return ((num_cnt - 1) == op_cnt);
 }
+
 bool ExpressionManager::is_valid(string expression){
     return false;
 }
@@ -191,7 +209,7 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
 }
 string ExpressionManager::infixToPostfix(string infixExpression){
     stack<char> symbols;
-
+    string out_str = "";
     //do tests for the validity of the infix expression
     if(!isBalanced(infixExpression)){
         return invalid;
@@ -200,7 +218,61 @@ string ExpressionManager::infixToPostfix(string infixExpression){
         return invalid;
     }
 
-    return "";
+    char exp_str[STR_BUFF_SIZE];
+    exp_str[0] = '\0';
+    //create a C string from the expression string
+    //for use in strtok
+    strcat(exp_str, infixExpression.c_str());
+
+    char * token;
+
+    //use strtok to tokenize the string
+    //separating by spaces
+
+    token = strtok(exp_str, " ");
+    while(token != NULL){
+        cout << "token: " << token << "\n";
+        if(is_int_num(string(token))){
+                out_str += string(token);
+                out_str += " ";
+        } else if(is_paren( *token ) == OPEN_PAREN){
+            symbols.push( *token );
+        } else if(is_paren( *token ) == CLOSE_PAREN){
+            char top_char = symbols.top();
+            symbols.pop(); 
+            while(get_precedence(top_char) > CLOSE_PAREN){
+                out_str += top_char;
+                out_str += " ";
+                top_char = symbols.top();
+                symbols.pop();
+            }
+        }  else if(is_op( *token )){
+            if(symbols.empty()){
+                symbols.push( *token );
+            } else {
+                char top_char = symbols.top();
+                int top_prec = get_precedence(top_char);
+                int token_prec = get_precedence( *token );
+                while( top_prec >= token_prec ){
+                    //go through any tokens with greater than or equal precedence
+                    symbols.pop();
+                    out_str += top_char;
+                    out_str += " ";
+                    if(symbols.empty()){
+                        break;
+                    }
+                    top_char = symbols.top();
+                    top_prec = get_precedence(top_char);
+                }
+                symbols.push( *token );
+            }
+        }
+        //increment to the next token
+        token = strtok(NULL, " ");
+    }
+    
+
+    return out_str;
 }
 string ExpressionManager::postfixEvaluate(string postfixExpression){
     if(!op_num_ratio_check(postfixExpression)){

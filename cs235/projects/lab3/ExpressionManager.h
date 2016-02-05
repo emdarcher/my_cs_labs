@@ -20,6 +20,7 @@ const string invalid = "invalid";
 
 #define OPEN_PAREN 0
 #define CLOSE_PAREN 3
+#define NOT_A_PAREN -1
 
 //DO NOT change the order of these arrays either!
 const char operators[] = "+-/%*";
@@ -27,6 +28,7 @@ const int op_precedence[] = {1,1,2,2,2};
 
 class ExpressionManager : public ExpressionManagerInterface {
     private:
+        int is_paren(char ch);
         int get_precedence(char op);
         bool is_int_num(string str);
         bool is_op(char ch);
