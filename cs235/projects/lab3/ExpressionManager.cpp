@@ -350,6 +350,88 @@ string ExpressionManager::postfixEvaluate(string postfixExpression){
         //a postfix expression shouldn't have any paren symbols
         return invalid;
     }
+    
+    //if(!is_op(postfixExpression[postfixExpression.length() - 1])){
+    //    //if the last character of the expression is not an operator
+    //    //then it must not be a valid postfix expression
+    //    return invalid;
+    //}
+    stack<int> exp_stack;
+    string out_str = "";
 
-    return "";
+    string right;
+    string left;
+
+
+    char exp_str[STR_BUFF_SIZE];
+    exp_str[0] = '\0';
+    //create a C string from the expression string
+    //for use in strtok
+    strcat(exp_str, postfixExpression.c_str());
+
+    char * token;
+
+    //use strtok to tokenize the string
+    //separating by spaces
+
+    token = strtok(exp_str, " ");
+    while(token != NULL){
+        //cout << "token: " << token << "\n";
+        if(is_int_num(string(token))){
+            exp_stack.push( atoi(token) );
+        } else if(is_op( *token)){
+            if(exp_stack.empty()){
+                return invalid;
+            }
+            int iright = exp_stack.top();
+            exp_stack.pop();
+            if(exp_stack.empty()){
+                return invalid;
+            }
+            int ileft = exp_stack.top();
+            exp_stack.pop();
+          
+            //int iright = stoi(right); 
+            //int ileft = stoi(left);
+            //stringstream ps;
+            int eval = 0;
+            switch (*token){
+                case '+':
+                    eval = ileft + iright;
+                    break;
+                case '-':
+                    eval = ileft - iright;
+                    break;
+                case '*':
+                    eval = ileft * iright;
+                    break;
+                case '/':
+                    if(iright == 0 ) return invalid;
+                    eval = ileft / iright;
+                    break;
+                case '%':
+                    if(iright == 0 ) return invalid;
+                    eval = ileft % iright;
+                    break;
+            }
+
+            exp_stack.push(eval);
+
+        } else {
+            //it's not fine
+            return invalid;
+        }
+        //increment to the next token
+        token = strtok(NULL, " ");
+    }
+    if(!exp_stack.empty()){
+        char out_buff[STR_BUFF_SIZE];
+        sprintf(out_buff, "%i", exp_stack.top());
+        out_str = out_buff;
+    } else {
+        return invalid;
+    }   
+
+    return out_str;
+       
 }

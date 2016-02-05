@@ -7,8 +7,12 @@
 #include <iostream>
 #include <math.h>
 #include <ctype.h>
+#include <iomanip>
+#include <sstream>
+#include <stdlib.h>
+#include <stdio.h>
 
-#define STR_BUFF_SIZE 256
+#define STR_BUFF_SIZE 512
 
 const char symbols[] = "{}()[]";
 
