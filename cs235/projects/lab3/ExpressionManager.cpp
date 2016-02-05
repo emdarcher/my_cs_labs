@@ -210,7 +210,57 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
         //then it must not be a valid postfix expression
         return invalid;
     }
-    return "";
+    stack<string> exp_stack;
+    string out_str = "";
+
+    string right;
+    string left;
+
+
+    char exp_str[STR_BUFF_SIZE];
+    exp_str[0] = '\0';
+    //create a C string from the expression string
+    //for use in strtok
+    strcat(exp_str, postfixExpression.c_str());
+
+    char * token;
+
+    //use strtok to tokenize the string
+    //separating by spaces
+
+    token = strtok(exp_str, " ");
+    while(token != NULL){
+        //cout << "token: " << token << "\n";
+        if(is_int_num(string(token))){
+            exp_stack.push( string(token) );
+        } else if(is_op( *token)){
+            right = exp_stack.top();
+            exp_stack.pop();
+            left = exp_stack.top();
+            exp_stack.pop();
+           
+            string push_str;
+            push_str += "( ";
+            push_str += left;
+            push_str += " ";
+            push_str += string(token);
+            push_str += " ";
+            push_str += right;
+            push_str += " )";
+            exp_stack.push(push_str);
+
+        } else {
+            //it's not fine
+            return invalid;
+        }
+        //increment to the next token
+        token = strtok(NULL, " ");
+    }
+
+    out_str = exp_stack.top();
+
+
+    return out_str;
 }
 string ExpressionManager::infixToPostfix(string infixExpression){
     stack<char> symbols;
