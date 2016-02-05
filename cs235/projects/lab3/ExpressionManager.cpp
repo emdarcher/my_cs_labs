@@ -13,7 +13,7 @@ bool ExpressionManager::balance_check_rec(stack<char>& in_tokens, char prev_char
     char top_char = '\0';
     
     if(in_tokens.empty()){
-        return false;
+        return true;
     }
 
     if(prev_char == '\0'){
@@ -118,6 +118,14 @@ bool ExpressionManager::isBalanced(string expression){
     char prev_symbol = '\0';
     return balance_check_rec(tokens, prev_symbol);
 }
+        
+int ExpressionManager::get_precedence(char op){
+    char op_str[1];
+    op_str[0] = op;
+    op_str[1] = '\0';
+    int index = strcspn(operators, op_str);
+    return op_precedence[index];
+}
     
 bool ExpressionManager::is_op(char ch){
     return (strchr(operators, ch) != NULL);
@@ -125,6 +133,7 @@ bool ExpressionManager::is_op(char ch){
 
 bool ExpressionManager::is_int_num(string str){
     for(int i=0;i<str.length();i++){
+        cout << "check isdigit(\'" << str[i] << "\')\n";
         if(!isdigit(str[i])){
             return false;
         }
@@ -149,6 +158,7 @@ bool ExpressionManager::op_num_ratio_check(string expression){
 
     token = strtok(exp_str, " ");
     while(token != NULL){
+        cout << "token: " << token << "\n";
         if(is_int_num(string(token))){
             num_cnt++;
         } else if(is_op( *token)){
@@ -172,6 +182,11 @@ string ExpressionManager::postfixToInfix(string postfixExpression){
     if(!op_num_ratio_check(postfixExpression)){
         return invalid;
     }
+    if(strcspn(postfixExpression.c_str(), symbols) 
+            != postfixExpression.length()){
+        //a postfix expression shouldn't have any paren symbols
+        return invalid;
+    }
     return "";
 }
 string ExpressionManager::infixToPostfix(string infixExpression){
@@ -189,6 +204,11 @@ string ExpressionManager::infixToPostfix(string infixExpression){
 }
 string ExpressionManager::postfixEvaluate(string postfixExpression){
     if(!op_num_ratio_check(postfixExpression)){
+        return invalid;
+    }
+    if(strcspn(postfixExpression.c_str(), symbols) 
+            != postfixExpression.length()){
+        //a postfix expression shouldn't have any paren symbols
         return invalid;
     }
 
