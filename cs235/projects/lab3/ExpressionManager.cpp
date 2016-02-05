@@ -86,7 +86,7 @@ bool ExpressionManager::isBalanced(string expression){
     strcpy(exp_c_str, expression.c_str());
     char * exp_ptr = exp_c_str;
     
-    cout << "Called isBalanced( \"" << expression << "\" )\n";
+    //cout << "Called isBalanced( \"" << expression << "\" )\n";
 
     //increment the exp_ptr to the locations of symbols
     //and load them into the stack
@@ -105,7 +105,7 @@ bool ExpressionManager::isBalanced(string expression){
         //add the char token to the stack
         tokens.push( *exp_ptr);
         //debugging
-        cout << "adding " << *exp_ptr << " to the stack\n";
+        //cout << "adding " << *exp_ptr << " to the stack\n";
         //make sure to increment the pointer so it's one char ahead
         //of the recent match, so the loop can continue to get the 
         //next match, in the now reduced string
@@ -141,7 +141,7 @@ bool ExpressionManager::is_op(char ch){
 int ExpressionManager::is_paren(char ch){
     if(strchr(front_symbols, ch) != NULL){
         return OPEN_PAREN;
-    } else if(strchr(front_symbols, ch) != NULL){
+    } else if(strchr(back_symbols, ch) != NULL){
         return CLOSE_PAREN;
     } else {
         return NOT_A_PAREN;
@@ -230,8 +230,16 @@ string ExpressionManager::infixToPostfix(string infixExpression){
     //separating by spaces
 
     token = strtok(exp_str, " ");
-    while(token != NULL){
-        cout << "token: " << token << "\n";
+    while( 1 ){
+        if(token == NULL){
+            while(!symbols.empty()){
+                out_str += symbols.top();
+                out_str += " ";
+                symbols.pop();
+            }
+            break;
+        }
+        //cout << "token: " << token << "\n";
         if(is_int_num(string(token))){
                 out_str += string(token);
                 out_str += " ";
@@ -240,7 +248,8 @@ string ExpressionManager::infixToPostfix(string infixExpression){
         } else if(is_paren( *token ) == CLOSE_PAREN){
             char top_char = symbols.top();
             symbols.pop(); 
-            while(get_precedence(top_char) > CLOSE_PAREN){
+            while(get_precedence(top_char) > OPEN_PAREN){
+                //symbols.pop();
                 out_str += top_char;
                 out_str += " ";
                 top_char = symbols.top();
@@ -271,6 +280,9 @@ string ExpressionManager::infixToPostfix(string infixExpression){
         token = strtok(NULL, " ");
     }
     
+    //to remove the last part of the string (the trailing space)
+    //if using C++11 you can do out_str.pop_back();
+    out_str.erase(out_str.end() - 1);
 
     return out_str;
 }
