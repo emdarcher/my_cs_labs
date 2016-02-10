@@ -13,12 +13,22 @@ Pathfinder::~Pathfinder(){}
 char Pathfinder::num_to_char(int num){
     return (char)(num + '0');
 }
+int Pathfinder::char_to_num(char ch){
+    return (int)(ch - '0');
+}
 
 void Pathfinder::edit_maze(string& in_maze, int val, int x, int y, int z){
     int index = coordinates_to_index(x, y, z);
     if(index != DOES_NOT_EXIST){
         in_maze[index] = num_to_char(val); 
     } 
+}
+int Pathfinder::get_maze_val(string& in_maze, int x, int y, int z){
+    int index = coordinates_to_index(x, y, z);
+    if(index != DOES_NOT_EXIST){
+        return char_to_num(in_maze[index]); 
+    } 
+    return DOES_NOT_EXIST;
 }
 
 #define CHAR_PER_ROW (DIM_CELLS*2)
@@ -105,6 +115,15 @@ int Pathfinder::count_file_lines(string in_file_name){
     return DOES_NOT_EXIST;
 }
 
+bool Pathfinder::is_int_num(string str){
+    for(int i=0;i<str.length();i++){
+        //cout << "check isdigit(\'" << str[i] << "\')\n";
+        if(!isdigit(str[i])){
+            return false;
+        }
+    }
+    return true;
+}
 bool Pathfinder::importMaze(string file_name){
     int mazeFile_lc = count_file_lines(file_name);
     if(mazeFile_lc == DOES_NOT_EXIST){
@@ -121,21 +140,36 @@ bool Pathfinder::importMaze(string file_name){
 
     ifstream mazeFile(file_name);
     int in_number = -1;    
-    
+    string in_num_str;
+
     for(int z=0;z<DIM_CELLS;z++){
         for(int y=0;y<DIM_CELLS;y++){
             for(int x=0;x<DIM_CELLS;x++){
-                if(mazeFile >> in_number){
-                    if((in_number == 0) || (in_number == 1)){
-                        edit_maze(tmp_maze, in_number, x, y, z);
+                if(mazeFile >> in_num_str){
+                    if(is_int_num(in_num_str)){
+                        in_number = stoi(in_num_str);
+                        if((in_number == 0) || (in_number == 1)){
+                            edit_maze(tmp_maze, in_number, x, y, z);
+                        } else {
+                            mazeFile.close();
+                            return false;
+                        }
                     } else {
+                        mazeFile.close();
                         return false;
                     }
                 } else {
+                    mazeFile.close();
                     return false;
                 }     
             }
         }
+    }
+
+    if((get_maze_val(tmp_maze, 0, 0, 0) != 1) 
+            || (get_maze_val(tmp_maze, DIM_CELLS-1, DIM_CELLS-1, DIM_CELLS-1) != 1)){
+        //check for 1's at the start and end 
+        return false; 
     }
     
     maze.clear();

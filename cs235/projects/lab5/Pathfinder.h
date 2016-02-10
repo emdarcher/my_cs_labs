@@ -20,10 +20,13 @@ class Pathfinder : public PathfinderInterface {
         string maze;
         uint8_t rand_bool(void);
         char num_to_char(int num);
+        int char_to_num(char ch);
         void edit_maze(string& in_maze, int val, int x, int y, int z);
+        int get_maze_val(string& in_maze, int x, int y, int z);
         int coordinates_to_index(int x, int y, int z);
         void generate_maze(string& in_maze);
         int count_file_lines(string in_file_name);
+        bool is_int_num(string str);
     public:
         Pathfinder();
         virtual ~Pathfinder();
