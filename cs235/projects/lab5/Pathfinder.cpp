@@ -91,9 +91,59 @@ void Pathfinder::createRandomMaze(){
     //debugging
     //cout << "created random maze:\n" << maze << "\n";
 }
+int Pathfinder::count_file_lines(string in_file_name){
+    int lc = 0;
+    string linestr = "";
+    ifstream in_file(in_file_name);
+    if(in_file.is_open()){
+        while(getline(in_file, linestr, '\n')){
+            ++lc; 
+        }
+        in_file.close();
+        return lc;
+    }
+    return DOES_NOT_EXIST;
+}
 
 bool Pathfinder::importMaze(string file_name){
+    int mazeFile_lc = count_file_lines(file_name);
+    if(mazeFile_lc == DOES_NOT_EXIST){
+        //check if the file exists
+        return false;
+    } else if(mazeFile_lc != (DIM_CELLS * DIM_CELLS + (DIM_CELLS-1))){
+        //check for correct number of lines
+        return false;
+    }
+
+    string tmp_maze;
+    //generate new maze
+    generate_maze(tmp_maze);
+
+    ifstream mazeFile(file_name);
+    int in_number = -1;    
     
+    for(int z=0;z<DIM_CELLS;z++){
+        for(int y=0;y<DIM_CELLS;y++){
+            for(int x=0;x<DIM_CELLS;x++){
+                if(mazeFile >> in_number){
+                    if((in_number == 0) || (in_number == 1)){
+                        edit_maze(tmp_maze, in_number, x, y, z);
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }     
+            }
+        }
+    }
+    
+    maze.clear();
+    maze += tmp_maze; 
+
+    mazeFile.close();
+    return true;
+
 }
 
 vector<string> Pathfinder::solveMaze(){

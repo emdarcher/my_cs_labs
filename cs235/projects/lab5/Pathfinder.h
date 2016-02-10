@@ -6,10 +6,14 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <iostream>
+#include <fstream>
+
+
 
 #define DOES_NOT_EXIST -1
 #define DIM_CELLS   5
 
+#define STR_BUFF_SIZE 128
 
 class Pathfinder : public PathfinderInterface {
     private:
@@ -19,6 +23,7 @@ class Pathfinder : public PathfinderInterface {
         void edit_maze(string& in_maze, int val, int x, int y, int z);
         int coordinates_to_index(int x, int y, int z);
         void generate_maze(string& in_maze);
+        int count_file_lines(string in_file_name);
     public:
         Pathfinder();
         virtual ~Pathfinder();
