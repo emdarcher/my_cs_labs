@@ -171,7 +171,8 @@ bool Pathfinder::importMaze(string file_name){
         //check for 1's at the start and end 
         return false; 
     }
-    
+
+    //if there were no errors, copy the temporary maze to the current maze    
     maze.clear();
     maze += tmp_maze; 
 
@@ -181,7 +182,9 @@ bool Pathfinder::importMaze(string file_name){
 }
 
 vector<string> Pathfinder::solveMaze(){
+    vector<string> path;
 
+    return path;
 }
 
 
