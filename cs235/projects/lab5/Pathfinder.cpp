@@ -87,13 +87,13 @@ void Pathfinder::createRandomMaze(){
     }
     //put 1's in the enterance and exit slots
     edit_maze(maze, 1, 0, 0, 0);
-    edit_maze(maze, 1, 4, 4, 4); 
+    edit_maze(maze, 1, DIM_CELLS-1, DIM_CELLS-1, DIM_CELLS-1); 
     //debugging
     //cout << "created random maze:\n" << maze << "\n";
 }
 
 bool Pathfinder::importMaze(string file_name){
-
+    
 }
 
 vector<string> Pathfinder::solveMaze(){
