@@ -8,6 +8,8 @@
 #include <iostream>
 
 #define DOES_NOT_EXIST -1
+#define DIM_CELLS   5
+
 
 class Pathfinder : public PathfinderInterface {
     private:

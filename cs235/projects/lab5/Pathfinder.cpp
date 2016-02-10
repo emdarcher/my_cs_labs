@@ -21,15 +21,17 @@ void Pathfinder::edit_maze(string& in_maze, int val, int x, int y, int z){
     } 
 }
 
-#define CHAR_PER_ROW 10
-#define ROWS_PER_GRID 5
+#define CHAR_PER_ROW (DIM_CELLS*2)
+#define ROWS_PER_GRID DIM_CELLS
 
 int Pathfinder::coordinates_to_index(int x, int y, int z){
     int z_base = 0;
     int y_base = 0;
     int x_base = 0;
     //check that the coordinates are within ranges
-    if(!( ((x >= 0)&&(x < 5)) && ((y >= 0)&&(y < 5)) && ((z >= 0)&&(z < 5)) )){
+    if(!( ((x >= 0)&&(x < DIM_CELLS)) 
+                && ((y >= 0)&&(y < DIM_CELLS)) 
+                && ((z >= 0)&&(z < DIM_CELLS)) )){
         return DOES_NOT_EXIST;
     }
    
@@ -47,14 +49,14 @@ int Pathfinder::coordinates_to_index(int x, int y, int z){
 void Pathfinder::generate_maze(string& in_maze){
     //clear the maze before adding to it
     in_maze.clear();
-    for(int z=0;z<5;z++){
-        for(int y=0;y<5;y++){
-            for(int x=0;x<5;x++){
+    for(int z=0;z<DIM_CELLS;z++){
+        for(int y=0;y<DIM_CELLS;y++){
+            for(int x=0;x<DIM_CELLS;x++){
                 in_maze += "1";
-                in_maze += (x != 4) ? " " : "\n"; 
+                in_maze += (x != (DIM_CELLS-1) ) ? " " : "\n"; 
             }
         }
-        if(z != 4){
+        if(z != (DIM_CELLS-1)){
             in_maze += "\n";
         }
     }
@@ -76,9 +78,9 @@ void Pathfinder::createRandomMaze(){
     //generate all 1's maze to start with
     generate_maze(maze);
     //loop through all maze spots and insert a random value.
-    for(int z=0;z<5;z++){
-        for(int y=0;y<5;y++){
-            for(int x=0;x<5;x++){
+    for(int z=0;z<DIM_CELLS;z++){
+        for(int y=0;y<DIM_CELLS;y++){
+            for(int x=0;x<DIM_CELLS;x++){
                 edit_maze(maze, (int)rand_bool(), x, y, z);        
             }
         }
@@ -87,7 +89,7 @@ void Pathfinder::createRandomMaze(){
     edit_maze(maze, 1, 0, 0, 0);
     edit_maze(maze, 1, 4, 4, 4); 
     //debugging
-    cout << "created random maze:\n" << maze << "\n";
+    //cout << "created random maze:\n" << maze << "\n";
 }
 
 bool Pathfinder::importMaze(string file_name){
