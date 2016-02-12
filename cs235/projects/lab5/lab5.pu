@@ -1,0 +1,48 @@
+@startuml
+
+
+class Factory {
+    
+	+ {static} static PathfinderInterface* createPathfinder();
+    
+}
+
+Factory *-- PathfinderInterface 
+
+interface PathfinderInterface <<interface>> {
+    
+		+ PathfinderInterface(){}
+		+ ~PathfinderInterface(){}
+		+ {abstract} string getMaze()
+		+ {abstract} void createRandomMaze()
+		+ {abstract} bool importMaze(string file_name)
+		+ {abstract} vector<string> solveMaze()
+}
+
+Pathfinder --|> PathfinderInterface
+
+class Pathfinder {
+    
+        - string maze;
+        - uint8_t rand_bool(void);
+        - char num_to_char(int num);
+        - int char_to_num(char ch);
+        - void edit_maze(string& in_maze, int val, int x, int y, int z);
+        - int get_maze_val(string& in_maze, int x, int y, int z);
+        - int coordinates_to_index(int x, int y, int z);
+        - void generate_maze(string& in_maze);
+        - int count_file_lines(string in_file_name);
+        - bool is_int_num(string str);
+        - string coordinates_to_string(int x, int y, int z);
+        - int search_path(vector<string>& in_path, string coord_str);
+        - bool rec_solve_maze(string& in_maze, vector<string>& in_path, 
+                int x, int y, int z);
+        + Pathfinder();
+        + ~Pathfinder();
+		+ string getMaze();
+		+ void createRandomMaze();
+		+ bool importMaze(string file_name);
+		+ vector<string> solveMaze();
+}
+
+@enduml
