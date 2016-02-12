@@ -28,7 +28,9 @@ int Pathfinder::get_maze_val(string& in_maze, int x, int y, int z){
     if(index != DOES_NOT_EXIST){
         return char_to_num(in_maze[index]); 
     } 
-    return DOES_NOT_EXIST;
+    //if it doesn't exist return 0
+    return 0;
+    //return DOES_NOT_EXIST;
 }
 
 #define CHAR_PER_ROW (DIM_CELLS*2)
@@ -181,12 +183,88 @@ bool Pathfinder::importMaze(string file_name){
 
 }
 
-vector<string> Pathfinder::solveMaze(){
-    vector<string> path;
-
-    return path;
+string Pathfinder::coordinates_to_string(int x, int y, int z){
+    stringstream coordinate_ss;
+    coordinate_ss << "(" << x << ", " << y << ", " << z << ")";
+    return coordinate_ss.str();
 }
 
 
+//returns index of matching coordinates in the path
+//or returns DOES_NOT_EXIST if a match doesn't exist
+int Pathfinder::search_path(vector<string>& in_path, string coord_str){
+    for(int i=0;i<in_path.size();i++){
+        if(in_path[i] == coord_str){
+            return i;
+        }
+    }
+    return DOES_NOT_EXIST;
+}
+
+vector<string> Pathfinder::solveMaze(){
+    vector<string> path;
+    //the recursive function has to ignore previously failed paths and loops
+    if(rec_solve_maze(maze, path, 0, 0, 0)){
+        return path;
+    }
+    //otherwise it is not solvable
+    //so clear path and return
+    path.clear();
+    return path;
+}
+
+//create recursive funtion to solve that maze
+//returns bool, true if solvable, false if unsolvable
+//takes a vector<string> reference and modifies it in each successful call
+//with the path coordinates
+//
+bool Pathfinder::rec_solve_maze(string& in_maze, vector<string>& in_path,
+        int x, int y, int z){
+    if(get_maze_val(in_maze, x, y, z) == 0){
+        return false;
+    }
+    string my_coord_str = coordinates_to_string(x, y, z);
+    int my_index = search_path(in_path, my_coord_str);
+    //if we have been to this location before, then remove 
+    //all the path steps we just took because it is a loop
+    if(my_index != DOES_NOT_EXIST){
+        //while(my_index < (in_path.size() - 1)){
+        //    //remove the bad path
+        //    in_path.pop_back();
+        //} 
+        return false;
+    }
+    //check if any of the adjacent cells are accessable
+    if(get_maze_val(in_maze, x+1,y,z) 
+            || get_maze_val(in_maze, x-1,y,z)
+            || get_maze_val(in_maze, x,y+1,z)
+            || get_maze_val(in_maze, x,y-1,z)
+            || get_maze_val(in_maze, x,y,z+1)
+            || get_maze_val(in_maze, x,y,z-1)
+            ){
+        //if so add the current coordinates to the path
+        in_path.push_back(my_coord_str);
+    }
+    
+    //if we are at the end of the maze return true
+    if((x==DIM_CELLS-1)&&(y==DIM_CELLS-1)&&(z==DIM_CELLS-1)){
+        return true;
+    }
+
+    //call recursively to see if any paths are solvable
+    if(rec_solve_maze(in_maze, in_path, x+1, y, z)
+            || rec_solve_maze(in_maze, in_path, x-1,y,z)
+            || rec_solve_maze(in_maze, in_path, x,y+1,z)
+            || rec_solve_maze(in_maze, in_path, x,y-1,z)
+            || rec_solve_maze(in_maze, in_path, x,y,z+1)
+            || rec_solve_maze(in_maze, in_path, x,y,z-1)
+            ){
+        return true;   
+    } else {
+        in_path.pop_back();
+        return false;
+    } 
+    return false;
+}
 
 

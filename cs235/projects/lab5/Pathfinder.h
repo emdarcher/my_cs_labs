@@ -7,7 +7,8 @@
 #include <stdint.h>
 #include <iostream>
 #include <fstream>
-
+#include <sstream>
+#include <iomanip>
 
 
 #define DOES_NOT_EXIST -1
@@ -27,6 +28,10 @@ class Pathfinder : public PathfinderInterface {
         void generate_maze(string& in_maze);
         int count_file_lines(string in_file_name);
         bool is_int_num(string str);
+        string coordinates_to_string(int x, int y, int z);
+        int search_path(vector<string>& in_path, string coord_str);
+        bool rec_solve_maze(string& in_maze, vector<string>& in_path, 
+                int x, int y, int z);
     public:
         Pathfinder();
         virtual ~Pathfinder();
