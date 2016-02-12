@@ -205,8 +205,10 @@ vector<string> Pathfinder::solveMaze(){
     vector<string> path;
     //the recursive function has to ignore previously failed paths and loops
     //
+#if PRINT_INFO
     cout << "starting new maze!\n";
     cout << maze << "\n";
+#endif
     path.push_back("start");
     if(rec_solve_maze(maze, path, 
                 0, 0, 0)){
@@ -233,7 +235,9 @@ bool Pathfinder::rec_solve_maze(string& in_maze, vector<string>& in_path,
         return false;
     }
     if(in_path.back() == "start"){
+#if PRINT_INFO
         cout << "detected start\n";
+#endif
         in_path.pop_back();
         visited.clear();
         calls_cnt = 0;
@@ -267,8 +271,10 @@ bool Pathfinder::rec_solve_maze(string& in_maze, vector<string>& in_path,
     
     //if we are at the end of the maze return true
     if((x==DIM_CELLS-1)&&(y==DIM_CELLS-1)&&(z==DIM_CELLS-1)){
+#if PRINT_INFO
         cout << "maze is: SOLVABLE\n";
         cout << "took " << calls_cnt << " calls to solve.\n\n";
+#endif
         return true;
     }
 
@@ -288,8 +294,10 @@ bool Pathfinder::rec_solve_maze(string& in_maze, vector<string>& in_path,
         in_path.pop_back();
        
         if(original_call){
+#if PRINT_INFO 
             cout << "maze is: IMPOSSIBLE\n";
             cout << "took " << calls_cnt << " calls to solve.\n\n";
+#endif
         } 
         return false;
     } 

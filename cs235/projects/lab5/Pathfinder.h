@@ -16,6 +16,8 @@
 
 #define STR_BUFF_SIZE 128
 
+#define PRINT_INFO 0
+
 class Pathfinder : public PathfinderInterface {
     private:
         string maze;
