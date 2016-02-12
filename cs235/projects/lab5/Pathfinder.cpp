@@ -29,6 +29,7 @@ int Pathfinder::get_maze_val(string& in_maze, int x, int y, int z){
         return char_to_num(in_maze[index]); 
     } 
     //if it doesn't exist return 0
+    //so the algorithm doesn't try to access it
     return 0;
     //return DOES_NOT_EXIST;
 }
@@ -75,6 +76,8 @@ void Pathfinder::generate_maze(string& in_maze){
 }
 
 string Pathfinder::getMaze(){
+    //if no maze has been made
+    //generate a new maze and return it
     if(maze.length() == 0){
         generate_maze(maze); 
         return maze;
@@ -83,6 +86,9 @@ string Pathfinder::getMaze(){
 }
 
 uint8_t Pathfinder::rand_bool(void){
+    //returns randomly 1 or 0
+    //using a bitwise AND on the random int
+    //to get the last bit
     unsigned int in_rand = rand();
     return (in_rand & 0x01);
 }
@@ -136,6 +142,8 @@ bool Pathfinder::importMaze(string file_name){
         return false;
     }
 
+    //using temporary maze so we don't alter the global maze
+    //if the input is invalid
     string tmp_maze;
     //generate new maze
     generate_maze(tmp_maze);
@@ -209,7 +217,10 @@ vector<string> Pathfinder::solveMaze(){
     cout << "starting new maze!\n";
     cout << maze << "\n";
 #endif
+    //add the string "start" to the path
+    //to tell the recursive function that it is on it's first call
     path.push_back("start");
+    //call the recursive solving function
     if(rec_solve_maze(maze, path, 
                 0, 0, 0)){
         return path;
@@ -227,47 +238,38 @@ vector<string> Pathfinder::solveMaze(){
 //
 bool Pathfinder::rec_solve_maze(string& in_maze, vector<string>& in_path,
         int x, int y, int z){
+    //vector to store cells already visited and failed
     static vector<string> visited;
+
+#if PRINT_INFO 
     static int calls_cnt = 0;
     calls_cnt++;
     bool original_call = false;
+#endif
     if(get_maze_val(in_maze, x, y, z) == 0){
         return false;
     }
     if(in_path.back() == "start"){
 #if PRINT_INFO
         cout << "detected start\n";
+        calls_cnt = 0;
+        original_call = true;
 #endif
         in_path.pop_back();
         visited.clear();
-        calls_cnt = 0;
-        original_call = true;
     }
     string my_coord_str = coordinates_to_string(x, y, z);
     int my_index = search_path(in_path, my_coord_str);
     int visited_i = search_path(visited, my_coord_str);
-    //if we have been to this location before, then remove 
-    //all the path steps we just took because it is a loop
+    //if we have been to this location before, then return false
     if((my_index != DOES_NOT_EXIST)||(visited_i != DOES_NOT_EXIST)){
-        //while(my_index < (in_path.size() - 1)){
-        //    //remove the bad path
-        //    in_path.pop_back();
-        //} 
         return false;
     }
 
-    //check if any of the adjacent cells are accessable
-    //if(get_maze_val(in_maze, x+1,y,z) 
-    //        || get_maze_val(in_maze, x-1,y,z)
-    //        || get_maze_val(in_maze, x,y+1,z)
-    //        || get_maze_val(in_maze, x,y-1,z)
-    //        || get_maze_val(in_maze, x,y,z+1)
-    //        || get_maze_val(in_maze, x,y,z-1)
-    //        ){
-        //if so add the current coordinates to the path
+    //add the current coordinates to the path
     in_path.push_back(my_coord_str);
-        //cout << "added " << my_coord_str << " to the path\n";
-    //}
+    //cout << "added " << my_coord_str << " to the path\n";
+    
     
     //if we are at the end of the maze return true
     if((x==DIM_CELLS-1)&&(y==DIM_CELLS-1)&&(z==DIM_CELLS-1)){
@@ -293,12 +295,12 @@ bool Pathfinder::rec_solve_maze(string& in_maze, vector<string>& in_path,
         //cout << "visited.size() == " << visited.size() << "\n";
         in_path.pop_back();
        
-        if(original_call){
 #if PRINT_INFO 
+        if(original_call){
             cout << "maze is: IMPOSSIBLE\n";
             cout << "took " << calls_cnt << " calls to solve.\n\n";
-#endif
         } 
+#endif
         return false;
     } 
     return false;
