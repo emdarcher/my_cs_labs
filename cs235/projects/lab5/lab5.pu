@@ -1,5 +1,6 @@
 @startuml
 
+skinparam classAttributeIconSize 0
 
 class Factory {
     
@@ -39,10 +40,10 @@ class Pathfinder {
                 int x, int y, int z);
         + Pathfinder();
         + ~Pathfinder();
-		+ string getMaze();
-		+ void createRandomMaze();
-		+ bool importMaze(string file_name);
-		+ vector<string> solveMaze();
+        + string getMaze();
+        + void createRandomMaze();
+        + bool importMaze(string file_name);
+        + vector<string> solveMaze();
 }
 
 @enduml
