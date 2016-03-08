@@ -13,6 +13,7 @@ QS::~QS(){
 void QS::sortAll(){
 
 }
+#define MOT_DEBUG 0
 int QS::medianOfThree(int left, int right){
     //detect errors
     if((elements == NULL)
@@ -21,13 +22,13 @@ int QS::medianOfThree(int left, int right){
         return -1;
     }
     int middle = (left + right)/2;
-#if DEBUG
+#if DEBUG && MOT_DEBUG
     cout << "input array: " << getArray() << endl;
     cout << "left = " << left << " middle = " << middle 
         << " right = " << right << endl;
 #endif
     int * nums[] = { &elements[left], &elements[middle], &elements[right] };
-#if DEBUG
+#if DEBUG && MOT_DEBUG
     cout << "nums[] = " << "{ " << *nums[0] << "," 
         << *nums[1] << "," << *nums[2] << "}\n"; 
 #endif
@@ -44,7 +45,7 @@ int QS::medianOfThree(int left, int right){
             switches = false; 
             for(int i=0;i<3-1;i++){
                 if(!(*nums[i] <= *nums[i+1])){
-#if DEBUG
+#if DEBUG && MOT_DEBUG
                     cout << *nums[i] << " is not less than " << *nums[i+1] 
                         << " swapping\n";
 #endif
@@ -58,6 +59,7 @@ int QS::medianOfThree(int left, int right){
     //}
     return middle;
 }
+#define PART_DEBUG 1
 int QS::partition(int left, int right, int pivotIndex){
     //detect errors
     if((elements == NULL)
@@ -66,6 +68,11 @@ int QS::partition(int left, int right, int pivotIndex){
             || (pivotIndex < left) || (pivotIndex > right)){
         return -1;
     }
+#if DEBUG && PART_DEBUG
+    cout << "input array: " << getArray() << endl;
+    cout << "left = " << left << " pivotIndex = " << pivotIndex 
+        << " right = " << right << endl;
+#endif
     int pivotVal = elements[pivotIndex];
     //swap pivot with first
     elements[pivotIndex] = elements[left];
@@ -98,6 +105,10 @@ int QS::partition(int left, int right, int pivotIndex){
         elements[i] = elements[j];
         elements[j] = tmp;
     }
+#if DEBUG && PART_DEBUG
+    cout << "output array: " << getArray() << endl;
+    cout << " pivotIndex = " << pivotIndex << endl;
+#endif
     return pivotIndex;
 }
 string QS::getArray(){
