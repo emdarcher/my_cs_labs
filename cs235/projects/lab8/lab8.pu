@@ -1,0 +1,48 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+interface QSInterface <<interface>> {
+    + QSInterface()
+    + ~QSInterface()
+    + {abstract} void sortAll()
+    + {abstract} int medianOfThree(int left, int right)
+    + {abstract} int partition(int left, int right, int pivotIndex)
+    + {abstract} string getArray()
+    + {abstract} int getSize()
+    + {abstract} void addToArray(int value)
+    + {abstract} bool createArray(int capacity)
+    + {abstract} void clear()
+}
+
+class Factory {
+    {static} static QSInterface * getQS()
+}
+
+Factory *-- QSInterface
+
+class QS {
+
+        - unsigned int current_capacity;
+        - int * elements;
+        - unsigned int element_cnt;
+        - void rec_sort(int left, int right);
+
+        + QS();
+        + ~QS();
+        + void sortAll();
+        + int medianOfThree(int left, int right);
+        + int partition(int left, int right, int pivotIndex);
+        + string getArray();
+        + int getSize();
+        + void addToArray(int value);
+        + bool createArray(int capacity);
+        + void clear();
+
+}
+
+QSInterface <|-- QS
+Factory *-- QS
+ 
+
+@enduml
