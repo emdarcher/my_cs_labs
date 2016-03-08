@@ -10,8 +10,26 @@ QS::~QS(){
 
     clear();
 }
+void QS::rec_sort(int left, int right){
+    //detect errors
+    if((elements == NULL)
+            || !(left < right) || (left < 0) || (left >= element_cnt) 
+            || (right >= element_cnt) || (right < 0)){
+        return;
+    }
+    if(left == right){
+        return;
+    }
+    int medIndex = medianOfThree(left, right);
+    int pivotIndex = partition(left, right, medIndex);
+    rec_sort(left, pivotIndex - 1);
+    rec_sort(pivotIndex + 1, right);
+}
 void QS::sortAll(){
-
+#if DEBUG
+    cout << "input array:  " << getArray() << endl;
+#endif
+    rec_sort(0, element_cnt - 1);
 }
 #define MOT_DEBUG 0
 int QS::medianOfThree(int left, int right){
@@ -23,7 +41,7 @@ int QS::medianOfThree(int left, int right){
     }
     int middle = (left + right)/2;
 #if DEBUG && MOT_DEBUG
-    cout << "input array: " << getArray() << endl;
+    cout << "input array:  " << getArray() << endl;
     cout << "left = " << left << " middle = " << middle 
         << " right = " << right << endl;
 #endif
@@ -69,7 +87,7 @@ int QS::partition(int left, int right, int pivotIndex){
         return -1;
     }
 #if DEBUG && PART_DEBUG
-    cout << "input array: " << getArray() << endl;
+    cout << "input array:  " << getArray() << endl;
     cout << "left = " << left << " pivotIndex = " << pivotIndex 
         << " right = " << right << endl;
 #endif

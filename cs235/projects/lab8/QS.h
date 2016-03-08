@@ -16,6 +16,7 @@ class QS : public   QSInterface {
         unsigned int current_capacity;
         int * elements;
         unsigned int element_cnt;
+        void rec_sort(int left, int right);
     public:
         QS();
         ~QS();
