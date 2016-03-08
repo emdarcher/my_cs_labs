@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <sstream>
 
+#define DEBUG 1
+
 class QS : public   QSInterface {
 
     private:
