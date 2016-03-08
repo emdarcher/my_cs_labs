@@ -2,9 +2,14 @@
 #include "QS.h"
 
 QS::QS(){
+    elements = NULL;
     element_cnt = 0;
+    current_capacity = 0;
 }
-QS::~QS(){}
+QS::~QS(){
+
+    clear();
+}
 void QS::sortAll(){
 
 }
@@ -53,7 +58,9 @@ bool QS::createArray(int capacity){
     return true;
 }
 void QS::clear(){
-    delete[] elements;
+    if(elements != NULL){
+        delete[] elements;
+    }
     current_capacity = 0;
     element_cnt = 0;
     //elements = NULL;
