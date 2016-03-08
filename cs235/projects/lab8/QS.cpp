@@ -11,6 +11,8 @@ QS::~QS(){
     clear();
 }
 void QS::rec_sort(int left, int right){
+//recursively sort the array
+
     //detect errors
     if((elements == NULL)
             || !(left < right) || (left < 0) || (left >= element_cnt) 
@@ -27,6 +29,7 @@ void QS::rec_sort(int left, int right){
 }
 #define SORT_DEBUG 0
 void QS::sortAll(){
+    //sorts the array, calling rec_sort
 #if DEBUG && SORT_DEBUG
     cout << "input array:  " << getArray() << endl;
 #endif
@@ -148,7 +151,7 @@ int QS::getSize(){
     return element_cnt; 
 }
 void QS::addToArray(int value){
-#if DEBUG && 1
+#if DEBUG && 0
     cout << "adding " << value << " to the array\n";
 #endif
     if(element_cnt == current_capacity){
@@ -159,7 +162,7 @@ void QS::addToArray(int value){
 }
 bool QS::createArray(int capacity){
 //dynamically allocate array with size of capacity
-#if DEBUG 
+#if DEBUG && 0
     cout << "creating array of size " << capacity << endl; 
 #endif
     if(capacity < 0){
@@ -174,7 +177,7 @@ bool QS::createArray(int capacity){
     return true;
 }
 void QS::clear(){
-#if DEBUG
+#if DEBUG && 0
     cout << "calling clear();\n";
 #endif
     //if(elements != NULL){

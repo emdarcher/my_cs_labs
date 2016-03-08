@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <sstream>
 
-#define DEBUG 1
+#define DEBUG 0
 
 class QS : public   QSInterface {
 
