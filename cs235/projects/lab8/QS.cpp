@@ -32,14 +32,14 @@ int QS::medianOfThree(int left, int right){
         << *nums[1] << "," << *nums[2] << "}\n"; 
 #endif
     bool switches = false;
-    if(middle == left){
-        if(!(*nums[0] <= *nums[2])){
-            int tmp = *nums[0];
-            *nums[0] = *nums[2];
-            *nums[2] = tmp;
-            //middle = right;
-        } 
-    }else {
+    //if(middle == left){
+    //    if(!(*nums[0] <= *nums[2])){
+    //        int tmp = *nums[0];
+    //        *nums[0] = *nums[2];
+    //        *nums[2] = tmp;
+    //        //middle = right;
+    //    } 
+    //}else {
         do{
             switches = false; 
             for(int i=0;i<3-1;i++){
@@ -55,11 +55,50 @@ int QS::medianOfThree(int left, int right){
                 }
             }
         } while(switches == true);
-    }
+    //}
     return middle;
 }
 int QS::partition(int left, int right, int pivotIndex){
-    return -1;
+    //detect errors
+    if((elements == NULL)
+            || !(left < right) || (left < 0) || (left >= element_cnt) 
+            || (right >= element_cnt) || (right < 0) 
+            || (pivotIndex < left) || (pivotIndex > right)){
+        return -1;
+    }
+    int pivotVal = elements[pivotIndex];
+    //swap pivot with first
+    elements[pivotIndex] = elements[left];
+    elements[left] = pivotVal;
+    int i = left + 1;
+    int j = right;
+    while( 1 ){
+        while(j > left){
+            if(elements[j] < pivotVal){
+                break;
+            }
+            j--;
+        } 
+        while(i < right){
+            if(elements[i] >= pivotVal){
+                break;
+            }
+            i++;
+        }
+        //if they cross
+        if(j <= i){
+            //swap the pivot value back into the new pivot position
+            pivotIndex = j;
+            elements[left] = elements[pivotIndex];
+            elements[pivotIndex] = pivotVal;
+            break;
+        }
+        //swap the i and j location values
+        int tmp = elements[i];
+        elements[i] = elements[j];
+        elements[j] = tmp;
+    }
+    return pivotIndex;
 }
 string QS::getArray(){
     //string out_str = "";
