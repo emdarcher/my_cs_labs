@@ -25,8 +25,9 @@ void QS::rec_sort(int left, int right){
     rec_sort(left, pivotIndex - 1);
     rec_sort(pivotIndex + 1, right);
 }
+#define SORT_DEBUG 0
 void QS::sortAll(){
-#if DEBUG
+#if DEBUG && SORT_DEBUG
     cout << "input array:  " << getArray() << endl;
 #endif
     rec_sort(0, element_cnt - 1);
@@ -77,7 +78,7 @@ int QS::medianOfThree(int left, int right){
     //}
     return middle;
 }
-#define PART_DEBUG 1
+#define PART_DEBUG 0
 int QS::partition(int left, int right, int pivotIndex){
     //detect errors
     if((elements == NULL)
@@ -147,6 +148,9 @@ int QS::getSize(){
     return element_cnt; 
 }
 void QS::addToArray(int value){
+#if DEBUG && 1
+    cout << "adding " << value << " to the array\n";
+#endif
     if(element_cnt == current_capacity){
         return;
     }
@@ -155,19 +159,26 @@ void QS::addToArray(int value){
 }
 bool QS::createArray(int capacity){
 //dynamically allocate array with size of capacity
-    
+#if DEBUG 
+    cout << "creating array of size " << capacity << endl; 
+#endif
     if(capacity < 0){
         return false;
     }
-    if(elements != NULL){
-        delete[] elements;
-    }
+    //if(elements != NULL){
+    //    delete[] elements;
+    //}
+    clear();
     current_capacity = capacity;
     elements = new int[capacity];
     return true;
 }
 void QS::clear(){
-    if(elements != NULL){
+#if DEBUG
+    cout << "calling clear();\n";
+#endif
+    //if(elements != NULL){
+    if(current_capacity != 0){
         delete[] elements;
     }
     current_capacity = 0;
