@@ -1,0 +1,55 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Factory {
+    + {static} static LinkedListInterface<int>* getLinkedListInt();
+    + {static} static LinkedListInterface<string>* getLinkedListString();
+}
+
+interface LinkedListInterface <<interface>> {
+
+    +LinkedListInterface(void){};
+    +~LinkedListInterface(void){};
+    +{abstract} void insertHead(T value);
+    +{abstract} void insertTail(T value);
+    +{abstract} void insertAfter(T value, T insertionNode);
+    +{abstract} void remove(T value);
+    +{abstract} void clear();
+    +{abstract} T at(int index);
+    +{abstract} int size();
+
+}
+
+Factory *-- LinkedListInterface
+
+class Node {
+    +T data;
+    +Node* next;
+    +Node(const T& data_item, Node* next_ptr = NULL); 
+}
+
+class LinkedList {
+    -Node* head;
+    -Node* find_node(T value);
+    -int node_cnt;
+    
+    +LinkedList(void);
+    +~LinkedList(void);
+    +void insertHead(T value);
+    +void insertTail(T value);
+    +void insertAfter(T value, T insertionNode);
+    +void remove(T value);
+    +void clear();
+    +T at(int index);
+    +int size();
+
+}
+
+LinkedList +-- Node
+LinkedListInterface <|-- LinkedList
+Factory *-- LinkedList
+
+
+
+@enduml
