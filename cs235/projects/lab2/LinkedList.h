@@ -12,9 +12,12 @@ class LinkedList : public LinkedListInterface<T> {
             public:
                 T data;
                 Node* next;
-                Node(const T& data_item, Node* next_ptr = NULL){
-                    this->data = data_item;
-                    this->next = next_ptr;
+                //Node(const T& data_item, Node* next_ptr = NULL){
+                //    this->data = data_item;
+                //    this->next = next_ptr;
+                //}
+                Node(const T& data_item, Node* next_ptr = NULL) : 
+                    data(data_item), next(next_ptr) {
                 }
         };
         Node* head;
@@ -115,6 +118,7 @@ class LinkedList : public LinkedListInterface<T> {
                 } 
                 //then finally delete head
                 delete head;
+                head = NULL;
             }
             node_cnt = 0;
         }
