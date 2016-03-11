@@ -1,0 +1,73 @@
+
+
+#include "LinkedList.h"
+
+LinkedList<T>::Node::Node(const T& data_item, Node* next_ptr = NULL){
+    this->data = data_item;
+    this->next = next_ptr;
+}
+        
+Node* LinkedList<T>::find_node(T value){
+    //searches for a node with a matching value, 
+    //if found, it returns the Node pointer to it,
+    //if not, it returns NULL
+    Node* ret_node = head;
+    while(ret_node != NULL){
+        if(ret_node->data == value){
+            return ret_node;
+        }
+        ret_node = ret_node->next;
+    } 
+    return NULL;
+}
+        
+LinkedList<T>::LinkedList(void){
+
+    this->head = NULL;
+    this->tail = NULL;
+}
+LinkedList<T>::~LinkedList(void){
+
+}
+void LinkedList<T>::insertHead(T value){
+    Node* srch_node = find_node(value);
+    //check for no duplicates
+    if(srch_node == NULL){
+        head = new Node(value, head);
+    }
+}
+void LinkedList<T>::insertTail(T value){
+
+    Node* srch_node = find_node(value);
+    //check for no duplicates
+    if(srch_node == NULL){
+        Node* new_tail = new Node(value);
+        tail->next = new_tail;
+        tail = new_tail;
+    }
+}
+void LinkedList<T>::insertAfter(T value, T insertionNode){
+    Node* val_node = find_node(value); 
+    Node* ins_node = find_node(insertionNode);
+    //check that the insertionNode exists and that
+    //no Nodes exist with a value equivalent to the given value
+    //(no duplicates)
+    if((ins_node != NULL) && (val_node == NULL)){
+        Node* new_node = new Node(value, ins_node->next);
+        ins_node->next = new_node;
+        return;
+    }
+    return;
+}
+void LinkedList<T>::remove(T value){
+
+}
+void LinkedList<T>::clear(){
+
+}
+T LinkedList<T>::at(int index){
+
+}
+int LinkedList<T>::size(){
+
+}
