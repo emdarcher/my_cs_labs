@@ -32,7 +32,7 @@ class LinkedList : public LinkedListInterface<T> {
             } 
             return NULL;
         }
-        unsigned int node_cnt;
+        int node_cnt;
     public:
         LinkedList(void){
             this->head = NULL;
@@ -82,23 +82,26 @@ class LinkedList : public LinkedListInterface<T> {
         
         }
         virtual void remove(T value){
-            Node* inc_node = head;
-            //check if first matches
-            if(inc_node->data == value){
-                Node* tmp = inc_node;
-                inc_node = inc_node->next;
-                delete tmp;
-                node_cnt--;
-                return;
-            }
-            //otherwise loop through next nodes
-            while(inc_node->next != NULL){
-                if(inc_node->next->data == value){
-                    Node* tmp = inc_node->next;
-                    inc_node->next = tmp->next;
+            if(head != NULL){
+                Node* inc_node = head;
+                //check if first matches
+                if(head->data == value){
+                    Node* tmp = head;
+                    head = head->next;
                     delete tmp;
                     node_cnt--;
                     return;
+                }
+                //otherwise loop through next nodes
+                while(inc_node->next != NULL){
+                    if(inc_node->next->data == value){
+                        Node* tmp = inc_node->next;
+                        inc_node->next = tmp->next;
+                        delete tmp;
+                        node_cnt--;
+                        return;
+                    }
+                    inc_node = inc_node->next;
                 }
             }
         }
@@ -116,7 +119,7 @@ class LinkedList : public LinkedListInterface<T> {
             node_cnt = 0;
         }
         virtual T at(int index){
-            if(index > node_cnt - 1){
+            if((index < 0) || (index > node_cnt - 1)){
                 //if out of bounds
                 throw std::out_of_range("The value of index is out of range!");
             }
