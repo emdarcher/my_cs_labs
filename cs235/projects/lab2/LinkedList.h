@@ -4,6 +4,9 @@
 
 #include "LinkedListInterface.h"
 #include <stdexcept>
+#include <iostream>
+
+#define DEBUG 0
 
 template<typename T>
 class LinkedList : public LinkedListInterface<T> {
@@ -21,7 +24,6 @@ class LinkedList : public LinkedListInterface<T> {
                 }
         };
         Node* head;
-        //Node* tail;
         Node* find_node(T value){
             //searches for a node with a matching value, 
             //if found, it returns the Node pointer to it,
@@ -39,13 +41,15 @@ class LinkedList : public LinkedListInterface<T> {
     public:
         LinkedList(void){
             this->head = NULL;
-            ///this->tail = NULL;
             this->node_cnt = 0;
         }
         virtual ~LinkedList(void){
             clear(); 
         }
         virtual void insertHead(T value){
+#if DEBUG
+            cout << "calling insertHead(" << value << ")\n";
+#endif
             Node* srch_node = find_node(value);
             //check for no duplicates
             if(srch_node == NULL){
@@ -55,21 +59,31 @@ class LinkedList : public LinkedListInterface<T> {
         
         }
         virtual void insertTail(T value){
+#if DEBUG 
+            cout << "calling insertTail(" << value << ")\n";
+#endif
             Node* srch_node = find_node(value);
             //check for no duplicates
             if(srch_node == NULL){
-                Node* tail = head;
-                while(tail->next != NULL){
-                    tail = tail->next;
-                }  
-                Node* new_tail = new Node(value);
-                tail->next = new_tail;
-                tail = new_tail;
-                node_cnt++;
+                if(head != NULL){
+                    Node* tail = head;
+                    while(tail->next != NULL){
+                        tail = tail->next;
+                    }  
+                    Node* new_tail = new Node(value);
+                    tail->next = new_tail;
+                    tail = new_tail;
+                    node_cnt++;
+                } else {
+                    insertHead(value);
+                }
             }
         
         }
         virtual void insertAfter(T value, T insertionNode){
+#if DEBUG
+            cout << "calling insertAfter(" << value << "," << insertionNode << ")\n";
+#endif
             Node* val_node = find_node(value); 
             Node* ins_node = find_node(insertionNode);
             //check that the insertionNode exists and that
@@ -85,6 +99,9 @@ class LinkedList : public LinkedListInterface<T> {
         
         }
         virtual void remove(T value){
+#if DEBUG
+            cout << "calling remove(" << value << ")\n";
+#endif
             if(head != NULL){
                 Node* inc_node = head;
                 //check if first matches
@@ -109,6 +126,9 @@ class LinkedList : public LinkedListInterface<T> {
             }
         }
         virtual void clear(){
+#if DEBUG
+            cout << "calling clear()\n";
+#endif
             if(head != NULL){
                 //go through the nodes after head
                 while( head->next != NULL ){
