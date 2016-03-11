@@ -18,7 +18,7 @@ class LinkedList : public LinkedListInterface<T> {
                 }
         };
         Node* head;
-        Node* tail;
+        //Node* tail;
         Node* find_node(T value){
             //searches for a node with a matching value, 
             //if found, it returns the Node pointer to it,
@@ -36,11 +36,11 @@ class LinkedList : public LinkedListInterface<T> {
     public:
         LinkedList(void){
             this->head = NULL;
-            this->tail = NULL;
+            ///this->tail = NULL;
             this->node_cnt = 0;
         }
         virtual ~LinkedList(void){
-        
+            clear(); 
         }
         virtual void insertHead(T value){
             Node* srch_node = find_node(value);
@@ -52,10 +52,13 @@ class LinkedList : public LinkedListInterface<T> {
         
         }
         virtual void insertTail(T value){
-
             Node* srch_node = find_node(value);
             //check for no duplicates
             if(srch_node == NULL){
+                Node* tail = head;
+                while(tail->next != NULL){
+                    tail = tail->next;
+                }  
                 Node* new_tail = new Node(value);
                 tail->next = new_tail;
                 tail = new_tail;
@@ -79,23 +82,49 @@ class LinkedList : public LinkedListInterface<T> {
         
         }
         virtual void remove(T value){
-        
+            Node* inc_node = head;
+            //check if first matches
+            if(inc_node->data == value){
+                Node* tmp = inc_node;
+                inc_node = inc_node->next;
+                delete tmp;
+                node_cnt--;
+                return;
+            }
+            //otherwise loop through next nodes
+            while(inc_node->next != NULL){
+                if(inc_node->next->data == value){
+                    Node* tmp = inc_node->next;
+                    inc_node->next = tmp->next;
+                    delete tmp;
+                    node_cnt--;
+                    return;
+                }
+            }
         }
         virtual void clear(){
-        
+            if(head != NULL){
+                //go through the nodes after head
+                while( head->next != NULL ){
+                    Node* tmp = head->next;
+                    head->next = tmp->next;
+                    delete tmp; 
+                } 
+                //then finally delete head
+                delete head;
+            }
+            node_cnt = 0;
         }
         virtual T at(int index){
             if(index > node_cnt - 1){
                 //if out of bounds
                 throw std::out_of_range("The value of index is out of range!");
-                
             }
             Node* index_node = head;
             for(int i=0; i<index; i++){
                 index_node = index_node->next;
             }
             return index_node->data;
-        
         }
         virtual int size(){
             return this->node_cnt; 
