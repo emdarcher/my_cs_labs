@@ -42,9 +42,15 @@ bool BST::rec_remove(Node * &in_root, int &in_data){
         //if a match is found
         Node * tmp_root = in_root;
         if(in_root->left == NULL){
-            in_root = in_root->right;
+            Node * tmp_right = in_root->right;
+            delete in_root;
+            //in_root = in_root->right;
+            in_root = tmp_right;
         } else if(in_root->right == NULL){
-            in_root = in_root->left;
+            Node * tmp_left = in_root->left;
+            delete in_root;
+            //in_root = in_root->left;
+            in_root = tmp_left;
         } else {
             rec_replace_parent(tmp_root, in_root->left);          
             delete tmp_root;
