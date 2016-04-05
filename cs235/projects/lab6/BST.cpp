@@ -6,13 +6,15 @@
 BST::BST(){
     root = NULL;
 }
-BST::~BST(){}
+BST::~BST(){
+    clear();
+}
 NodeInterface * BST::getRootNode(){
     return root;
 }
 bool BST::rec_add(Node * &in_root, int &in_data){
     if(in_root == NULL){
-        in_root = new Node(in_data);
+        in_root = new Node(in_data, NULL, NULL);
         return true;
     } else if(in_root->getData() == in_data){
         return false;
@@ -25,6 +27,9 @@ bool BST::rec_add(Node * &in_root, int &in_data){
 }
 
 bool BST::add(int data){
+#if DEBUG
+    std::cout << "add(" << data << ")\n";
+#endif
     return rec_add(root, data);
 }
 
@@ -65,6 +70,14 @@ void BST::rec_replace_parent(Node * &old_root, Node * &local_root){
 }
 
 bool BST::remove(int data){
+#if DEBUG 
+    std::cout << "remove(" << data << ")\n";
+#endif
     return rec_remove(root, data);
 }
-void BST::clear(){}
+void BST::clear(){
+    while(root != NULL){
+        remove(root->data);
+    }
+    //delete root;
+}

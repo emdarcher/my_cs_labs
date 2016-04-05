@@ -15,8 +15,8 @@ class Node : public NodeInterface {
         Node(const int& in_data, Node * l = NULL, Node * r = NULL);
         virtual ~Node();
         virtual int getData();
-        virtual NodeInterface * getLeftChild();
-        virtual NodeInterface * getRightChild();
+        virtual Node * getLeftChild();
+        virtual Node * getRightChild();
 
 };
 

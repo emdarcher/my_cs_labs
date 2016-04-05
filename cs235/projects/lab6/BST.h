@@ -4,8 +4,10 @@
 #define BST_H
 
 #include "BSTInterface.h"
+#include <iostream>
 #include "Node.h"
 
+#define DEBUG 1
 
 class BST : public BSTInterface {
 

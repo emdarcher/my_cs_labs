@@ -16,9 +16,9 @@ Node::~Node(){
 int Node::getData(){
     return data;
 }
-NodeInterface * Node::getLeftChild(){
-    return right;
-}
-NodeInterface * Node::getRightChild(){
+Node * Node::getLeftChild(){
     return left;
+}
+Node * Node::getRightChild(){
+    return right;
 }
