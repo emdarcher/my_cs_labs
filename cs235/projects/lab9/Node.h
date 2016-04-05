@@ -6,9 +6,12 @@
 
 class Node : public NodeInterface {
     private:
-
+        Node * left;
+        Node * right;
+        int data;
+        int height;
     public:
-        Node();
+        Node(int& data, Node*& l = NULL, Node*& r = NULL);
         virtual ~Node();
         virtual int getData();
         virtual NodeInterface * getLeftChild();

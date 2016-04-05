@@ -8,6 +8,7 @@
 
 class AVL : public AVLInterface {
     private:
+        Node * root;
 
     public:
         AVL();
