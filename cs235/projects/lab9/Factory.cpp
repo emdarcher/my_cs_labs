@@ -1,6 +1,6 @@
 #include "Factory.h"
 //You may add #include statements here
-
+#include "AVL.h"
 /*
 	You will MODIFY THIS DOCUMENT.
 */
@@ -15,5 +15,5 @@
 */
 AVLInterface * Factory::getAVL()
 {
-	return NULL;//Modify this line
+	return new AVL();//Modify this line
 }
