@@ -158,9 +158,44 @@ bool AVL::rec_remove(Node * &in_root, int &in_data){
         }
         return true;
     } else if(in_data < in_root->getData()){
-        return rec_remove(in_root->left, in_data);
+        bool ret_val = rec_remove(in_root->left, in_data);
+        bool decrease = ret_val;
+        if(decrease){
+            if(in_root->getBalance() == 0){
+                decrease = false;
+            }
+            if(in_root->getBalance() > 1){
+                decrease = false;
+                //rebalance right
+                if(in_root->right->getBalance() < 0){
+                    //rotate right subtree right
+                    rot_right(in_root->right);
+                }
+                //rotate parent left
+                rot_left(in_root);
+            }
+        }
+
+        return ret_val;
     } else if(in_data > in_root->getData()){
-        return rec_remove(in_root->right, in_data);
+        bool ret_val = rec_remove(in_root->right, in_data);
+        bool decrease = ret_val;
+        if(decrease){
+            if(in_root->getBalance() == 0){
+                decrease = true;
+            }
+            if(in_root->getBalance() < -1){
+                decrease = false;
+                //rebalance left
+                if(in_root->left->getBalance() > 0){
+                    //rotate left subtree left
+                    rot_left(in_root->left);
+                }
+                //rotate parent right
+                rot_right(in_root);
+            }
+        } 
+        return ret_val;
     }
     return false;
 }
