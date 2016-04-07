@@ -9,12 +9,14 @@ class Node : public NodeInterface {
         Node * left;
         Node * right;
         int data;
+        int balance;
         Node(int& data, Node* l = NULL, Node* r = NULL);
         virtual ~Node();
         virtual int getData();
         virtual NodeInterface * getLeftChild();
         virtual NodeInterface * getRightChild();
         virtual int getHeight();
+        int getBalance();
 };
 
 #endif

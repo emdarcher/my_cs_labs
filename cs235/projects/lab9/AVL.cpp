@@ -11,15 +11,53 @@ AVL::~AVL(){
 }
 
 bool AVL::rec_add(Node * &in_root, int &in_data){
+    bool increase = false;
     if(in_root == NULL){
         in_root = new Node(in_data, NULL, NULL);
+        increase = true;
         return true;
     } else if(in_root->getData() == in_data){
+        increase = false;
         return false;
     } else if(in_data < in_root->getData()){
-        return rec_add(in_root->left, in_data);
+        bool ret_val =  rec_add(in_root->left, in_data);
+        increase = ret_val;
+        if(increase){
+            if(in_root->getBalance() == 0){
+                increase = false;
+            }
+            if(in_root->getBalance() < -1){
+                increase = false;
+                //rebalance left
+                if(in_root->left->getBalance() > 0){
+                    //rotate left subtree left
+                    rot_left(in_root->left);
+                }
+                //rotate parent right
+                rot_right(in_root);
+            }
+        } 
+        return ret_val;
     } else if(in_data > in_root->getData()){
-        return rec_add(in_root->right, in_data);
+        bool ret_val = rec_add(in_root->right, in_data);
+        increase = ret_val;
+        if(increase){
+            if(in_root->getBalance() == 0){
+                increase = false;
+            }
+            if(in_root->getBalance() > 1){
+                increase = false;
+                //rebalance right
+                if(in_root->right->getBalance() < 0){
+                    //rotate right subtree right
+                    rot_right(in_root->right);
+                }
+                //rotate parent left
+                rot_left(in_root);
+            }
+        }
+
+        return ret_val;
     }
     return false;
 }
@@ -38,7 +76,7 @@ void AVL::rot_left(Node*& local_root){
     temp->left = local_root;
     local_root = temp;
 }
-
+#if 0
 void AVL::rec_balance(Node*& in_root){
     //if left heavy, rotate right
     //if right heavy, rotate left
@@ -52,13 +90,18 @@ void AVL::rec_balance(Node*& in_root){
     int rh = (in_root->right != NULL) ? in_root->right->getHeight() : 0;
     int lh = (in_root->left != NULL) ? in_root->left->getHeight() : 0;
     
-    if(abs(rh - lh) > 1){
+    //if(abs(rh - lh) > 1){
+   
         //first continue the recursive chain
-        if(rh > lh){
-            rec_balance(in_root->right);
-        } else if(rh < lh){
-            rec_balance(in_root->left);
-        }
+        //if(rh > lh){
+        //    rec_balance(in_root->right);
+        //} else if(rh < lh){
+        //    rec_balance(in_root->left);
+        //}
+        if(rh > 0) rec_balance(in_root->right);
+        if(lh > 0) rec_balance(in_root->left);
+
+
         //if after calling on lower children it is still unbalanced
         //then do correct rotations
         //
@@ -74,7 +117,22 @@ void AVL::rec_balance(Node*& in_root){
             }
         } 
 
-    }     
+    //}     
+    
+}
+#endif
+
+void AVL::rec_balance(Node*& in_root){
+    if(in_root == NULL) return; 
+
+    if(in_root->getHeight() == 1){
+        //this is a leaf, can't balance from it
+        return;
+    }
+    int rh = (in_root->right != NULL) ? in_root->right->getHeight() : 0;
+    int lh = (in_root->left != NULL) ? in_root->left->getHeight() : 0;
+
+    int balance =  0;
     
 }
 
@@ -123,7 +181,7 @@ NodeInterface * AVL::getRootNode(){
 bool AVL::add(int data){
     bool add_ret = rec_add(root, data);
     if(!add_ret) return false;
-    rec_balance(root);
+    //rec_balance(root);
     return true; 
     
 }

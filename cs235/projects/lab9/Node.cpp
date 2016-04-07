@@ -32,3 +32,10 @@ int Node::getHeight(){
         return ((rh > lh) ? rh : lh) + 1;
     }
 }
+int Node::getBalance(){
+       
+    int rh = (this->right != NULL) ? this->right->getHeight() : 0;
+    int lh = (this->left != NULL) ? this->left->getHeight() : 0;
+
+    return rh - lh;
+}
