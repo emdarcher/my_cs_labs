@@ -121,7 +121,7 @@ void AVL::rec_balance(Node*& in_root){
     
 }
 #endif
-
+#if 0
 void AVL::rec_balance(Node*& in_root){
     if(in_root == NULL) return; 
 
@@ -135,6 +135,7 @@ void AVL::rec_balance(Node*& in_root){
     int balance =  0;
     
 }
+#endif
 
 bool AVL::rec_remove(Node * &in_root, int &in_data){
 
