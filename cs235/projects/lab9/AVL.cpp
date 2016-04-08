@@ -201,13 +201,69 @@ bool AVL::rec_remove(Node * &in_root, int &in_data){
     return false;
 }
 
-void AVL::rec_replace_parent(Node * &old_root, Node * &local_root){
+bool AVL::rec_replace_parent(Node * &old_root, Node * &local_root){
+    static Node * tmp_node = NULL;
+    static int back_cnt = 0;
     if(local_root->right != NULL){
-        rec_replace_parent(old_root, local_root->right);
+        tmp_node = local_root;
+        bool ret_val = rec_replace_parent(old_root, local_root->right);
+        if(ret_val){
+            if(local_root->getBalance() < -1){
+                rot_right(local_root);
+            }    
+        }
+#if 0
+        //if(back_cnt > 0) back_cnt++;
+        if(ret_val 
+                //&& (back_cnt == 1)
+                ){
+            if(tmp_node->getBalance() < -1){
+                //if(tmp_node->left != NULL){
+                //    if(tmp_node->left->getBalance() > 0){
+                //        //rotate left subtree left
+                //        rot_left(tmp_node->left);
+                //    }
+                //}
+#if DEBUG
+                cout << "rotating right around node w/ val " << tmp_node->getData() << endl;
+                cout << "left val: " << 
+                    ((tmp_node->left != NULL)? tmp_node->left->getData() : 0) 
+                    << "right val: " << 
+                    ((tmp_node->right != NULL)? tmp_node->right->getData() : 0) << endl;
+                cout << "back_cnt = " << back_cnt << endl;
+#endif
+                back_cnt = 0;
+                rot_right(tmp_node);
+#if DEBUG
+                cout << "new node w/ val " << tmp_node->getData() << endl;
+                cout << "left val: " << 
+                    ((tmp_node->left != NULL)? tmp_node->left->getData() : 0) 
+                    << "right val: " << 
+                    ((tmp_node->right != NULL)? tmp_node->right->getData() : 0) << endl;
+                cout << "back_cnt = " << back_cnt << endl;
+#endif
+            }
+            back_cnt = 0;
+            return false;
+        } else {
+            //return true; 
+            return false;
+        }
+#endif
+        return false;
     } else {
         old_root->data = local_root->data;
         old_root = local_root;
         local_root = local_root->left;
+#if 0 
+        tmp_node->right = local_root;
+        if(tmp_node->getBalance() < -1){
+            rot_right(tmp_node);
+        }
+#endif
+
+        //back_cnt = 1;
+        return true;
     }
 }
 

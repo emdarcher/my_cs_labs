@@ -6,6 +6,11 @@
 #include "AVLInterface.h"
 #include "Node.h"
 #include <math.h>
+#include <iostream>
+
+using namespace std;
+
+#define DEBUG 1
 
 class AVL : public AVLInterface {
     private:
@@ -14,7 +19,7 @@ class AVL : public AVLInterface {
         void rot_left(Node*& local_root);
         bool rec_add(Node * &in_root, int &in_data);
         bool rec_remove(Node * &in_root, int &in_data);
-        void rec_replace_parent(Node * &old_root, Node * &local_root);
+        bool rec_replace_parent(Node * &old_root, Node * &local_root);
         void rec_balance(Node*& in_root);
         void clear();
     public:
