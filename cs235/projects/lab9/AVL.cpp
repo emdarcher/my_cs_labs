@@ -154,6 +154,16 @@ bool AVL::rec_remove(Node * &in_root, int &in_data){
             in_root = tmp_left;
         } else {
             rec_replace_parent(tmp_root, in_root->left);          
+            if(in_root->getBalance() > 1){
+                //rebalance right
+                if(in_root->right->getBalance() < 0){
+                    //rotate right subtree right
+                    rot_right(in_root->right);
+                }
+                //rotate parent left
+                rot_left(in_root);
+            }
+
             delete tmp_root;
             return true;
         }
@@ -202,15 +212,33 @@ bool AVL::rec_remove(Node * &in_root, int &in_data){
 }
 
 bool AVL::rec_replace_parent(Node * &old_root, Node * &local_root){
-    static Node * tmp_node = NULL;
-    static int back_cnt = 0;
+    //static Node * tmp_node = NULL;
+    //static int back_cnt = 0;
     if(local_root->right != NULL){
-        tmp_node = local_root;
+        //tmp_node = local_root;
         bool ret_val = rec_replace_parent(old_root, local_root->right);
         if(ret_val){
             if(local_root->getBalance() < -1){
+                if(local_root->left != NULL){
+                    if(local_root->left->getBalance() > 0){
+                        //rotate left subtree left
+                        rot_left(local_root->left);
+                    }
+                }
                 rot_right(local_root);
             }    
+            if(local_root->getBalance() > 1){
+                //rebalance right
+                if(local_root->right != NULL){
+                    if(local_root->right->getBalance() < 0){
+                        //rotate right subtree right
+                        rot_right(local_root->right);
+                    }
+                }
+                //rotate parent left
+                rot_left(local_root);
+            }
+            return true;
         }
 #if 0
         //if(back_cnt > 0) back_cnt++;
